@@ -25,7 +25,6 @@ export default class Map extends DisplayObject {
 
   _init() {
     this._initOverlay();
-    // this._initMatches();
     this._initGround();
 
     this._setupSignals();
@@ -75,9 +74,10 @@ export default class Map extends DisplayObject {
     const isFirst = this._matchesPool.length === 0;
     const currentMatch = this._currentMatch;
 
+    currentMatch.createBody();
+
     if(this._isIntersection(currentMatch) || isFirst){
       this._matchesPool.push(currentMatch);
-      currentMatch.activate();
       if(!isFirst){
         this._createJoints(currentMatch);
       }
@@ -89,6 +89,10 @@ export default class Map extends DisplayObject {
   }
 
   _removeMatch(match) {
+    const body = match.getBody();
+    if(body){
+      this._physics.world.destroyBody(body);
+    }
     this.removeChild(match);
   }
 
@@ -98,7 +102,7 @@ export default class Map extends DisplayObject {
     jointPoints.forEach(intersection => {
       const { body1, body2, anchor } = intersection;
       const joint = planck.WeldJoint({
-        frequencyHz: 10.8,
+        frequencyHz: 2.5,
         dampingRatio: 0.7,
       }, body1, body2, anchor);
       this._physics.world.createJoint(joint);
@@ -106,7 +110,7 @@ export default class Map extends DisplayObject {
       body1.setActive(true);
       body2.setActive(true);
 
-      // this._createJointHelper(anchor)
+      this._createJointHelper(anchor);
     });
   }
 

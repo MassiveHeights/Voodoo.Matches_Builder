@@ -21,21 +21,15 @@ export default class Match extends DisplayObject {
     this._init();
   }
 
-  activate() {
-    console.log('activate')
+  createBody() {
     if(!this._body){
       this._initBody();
       this._centerViewAnchor();
     }
-    this._body.setActive(true);
-  }
-
-  deactivate() {
-    this._body.setActive(false);
+    // this._body.setActive(true);
   }
 
   getBody() {
-    console.log('this._body: ', this._body)
     return this._body;
   }
 
