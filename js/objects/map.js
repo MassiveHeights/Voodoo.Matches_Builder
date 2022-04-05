@@ -96,7 +96,11 @@ export default class Map extends DisplayObject {
 
     jointPoints.forEach(intersection => {
       const { body1, body2, anchor } = intersection;
-      this._physics.world.WeldJointOpt({}, body1, body2, anchor);
+      const joint = planck.WeldJoint({}, body1, body2, anchor);
+      this._physics.world.createJoint(joint);
+
+      body1.setActive(true);
+      body2.setActive(true);
     })
   }
 
@@ -116,7 +120,21 @@ export default class Map extends DisplayObject {
   }
 
   _getIntersection(match1, match2) {
-    const point = null;
+    const { p1, p2 } = match1.getBodyLine();
+    const { p1: p3, p2: p4 } = match2.getBodyLine();
+    
+    const denom = (p4.y - p3.y)*(p2.x - p1.x) - (p4.x - p3.x)*(p2.y - p1.y);
+
+    if (denom == 0) {
+      return null;
+    }
+
+    const ua = ((p4.x - p3.x)*(p1.y - p3.y) - (p4.y - p3.y)*(p1.x - p3.x))/denom;
+
+    const x = p1.x + ua * (p2.x - p1.x);
+    const y = p1.y + ua * (p2.y - p1.y);
+
+    const point = planck.Vec2(x, y);
 
     const intersection = {
       body1: match1.getBody(),
@@ -124,7 +142,7 @@ export default class Map extends DisplayObject {
       anchor: point
     };
 
-    return null; //intersection;
+    return intersection;
   }
 
   _isIntersection(currentMatch) {    

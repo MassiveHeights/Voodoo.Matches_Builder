@@ -1,5 +1,6 @@
 import {DisplayObject, FontAlign, FontStyle, FontWeight, GameObject, Graphics, MessageDispatcher, Sprite, TextField} from "black-engine";
 import * as planck from 'planck-js';
+import { Vec2 } from "planck-js";
 import BodiesTypes from "../../physics/bodies-types";
 import PhysicsOption from "../../physics/physics-options";
 
@@ -25,7 +26,7 @@ export default class Match extends DisplayObject {
       this._initBody();
       this._centerViewAnchor();
     }
-    this._body.setActive(true);
+    // this._body.setActive(true);
   }
 
   deactivate() {
@@ -34,6 +35,30 @@ export default class Match extends DisplayObject {
 
   getBody() {
     return this._body;
+  }
+
+  getHeight() {
+    return this._height;
+  }
+
+  getBodyLine() {
+    const d = this._height * 0.5;
+    const viewPos = this._viewPos;
+    const s = PhysicsOption.worldScale;
+
+    const p1 = new Vec2();
+    const p2 = new Vec2();
+
+    p1.x = (viewPos.x + d * Math.sin(this._rot))/s;
+    p1.y = (viewPos.y - d * Math.cos(this._rot))/s;
+
+    p2.x = (viewPos.x - d * Math.sin(this._rot))/s;
+    p2.y = (viewPos.y + d * Math.cos(this._rot))/s;
+
+    return {
+      p1, 
+      p2,
+    }
   }
 
   setRotation(rotation) {
@@ -89,6 +114,7 @@ export default class Match extends DisplayObject {
     body.view = this._view;
     body.setUserData(this._view);
     body.setActive(false);
+    console.log(body)
   }
 
   _centerViewAnchor() {
