@@ -73,13 +73,15 @@ export default class Map extends DisplayObject {
   onPointerUp() {
     const isFirst = this._matchesPool.length === 0;
     const currentMatch = this._currentMatch;
-
     currentMatch.createBody();
 
-    if(this._isIntersection(currentMatch) || isFirst){
+    const jointPoints = this._getJointPoints(currentMatch);
+    const isIntersection = jointPoints.length !== 0;
+
+    if(isIntersection || isFirst){
       this._matchesPool.push(currentMatch);
       if(!isFirst){
-        this._createJoints(currentMatch);
+        this._createJoints(jointPoints);
       }
     }else{
       this._removeMatch(this._currentMatch);
@@ -96,9 +98,7 @@ export default class Map extends DisplayObject {
     this.removeChild(match);
   }
 
-  _createJoints(match) {
-    const jointPoints = this._getJointPoints(match);
-
+  _createJoints(jointPoints) {
     jointPoints.forEach(intersection => {
       const { body1, body2, anchor } = intersection;
       const joint = planck.WeldJoint({
@@ -145,18 +145,6 @@ export default class Map extends DisplayObject {
     };
 
     return intersection;
-  }
-
-  _isIntersection(currentMatch) {    
-    let isIntersection = false;
-
-    this._matchesPool.forEach(match => {
-      if(currentMatch !== match){
-        isIntersection = isIntersection || !!this.intersect(currentMatch, match);
-      }
-    });
-
-    return isIntersection;
   }
 
   intersect(match1, match2) {
