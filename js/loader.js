@@ -5,21 +5,6 @@ import {stringsDataStr} from './data/stringsData';
 import Game from 'js/states/game';
 import {CreativeWrapper} from "./libs/wrapper/creative-wrapper";
 
-// Models
-import character from 'assets/models/character.glb';
-import platform from 'assets/models/TilePlatform.glb';
-
-//Model animations
-import anim_idle from 'assets/models/anim Nervously Look Around.glb';
-
-//Model textures
-import skin_thief from 'assets/textures/skin_thief.png';
-import map_orange from 'assets/textures/map_orange.png';
-import water from 'assets/textures/water.png';
-
-//jpg single images
-import cta_bg from 'assets/cta/bg.jpg';
-
 //Black atlas
 import atlas from './../assets/atlas.png';
 import atlasData from '../assets/atlas.json';
@@ -45,7 +30,6 @@ export class Loader extends GameObject {
     this._assetsLoaded = false;
 
     //Black/UI
-    assets.enqueueImage('cta_bg', cta_bg);
     assets.enqueueAtlasObj('assets', atlas, atlasData);
 
     //sounds

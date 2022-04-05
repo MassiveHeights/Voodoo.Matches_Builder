@@ -139,8 +139,6 @@ export default class Game extends BaseGame {
 
   _onResize() {
     super._onResize();
-
-    this._gameScene?.onResize();
   }
 
   _onRender() {

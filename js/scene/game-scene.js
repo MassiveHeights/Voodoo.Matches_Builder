@@ -2,6 +2,7 @@ import {DisplayObject, FontAlign, FontStyle, FontWeight, GameObject, Graphics, M
 import Debugger from "../physics/debugger";
 import Physics from '../physics/physics';
 import Map from "../objects/map";
+import Background from "../objects/bg/bg";
 
 export default class GameScene extends GameObject {
   constructor() {
@@ -16,6 +17,7 @@ export default class GameScene extends GameObject {
     this._map = null;
 
     this._init();
+    this.start();
   }
 
   start() {
@@ -36,13 +38,17 @@ export default class GameScene extends GameObject {
     this._initBg();
     this._initMap();
 
+
+    this.add(this._debugger);
+    
     this.events.on('tap', () => {
       this._onTap();
     });
   }
 
   _initBg() {
-    
+    const bg = new Background();
+    this.add(bg);
   }
 
   _initMap() {
@@ -55,7 +61,6 @@ export default class GameScene extends GameObject {
 
     const debug = this._debugger = new Debugger(this._physics.world);
     debug.isActive = true;
-    this.add(debug);
   }
 
   _onTap() {
@@ -68,9 +73,5 @@ export default class GameScene extends GameObject {
 
     this._physics.update();
     this._debugger.update();
-  }
-
-  onResize() {
-    this._map.onResize();
   }
 }
