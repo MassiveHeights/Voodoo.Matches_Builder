@@ -1,5 +1,6 @@
 import {DisplayObject, FontAlign, FontStyle, FontWeight, GameObject, Graphics, MessageDispatcher, Sprite, TextField} from "black-engine";
 import * as planck from 'planck-js';
+import BodiesTypes from "../../physics/bodies-types";
 import PhysicsOption from "../../physics/physics-options";
 
 export default class Match extends DisplayObject {
@@ -7,11 +8,14 @@ export default class Match extends DisplayObject {
     super();
 
     this._physics = physics;
+    this._mass = 0.25;
 
     this._view = null;
     this._body = null;
 
-    this._pos = null;
+    this._bodyPos = null;
+    this._viewPos = null;
+    this._rot = null;
 
     this._init();
   }
@@ -19,7 +23,7 @@ export default class Match extends DisplayObject {
   activate() {
     if(!this._body){
       this._initBody();
-      this._body.setPosition(this._pos);
+      this._centerViewAnchor();
     }
     this._body.setActive(true);
   }
@@ -28,17 +32,25 @@ export default class Match extends DisplayObject {
     this._body.setActive(false);
   }
 
-  setPos(pos) {
-    pos.y -= this._view.height * 0.5;
+  getBody() {
+    return this._body;
+  }
 
+  setRotation(rotation) {
+    this._view.rotation = this._rot = rotation;
+  }
+
+  setPos(pos) {
     this._view.x = pos.x;
     this._view.y = pos.y;
+
+    this._viewPos = {...pos};
 
     const s = PhysicsOption.worldScale;
     pos.x /= s;
     pos.y /= s;
 
-    this._pos = pos;
+    this._bodyPos = {...pos};
     this._body?.setPosition(pos);
   }
 
@@ -50,31 +62,43 @@ export default class Match extends DisplayObject {
     const view = this._view = new Sprite('matches/match');
     view.scale = 0.5;
 
+    this._width = view.width;
+    this._height = view.height;
+
     this.add(view);
-    view.alignAnchor(0.5);
+    view.alignAnchor(0.5, 1);
+    view.rotation = this._rot = Math.PI * 0.5;
   }
 
   _initBody() {
-    const width = this._view.width;
-    const height = this._view.height;
+    const width = this._width;
+    const height = this._height;
     const s = PhysicsOption.worldScale;
-
+    
     const body = this._body = this._physics.world.createDynamicBody(planck.Vec2(0, 0));
     body.createFixture(planck.Box(width * 0.5/s, height * 0.5/s), {
       friction: 10,
       restitution: 0.2,
       density: 0.1,
+      filterCategoryBits: BodiesTypes.match,
+      filterMaskBits: BodiesTypes.ground,
     });
 
-    const mass = Math.random() * 0.4 + 0.3;
-    body.setGravityScale(mass);
+    body.setGravityScale(this._mass);
+
     body.view = this._view;
     body.setUserData(this._view);
     body.setActive(false);
+  }
 
-    // const angle = Math.random()* 20;
-    // body.setAngle(angle);
+  _centerViewAnchor() {
+    this._view.alignAnchor(0.5);
 
-    // fixture.setSensor(true);
+    const d = this._height * 0.5;
+    this._viewPos.x += d * Math.sin(this._rot);
+    this._viewPos.y -= d * Math.cos(this._rot);
+    
+    this.setPos(this._viewPos)
+    this._body.setAngle(this._rot);
   }
 }

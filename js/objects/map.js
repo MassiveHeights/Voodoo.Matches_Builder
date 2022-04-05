@@ -2,6 +2,7 @@ import {Black, DisplayObject, FontAlign, FontStyle, FontWeight, GameObject, Mess
 import * as planck from 'planck-js';
 import { Vec2 } from "planck-js";
 import Delayed from "../kernel/delayed-call";
+import BodiesTypes from "../physics/bodies-types";
 import PhysicsOption from "../physics/physics-options";
 import Overlay from "../ui/overlay";
 import Match from "./matches/match";
@@ -15,6 +16,7 @@ export default class Map extends DisplayObject {
 
     this._matchesPool = [];
     this._currentMatch = null;
+    this._startPointer = null;
 
     this.touchable = true;
 
@@ -41,29 +43,104 @@ export default class Map extends DisplayObject {
     this._overlay.on('onPointerUp', (msg, pointer) => this.onPointerUp(pointer));
   }
 
-  onPointerDown(pointer) {
-    // console.log(pointer.x, pointer.y)
-    pointer = this.globalToLocal(Black.input.pointerPosition); 
-
-    this._currentMatch = this.createMatch(pointer);
+  onPointerDown() {
+    if(this._currentMatch){
+      this.onPointerUp();
+    }
+    this._startPointer = this.globalToLocal(Black.input.pointerPosition); 
+    this._currentMatch = this.createMatch(this._startPointer);
   }
 
-  onPointerMove(pointer) {
-    // console.log('onPointerMove')
+  onPointerMove() {
+    const p1 = this._startPointer;
+    const p2 = this.globalToLocal(Black.input.pointerPosition);
+
+    const disX = p1.x - p2.x;
+    const disY = p1.y - p2.y;
+
+    let rotation = Math.atan(-disX/disY);
+
+    if(disY < 0){
+      rotation = rotation - Math.PI;
+    }
+
+    const length = Vec2.distance(p1, p2);
+
+    if(length > 10){
+      this._currentMatch.setRotation(rotation);
+    }
   }
 
-  onPointerUp(pointer) {
-    // console.log('onPointerUp')
-    this._currentMatch.activate();
-    // this._currentMatch = null;
+  onPointerUp() {
+    const isFirst = this._matchesPool.length === 0;
+    const currentMatch = this._currentMatch;
+    if(this._isIntersection(currentMatch) || isFirst){
+      this._matchesPool.push(currentMatch);
+      currentMatch.activate();
+      this._createJoints(currentMatch);
+      if(!isFirst){
+      }
+    }else{
+      this._removeMatch(this._currentMatch);
+    }
+
+    this._currentMatch = null;
+  }
+
+  _removeMatch(match) {
+    this.removeChild(match);
+  }
+
+  _createJoints(match) {
+    const jointPoints = this._getJointPoints(match);
+
+    jointPoints.forEach(intersection => {
+      const { body1, body2, anchor } = intersection;
+      this._physics.world.WeldJointOpt({}, body1, body2, anchor);
+    })
+  }
+
+  _getJointPoints(currentMatch) {
+    const jointPoints = [];
+
+    this._matchesPool.forEach(match => {
+      if(currentMatch !== match){
+        const intersection = this._getIntersection(currentMatch, match);
+        if(intersection) {
+          jointPoints.push(intersection)
+        }
+      }
+    });
+
+    return jointPoints;
+  }
+
+  _getIntersection(match1, match2) {
+    const point = null;
+
+    const intersection = {
+      body1: match1.getBody(),
+      body2: match2.getBody(),
+      anchor: point
+    };
+
+    return null; //intersection;
+  }
+
+  _isIntersection(currentMatch) {    
+    let isIntersection = false;
+    this._matchesPool.forEach(match => {
+      if(currentMatch !== match){
+        
+      }
+    });
+
+    return true; //isIntersection;
   }
 
   createMatch(pointer) {
     const match = new Match(this._physics);
     match.visible = false;
-
-    this._matchesPool.push(match);
-    const bounds = Black.stage.bounds;
 
     const x = pointer.x;
     const y = pointer.y;
@@ -84,29 +161,16 @@ export default class Map extends DisplayObject {
     const height = 20;
     const s = this._s;
 
-    ground.createFixture(planck.Box(width/s, height/s));
+    ground.createFixture(planck.Box(width/s, height/s), {
+      filterCategoryBits: BodiesTypes.ground,
+      filterMaskBits: BodiesTypes.match,
+    });
 
     const bounds = Black.stage.bounds;
     const groundX = bounds.center().x / s;
     const groundY = (bounds.bottom - 100) / s;
 
     ground.setPosition(planck.Vec2(groundX, groundY));
-  }
-
-  _initMatches() {
-    const count = 10;
-
-    for (let i = 0; i < count; i++) {
-      const match = new Match(this._physics);
-      this.add(match);
-  
-      const bounds = Black.stage.bounds;
-      const groundX = 100 + 30 * i; //bounds.center().x;
-      const groundY = 300; //bounds.bottom;
-  
-      const pos = planck.Vec2(groundX, groundY);
-      match.setPos(pos);
-    }
   }
 
   onResize() {
