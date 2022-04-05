@@ -1,4 +1,4 @@
-import {DisplayObject, FontAlign, FontStyle, FontWeight, GameObject, Graphics, MessageDispatcher, TextField} from "black-engine";
+import {Black, DisplayObject, FontAlign, FontStyle, FontWeight, GameObject, Graphics, MessageDispatcher, TextField} from "black-engine";
 import Debugger from "../physics/debugger";
 import Physics from '../physics/physics';
 import Map from "../objects/map";
@@ -15,6 +15,8 @@ export default class GameScene extends GameObject {
     this._debugger = null;
     this._bg = null;
     this._map = null;
+
+    this._levelSize = 1200;
 
     this._init();
     this.start();
@@ -40,14 +42,17 @@ export default class GameScene extends GameObject {
 
 
     this.add(this._debugger);
-    
+
+    Black.stage.on('resize', () => this.onResize());
+    this.onResize();
+
     this.events.on('tap', () => {
       this._onTap();
     });
   }
 
   _initBg() {
-    const bg = new Background();
+    const bg = new Background(this._physics, this._levelSize);
     this.add(bg);
   }
 
@@ -73,5 +78,15 @@ export default class GameScene extends GameObject {
 
     this._physics.update();
     this._debugger.update();
+  }
+
+  onResize() {
+    // const world = this._physics.world;
+
+    // const bounds = Black.stage.bounds;
+    // const center = bounds.center();
+    // console.log(world)
+
+    // world.setPosition(center)
   }
 }

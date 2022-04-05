@@ -1,8 +1,6 @@
-import {Black, DisplayObject, FontAlign, FontStyle, FontWeight, GameObject, Graphics, MessageDispatcher, TextField} from "black-engine";
-import * as planck from 'planck-js';
-import { Vec2 } from "planck-js";
+import { Black, DisplayObject, Graphics } from "black-engine";
+import { Vec2, WeldJoint } from "planck-js";
 import Delayed from "../kernel/delayed-call";
-import BodiesTypes from "../physics/bodies-types";
 import PhysicsOption from "../physics/physics-options";
 import Overlay from "../ui/overlay";
 import Match from "./matches/match";
@@ -25,10 +23,8 @@ export default class Map extends DisplayObject {
 
   _init() {
     this._initOverlay();
-    this._initGround();
 
     this._setupSignals();
-    Black.stage.on('resize', () => this.onResize());
   }
 
   _initOverlay() {
@@ -101,7 +97,7 @@ export default class Map extends DisplayObject {
   _createJoints(jointPoints) {
     jointPoints.forEach(intersection => {
       const { body1, body2, anchor } = intersection;
-      const joint = planck.WeldJoint({
+      const joint = WeldJoint({
         frequencyHz: 2.5,
         dampingRatio: 0.7,
       }, body1, body2, anchor);
@@ -136,7 +132,7 @@ export default class Map extends DisplayObject {
       return null
     }
 
-    const point = planck.Vec2(intersect.x, intersect.y);
+    const point = Vec2(intersect.x, intersect.y);
 
     const intersection = {
       body1: match1.getBody(),
@@ -185,14 +181,15 @@ export default class Map extends DisplayObject {
 
   _createJointHelper(pos, color = 0xff0000) {
     const g = new Graphics();
+    const s = this._s;
 
     g.beginPath();
     g.fillStyle(color, 1);
     g.circle(0, 0, 10);
     g.fill();
 
-    g.x = pos.x * 30;
-    g.y = pos.y * 30;
+    g.x = pos.x * s;
+    g.y = pos.y * s;
 
     this.add(g);
   }
@@ -204,7 +201,7 @@ export default class Map extends DisplayObject {
     const x = pointer.x;
     const y = pointer.y;
     
-    const pos = planck.Vec2(x, y);
+    const pos = Vec2(x, y);
     match.setPos(pos);
 
     this.add(match);
@@ -212,28 +209,5 @@ export default class Map extends DisplayObject {
     Delayed.call(0.01, () => match.visible = true);
 
     return match;
-  }
-
-  _initGround() {
-    const ground = this._ground = this._physics.world.createBody(planck.Vec2(0, 0));
-    const width = 1000;
-    const height = 20;
-    const s = this._s;
-
-    ground.createFixture(planck.Box(width/s, height/s), {
-      filterCategoryBits: BodiesTypes.ground,
-      filterMaskBits: BodiesTypes.match,
-    });
-
-    const bounds = Black.stage.bounds;
-    const groundX = bounds.center().x / s;
-    const groundY = (bounds.bottom - 100) / s;
-
-    ground.setPosition(planck.Vec2(groundX, groundY));
-  }
-
-  onResize() {
-    const { _ground: ground } = this;
-    const bounds = Black.stage.bounds;
   }
 }
