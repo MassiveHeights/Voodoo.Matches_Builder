@@ -22,11 +22,12 @@ export default class Match extends DisplayObject {
   }
 
   activate() {
+    console.log('activate')
     if(!this._body){
       this._initBody();
       this._centerViewAnchor();
     }
-    // this._body.setActive(true);
+    this._body.setActive(true);
   }
 
   deactivate() {
@@ -34,6 +35,7 @@ export default class Match extends DisplayObject {
   }
 
   getBody() {
+    console.log('this._body: ', this._body)
     return this._body;
   }
 
@@ -43,17 +45,19 @@ export default class Match extends DisplayObject {
 
   getBodyLine() {
     const d = this._height * 0.5;
-    const viewPos = this._viewPos;
+    const viewPos = new Vec2(this._view.x, this._view.y);
     const s = PhysicsOption.worldScale;
 
     const p1 = new Vec2();
     const p2 = new Vec2();
 
-    p1.x = (viewPos.x + d * Math.sin(this._rot))/s;
-    p1.y = (viewPos.y - d * Math.cos(this._rot))/s;
+    const rot = this._view.rotation;
 
-    p2.x = (viewPos.x - d * Math.sin(this._rot))/s;
-    p2.y = (viewPos.y + d * Math.cos(this._rot))/s;
+    p1.x = (viewPos.x + d * Math.sin(rot))/s;
+    p1.y = (viewPos.y - d * Math.cos(rot))/s;
+
+    p2.x = (viewPos.x - d * Math.sin(rot))/s;
+    p2.y = (viewPos.y + d * Math.cos(rot))/s;
 
     return {
       p1, 
@@ -114,7 +118,6 @@ export default class Match extends DisplayObject {
     body.view = this._view;
     body.setUserData(this._view);
     body.setActive(false);
-    console.log(body)
   }
 
   _centerViewAnchor() {

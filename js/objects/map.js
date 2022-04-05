@@ -1,4 +1,4 @@
-import {Black, DisplayObject, FontAlign, FontStyle, FontWeight, GameObject, MessageDispatcher, TextField} from "black-engine";
+import {Black, DisplayObject, FontAlign, FontStyle, FontWeight, GameObject, Graphics, MessageDispatcher, TextField} from "black-engine";
 import * as planck from 'planck-js';
 import { Vec2 } from "planck-js";
 import Delayed from "../kernel/delayed-call";
@@ -48,7 +48,7 @@ export default class Map extends DisplayObject {
       this.onPointerUp();
     }
     this._startPointer = this.globalToLocal(Black.input.pointerPosition); 
-    this._currentMatch = this.createMatch(this._startPointer);
+    this._currentMatch = this._createMatch(this._startPointer);
   }
 
   onPointerMove() {
@@ -74,11 +74,12 @@ export default class Map extends DisplayObject {
   onPointerUp() {
     const isFirst = this._matchesPool.length === 0;
     const currentMatch = this._currentMatch;
+
     if(this._isIntersection(currentMatch) || isFirst){
       this._matchesPool.push(currentMatch);
       currentMatch.activate();
-      this._createJoints(currentMatch);
       if(!isFirst){
+        this._createJoints(currentMatch);
       }
     }else{
       this._removeMatch(this._currentMatch);
@@ -96,12 +97,17 @@ export default class Map extends DisplayObject {
 
     jointPoints.forEach(intersection => {
       const { body1, body2, anchor } = intersection;
-      const joint = planck.WeldJoint({}, body1, body2, anchor);
+      const joint = planck.WeldJoint({
+        frequencyHz: 10.8,
+        dampingRatio: 0.7,
+      }, body1, body2, anchor);
       this._physics.world.createJoint(joint);
 
       body1.setActive(true);
       body2.setActive(true);
-    })
+
+      // this._createJointHelper(anchor)
+    });
   }
 
   _getJointPoints(currentMatch) {
@@ -120,21 +126,13 @@ export default class Map extends DisplayObject {
   }
 
   _getIntersection(match1, match2) {
-    const { p1, p2 } = match1.getBodyLine();
-    const { p1: p3, p2: p4 } = match2.getBodyLine();
-    
-    const denom = (p4.y - p3.y)*(p2.x - p1.x) - (p4.x - p3.x)*(p2.y - p1.y);
+    const intersect = this.intersect(match1, match2);
 
-    if (denom == 0) {
-      return null;
+    if(!intersect) {
+      return null
     }
 
-    const ua = ((p4.x - p3.x)*(p1.y - p3.y) - (p4.y - p3.y)*(p1.x - p3.x))/denom;
-
-    const x = p1.x + ua * (p2.x - p1.x);
-    const y = p1.y + ua * (p2.y - p1.y);
-
-    const point = planck.Vec2(x, y);
+    const point = planck.Vec2(intersect.x, intersect.y);
 
     const intersection = {
       body1: match1.getBody(),
@@ -147,16 +145,67 @@ export default class Map extends DisplayObject {
 
   _isIntersection(currentMatch) {    
     let isIntersection = false;
+
     this._matchesPool.forEach(match => {
       if(currentMatch !== match){
-        
+        isIntersection = isIntersection || !!this.intersect(currentMatch, match);
       }
     });
 
-    return true; //isIntersection;
+    return isIntersection;
   }
 
-  createMatch(pointer) {
+  intersect(match1, match2) {
+    const { p1, p2 } = match1.getBodyLine();
+    const { p1: p3, p2: p4 } = match2.getBodyLine();
+
+    const { x: x1, y: y1 } = p1;
+    const { x: x2, y: y2 } = p2;
+    const { x: x3, y: y3 } = p3;
+    const { x: x4, y: y4 } = p4;
+
+    // Check if none of the lines are of length 0
+    if ((x1 === x2 && y1 === y2) || (x3 === x4 && y3 === y4)) {
+      return false
+    }
+  
+    const denominator = ((y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1))
+  
+    // Lines are parallel
+    if (denominator === 0) {
+      return false
+    }
+  
+    let ua = ((x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3)) / denominator
+    let ub = ((x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3)) / denominator
+  
+    // is the intersection along the segments
+    if (ua < 0 || ua > 1 || ub < 0 || ub > 1) {
+      return false
+    }
+  
+    // Return a object with the x and y coordinates of the intersection
+    let x = x1 + ua * (x2 - x1)
+    let y = y1 + ua * (y2 - y1)
+  
+    return {x, y}
+  }
+
+  _createJointHelper(pos, color = 0xff0000) {
+    const g = new Graphics();
+
+    g.beginPath();
+    g.fillStyle(color, 1);
+    g.circle(0, 0, 10);
+    g.fill();
+
+    g.x = pos.x * 30;
+    g.y = pos.y * 30;
+
+    this.add(g);
+  }
+
+  _createMatch(pointer) {
     const match = new Match(this._physics);
     match.visible = false;
 
