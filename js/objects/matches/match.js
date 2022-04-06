@@ -38,20 +38,22 @@ export default class Match extends DisplayObject {
   }
 
   getBodyLine() {
-    const d = this._height * 0.5;
     const viewPos = new Vec2(this._view.x, this._view.y);
     const s = PhysicsOption.worldScale;
-
+    
     const p1 = new Vec2();
     const p2 = new Vec2();
-
+    
     const rot = this._view.rotation;
+    
+    const d1 = this._height * this._view.anchorY;
+    const d2 = this._height * (1 - this._view.anchorY);
 
-    p1.x = (viewPos.x + d * Math.sin(rot))/s;
-    p1.y = (viewPos.y - d * Math.cos(rot))/s;
+    p1.x = (viewPos.x + d1 * Math.sin(rot))/s;
+    p1.y = (viewPos.y - d1 * Math.cos(rot))/s;
 
-    p2.x = (viewPos.x - d * Math.sin(rot))/s;
-    p2.y = (viewPos.y + d * Math.cos(rot))/s;
+    p2.x = (viewPos.x - d2 * Math.sin(rot))/s;
+    p2.y = (viewPos.y + d2 * Math.cos(rot))/s;
 
     return {
       p1, 

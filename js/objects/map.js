@@ -3,6 +3,7 @@ import { Vec2, WeldJoint } from "planck-js";
 import Delayed from "../kernel/delayed-call";
 import PhysicsOption from "../physics/physics-options";
 import Overlay from "../ui/overlay";
+import DotsHelper from "./dots-helper";
 import Match from "./matches/match";
 
 export default class Map extends DisplayObject {
@@ -15,7 +16,8 @@ export default class Map extends DisplayObject {
     this._matchesPool = [];
     this._currentMatch = null;
     this._startPointer = null;
-
+    this._dotsHelper = null;
+    
     this.touchable = true;
 
     this._init();
@@ -23,6 +25,7 @@ export default class Map extends DisplayObject {
 
   _init() {
     this._initOverlay();
+    this._initDotsHelper();
 
     this._setupSignals();
   }
@@ -64,6 +67,12 @@ export default class Map extends DisplayObject {
     if(length > 10){
       this._currentMatch.setRotation(rotation);
     }
+
+    this._resetDotsHelper();
+    const jointPoints = this._getJointPoints(this._currentMatch);
+    if(jointPoints.length !== 0) {
+      this._setDotsHelper(jointPoints);
+    }
   }
 
   onPointerUp() {
@@ -84,6 +93,7 @@ export default class Map extends DisplayObject {
     }
 
     this._currentMatch = null;
+    this._resetDotsHelper();
   }
 
   _removeMatch(match) {
@@ -105,8 +115,6 @@ export default class Map extends DisplayObject {
 
       body1.setActive(true);
       body2.setActive(true);
-
-      this._createJointHelper(anchor);
     });
   }
 
@@ -179,19 +187,41 @@ export default class Map extends DisplayObject {
     return {x, y}
   }
 
-  _createJointHelper(pos, color = 0xff0000) {
+  _initDotsHelper() {
+    this._dotsHelper = new DotsHelper();
+    this.add(this._dotsHelper);
+  }
+
+  _createDotHelper(pos) {
     const g = new Graphics();
-    const s = this._s;
 
     g.beginPath();
-    g.fillStyle(color, 1);
-    g.circle(0, 0, 10);
+    g.fillStyle(0xff0000, 1);
+    g.circle(0, 0, 7);
     g.fill();
 
+    const s = this._s;
     g.x = pos.x * s;
     g.y = pos.y * s;
 
     this.add(g);
+  }
+
+  _resetDotsHelper() {
+    this._dotsHelper.reset();
+  }
+
+  _setDotsHelper(intersections) {
+    const dotsHelper = this._dotsHelper;
+
+    const points = [];
+
+    intersections.forEach(data => {
+      points.push(data.anchor)
+    });
+
+    dotsHelper.set(points);
+    this.setChildIndex(dotsHelper, 999);
   }
 
   _createMatch(pointer) {
