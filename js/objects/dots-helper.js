@@ -35,7 +35,7 @@ export default class DotsHelper extends DisplayObject {
   _init() {
     const count = 10;
     for (let i = 0; i < count; i++) {
-      this._createDot();   
+      this._createDot();
     }
   }
 
@@ -48,7 +48,9 @@ export default class DotsHelper extends DisplayObject {
     dot.fill();
 
     this.add(dot);
-    this._pool.push(dot); 
+    this._pool.push(dot);
+
+    dot.visible = false;
   }
 
   _getDot() {

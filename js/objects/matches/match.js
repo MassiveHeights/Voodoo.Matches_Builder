@@ -1,8 +1,10 @@
-import {DisplayObject, FontAlign, FontStyle, FontWeight, GameObject, Graphics, MessageDispatcher, Sprite, TextField} from "black-engine";
+import {BlendMode, DisplayObject, FontAlign, FontStyle, FontWeight, GameObject, Graphics, MessageDispatcher, Sprite, TextField} from "black-engine";
 import * as planck from 'planck-js';
 import { Vec2 } from "planck-js";
 import BodiesTypes from "../../physics/bodies-types";
 import PhysicsOption from "../../physics/physics-options";
+
+const PI = Math.PI;
 
 export default class Match extends DisplayObject {
   constructor(physics) {
@@ -10,9 +12,12 @@ export default class Match extends DisplayObject {
 
     this._physics = physics;
     this._mass = 0.2;
+    this._scale = 0.5;
 
     this._view = null;
     this._body = null;
+    this._shadowL = null;
+    this._shadowR = null;
 
     this._bodyPos = null;
     this._viewPos = null;
@@ -79,13 +84,36 @@ export default class Match extends DisplayObject {
     this._body?.setPosition(pos);
   }
 
+  onUpdate() {
+    const { _shadowL: shadowL, _shadowR: shadowR, _view: view } = this;
+
+    shadowL.x = shadowR.x = view.x;
+    shadowL.y = shadowR.y = view.y;
+
+    const rot = view.rotation;
+    shadowL.rotation = shadowR.rotation = rot;
+
+    let alpha = (PI * 0.5 - rot)/PI;
+
+    if(alpha > 1) {
+      alpha = 2 - alpha;
+    }
+
+    const min = 0.35;
+    const max = 0.65;
+
+    shadowL.alpha = min + (1 - alpha) * (max - min);
+    shadowR.alpha = min + alpha * (max - min);
+  }
+
   _init() {
     this._initView();
+    this._initShadows();
   }
 
   _initView() {
     const view = this._view = new Sprite('matches/match');
-    view.scale = 0.5;
+    view.scale = this._scale;
 
     this._width = view.width;
     this._height = view.height;
@@ -93,6 +121,17 @@ export default class Match extends DisplayObject {
     this.add(view);
     view.alignAnchor(0.5, 1);
     view.rotation = this._rot = Math.PI * 0.5;
+  }
+
+  _initShadows() {
+    const shadowL = this._shadowL = new Sprite('matches/match_tint01');
+    const shadowR = this._shadowR = new Sprite('matches/match_tint00');
+    shadowL.scale = shadowR.scale = this._scale;
+
+    this.add(shadowL);
+    this.add(shadowR);
+    shadowL.alignAnchor(0.5, 1);
+    shadowR.alignAnchor(0.5, 1);
   }
 
   _initBody() {
@@ -111,13 +150,14 @@ export default class Match extends DisplayObject {
 
     body.setGravityScale(this._mass);
 
-    body.view = this._view;
     body.setUserData(this._view);
     body.setActive(false);
   }
 
   _centerViewAnchor() {
     this._view.alignAnchor(0.5);
+    this._shadowL.alignAnchor(0.5);
+    this._shadowR.alignAnchor(0.5);
 
     const d = this._height * 0.5;
     this._viewPos.x += d * Math.sin(this._rot);
