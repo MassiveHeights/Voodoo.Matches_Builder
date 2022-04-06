@@ -132,7 +132,7 @@
             <key>blackjson</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>atlas.json</filename>
+                <filename>fire.json</filename>
             </struct>
         </map>
         <key>multiPack</key>
@@ -181,7 +181,7 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">../atlas/bg/level_4_00.png</key>
+            <key type="filename">fire/fire_1_0000.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -190,13 +190,13 @@
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>240,33,480,65</rect>
+                <rect>25,25,51,49</rect>
                 <key>scale9Paddings</key>
-                <rect>240,33,480,65</rect>
+                <rect>25,25,51,49</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">../atlas/bg/level_4_01_tile.png</key>
+            <key type="filename">fire/fire_1_0001.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -205,13 +205,13 @@
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>12,12,24,24</rect>
+                <rect>27,26,54,51</rect>
                 <key>scale9Paddings</key>
-                <rect>12,12,24,24</rect>
+                <rect>27,26,54,51</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">../atlas/bg/level_4_02.png</key>
+            <key type="filename">fire/fire_1_0002.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -220,13 +220,14 @@
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>40,26,81,51</rect>
+                <rect>28,26,56,51</rect>
                 <key>scale9Paddings</key>
-                <rect>40,26,81,51</rect>
+                <rect>28,26,56,51</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">../atlas/bg/level_4_bg.jpg</key>
+            <key type="filename">fire/fire_1_0003.png</key>
+            <key type="filename">fire/fire_1_0010.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -235,17 +236,13 @@
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>240,240,480,480</rect>
+                <rect>29,27,57,53</rect>
                 <key>scale9Paddings</key>
-                <rect>240,240,480,480</rect>
+                <rect>29,27,57,53</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">../atlas/matches/match.png</key>
-            <key type="filename">../atlas/matches/match_burned00.png</key>
-            <key type="filename">../atlas/matches/match_burned01.png</key>
-            <key type="filename">../atlas/matches/match_tint00.png</key>
-            <key type="filename">../atlas/matches/match_tint01.png</key>
+            <key type="filename">fire/fire_1_0004.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -254,13 +251,13 @@
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>8,81,16,163</rect>
+                <rect>26,28,53,55</rect>
                 <key>scale9Paddings</key>
-                <rect>8,81,16,163</rect>
+                <rect>26,28,53,55</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">../atlas/textures/overlay.png</key>
+            <key type="filename">fire/fire_1_0005.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -269,13 +266,13 @@
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>3,3,5,5</rect>
+                <rect>27,28,53,56</rect>
                 <key>scale9Paddings</key>
-                <rect>3,3,5,5</rect>
+                <rect>27,28,53,56</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">../atlas/ui/HandTap0001.png</key>
+            <key type="filename">fire/fire_1_0006.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -284,13 +281,13 @@
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>27,36,55,71</rect>
+                <rect>29,30,57,60</rect>
                 <key>scale9Paddings</key>
-                <rect>27,36,55,71</rect>
+                <rect>29,30,57,60</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">../atlas/ui/button_BACK.png</key>
+            <key type="filename">fire/fire_1_0007.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -299,13 +296,13 @@
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>24,18,49,37</rect>
+                <rect>30,30,59,61</rect>
                 <key>scale9Paddings</key>
-                <rect>24,18,49,37</rect>
+                <rect>30,30,59,61</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">../atlas/ui/button_RETRY_small.png</key>
+            <key type="filename">fire/fire_1_0008.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -314,14 +311,13 @@
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>22,25,44,49</rect>
+                <rect>35,31,69,61</rect>
                 <key>scale9Paddings</key>
-                <rect>22,25,44,49</rect>
+                <rect>35,31,69,61</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">../atlas/ui/button_SOUND_off.png</key>
-            <key type="filename">../atlas/ui/button_SOUND_on.png</key>
+            <key type="filename">fire/fire_1_0009.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -330,13 +326,13 @@
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>42,41,84,82</rect>
+                <rect>27,29,55,59</rect>
                 <key>scale9Paddings</key>
-                <rect>42,41,84,82</rect>
+                <rect>27,29,55,59</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">../atlas/ui/frame_tutorial.png</key>
+            <key type="filename">fire/fire_1_0011.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -345,13 +341,13 @@
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>85,42,169,83</rect>
+                <rect>31,28,61,55</rect>
                 <key>scale9Paddings</key>
-                <rect>85,42,169,83</rect>
+                <rect>31,28,61,55</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">../atlas/ui/hand.png</key>
+            <key type="filename">fire/fire_1_0012.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -360,14 +356,13 @@
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>88,104,176,208</rect>
+                <rect>32,29,63,58</rect>
                 <key>scale9Paddings</key>
-                <rect>88,104,176,208</rect>
+                <rect>32,29,63,58</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">../atlas/ui/progressbar.png</key>
-            <key type="filename">../atlas/ui/progressbar_empty.png</key>
+            <key type="filename">fire/fire_1_0013.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -376,14 +371,13 @@
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>65,7,129,15</rect>
+                <rect>35,30,70,59</rect>
                 <key>scale9Paddings</key>
-                <rect>65,7,129,15</rect>
+                <rect>35,30,70,59</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">../atlas/ui/progressbar_limit_red.png</key>
-            <key type="filename">../atlas/ui/progressbar_limit_yell.png</key>
+            <key type="filename">fire/fire_1_0014.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -392,13 +386,13 @@
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>2,8,3,15</rect>
+                <rect>35,31,69,63</rect>
                 <key>scale9Paddings</key>
-                <rect>2,8,3,15</rect>
+                <rect>35,31,69,63</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">../atlas/ui/star.png</key>
+            <key type="filename">fire/fire_1_0015.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -407,16 +401,302 @@
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>38,36,76,72</rect>
+                <rect>32,33,63,65</rect>
                 <key>scale9Paddings</key>
-                <rect>38,36,76,72</rect>
+                <rect>32,33,63,65</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">fire/fire_2_0000.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>27,29,55,58</rect>
+                <key>scale9Paddings</key>
+                <rect>27,29,55,58</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">fire/fire_2_0001.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>22,31,43,63</rect>
+                <key>scale9Paddings</key>
+                <rect>22,31,43,63</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">fire/fire_2_0002.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>24,30,47,59</rect>
+                <key>scale9Paddings</key>
+                <rect>24,30,47,59</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">fire/fire_2_0003.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>26,27,52,53</rect>
+                <key>scale9Paddings</key>
+                <rect>26,27,52,53</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">fire/fire_2_0004.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>23,26,46,51</rect>
+                <key>scale9Paddings</key>
+                <rect>23,26,46,51</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">fire/fire_2_0005.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>25,30,49,61</rect>
+                <key>scale9Paddings</key>
+                <rect>25,30,49,61</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">fire/fire_2_0006.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>22,25,43,49</rect>
+                <key>scale9Paddings</key>
+                <rect>22,25,43,49</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">fire/fire_2_0007.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>25,27,51,54</rect>
+                <key>scale9Paddings</key>
+                <rect>25,27,51,54</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">fire/fire_2_0008.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>21,26,42,53</rect>
+                <key>scale9Paddings</key>
+                <rect>21,26,42,53</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">fire/fire_2_0009.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>21,26,42,51</rect>
+                <key>scale9Paddings</key>
+                <rect>21,26,42,51</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">fire/fire_2_0010.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>21,28,41,56</rect>
+                <key>scale9Paddings</key>
+                <rect>21,28,41,56</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">fire/fire_2_0011.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>22,26,45,53</rect>
+                <key>scale9Paddings</key>
+                <rect>22,26,45,53</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">fire/fire_2_0012.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>26,31,51,62</rect>
+                <key>scale9Paddings</key>
+                <rect>26,31,51,62</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">fire/fire_2_0013.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>27,31,53,61</rect>
+                <key>scale9Paddings</key>
+                <rect>27,31,53,61</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">fire/fire_2_0014.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>21,31,41,63</rect>
+                <key>scale9Paddings</key>
+                <rect>21,31,41,63</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">fire/fire_2_0015.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>19,30,37,59</rect>
+                <key>scale9Paddings</key>
+                <rect>19,30,37,59</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">fire/fire_light_1.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>55,53,109,105</rect>
+                <key>scale9Paddings</key>
+                <rect>55,53,109,105</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">fire/fire_light_2.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>61,58,121,116</rect>
+                <key>scale9Paddings</key>
+                <rect>61,58,121,116</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">fire/wood.png</key>
+            <key type="filename">fire/wood_light.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>40,20,79,39</rect>
+                <key>scale9Paddings</key>
+                <rect>40,20,79,39</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
         </map>
         <key>fileList</key>
         <array>
-            <filename>../atlas</filename>
+            <filename>fire</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

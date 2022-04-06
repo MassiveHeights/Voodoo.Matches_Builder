@@ -1,9 +1,9 @@
-import { Black, DisplayObject, Graphics } from "black-engine";
+import { Black, DisplayObject, Graphics, Vector } from "black-engine";
 import { Vec2, WeldJoint } from "planck-js";
 import Delayed from "../kernel/delayed-call";
 import PhysicsOption from "../physics/physics-options";
-import Overlay from "../ui/overlay";
-import DotsHelper from "./dots-helper";
+import Bonfire from "./map-items/bonfire";
+import DotsHelper from "./matches/dots-helper";
 import Match from "./matches/match";
 
 export default class Map extends DisplayObject {
@@ -25,13 +25,15 @@ export default class Map extends DisplayObject {
 
   _init() {
     this._initDotsHelper();
+    this._initBonfire();
+    this._createDebugLevel();
   }
 
   onPointerDown() {
     if(this._currentMatch){
       this.onPointerUp();
     }
-    this._startPointer = this.globalToLocal(Black.input.pointerPosition); 
+    this._startPointer = this.globalToLocal(Black.input.pointerPosition);
     this._currentMatch = this._createMatch(this._startPointer);
   }
 
@@ -178,21 +180,6 @@ export default class Map extends DisplayObject {
     this.add(this._dotsHelper);
   }
 
-  _createDotHelper(pos) {
-    const g = new Graphics();
-
-    g.beginPath();
-    g.fillStyle(0xff0000, 1);
-    g.circle(0, 0, 7);
-    g.fill();
-
-    const s = this._s;
-    g.x = pos.x * s;
-    g.y = pos.y * s;
-
-    this.add(g);
-  }
-
   _resetDotsHelper() {
     this._dotsHelper.reset();
   }
@@ -208,6 +195,14 @@ export default class Map extends DisplayObject {
 
     dotsHelper.set(points);
     this.setChildIndex(dotsHelper, 999);
+  }
+
+  _initBonfire() {
+    const bonfire = new Bonfire();
+    this.add(bonfire);
+
+    bonfire.x = 440;
+    bonfire.y = 860;
   }
 
   _createMatch(pointer) {
@@ -226,4 +221,61 @@ export default class Map extends DisplayObject {
 
     return match;
   }
+
+  _createDebugLevel() {
+    debugLevelData.forEach(data => {
+      const match = this._currentMatch = this._createMatch(new Vector(data.x, data.y));
+      match.setRotation(data.rotation);
+      match.createBody();
+      this.onPointerUp();
+    })
+  }
 }
+
+const debugLevelData = [
+  {
+    x: 270,
+    y: 850,
+    rotation: 0.5
+  },
+  {
+    x: 340,
+    y: 850,
+    rotation: -0.5
+  },
+  {
+    x: 305,
+    y: 800,
+    rotation: 0,
+  },
+  {
+    x: 305,
+    y: 730,
+    rotation: 0.2,
+  },
+  {
+    x: 315,
+    y: 660,
+    rotation: 0.8,
+  },
+  {
+    x: 270,
+    y: 700,
+    rotation: Math.PI * 0.5,
+  },
+  {
+    x: 260,
+    y: 850,
+    rotation: Math.PI * 0.5,
+  },
+  {
+    x: 340,
+    y: 850,
+    rotation: Math.PI * 0.5,
+  },
+  {
+    x: 390,
+    y: 850,
+    rotation: -Math.PI * 0.35,
+  },
+];

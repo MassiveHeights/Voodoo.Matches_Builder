@@ -4,16 +4,22 @@ import localization from 'js/localization';
 import {stringsDataStr} from './data/stringsData';
 import Game from 'js/states/game';
 import {CreativeWrapper} from "./libs/wrapper/creative-wrapper";
+import JsonObjAsset from './kernel/json-inline-loader-object-asset';
 
 //Black atlas
 import atlas from './../assets/atlas.png';
 import atlasData from '../assets/atlas.json';
+import fire from './../assets/fire.png';
+import fireData from '../assets/fire.json';
 
 //Sounds
 import sound_throw from 'assets/sounds/throw_01.mp3';
 import sound_bg_music from 'assets/sounds/bg_music.mp3';
 import sound_success from 'assets/sounds/success.mp3';
 import sound_confetti from 'assets/sounds/confetti.mp3';
+
+//Spines
+import matches_layout from 'assets/spines/matches_layout.json';
 
 //Fonts
 import fontBaloo from 'assets/fonts/Baloo-Regular.woff';
@@ -31,12 +37,16 @@ export class Loader extends GameObject {
 
     //Black/UI
     assets.enqueueAtlasObj('assets', atlas, atlasData);
+    assets.enqueueAtlasObj('fire', fire, fireData);
 
     //sounds
     assets.enqueueSound('bg_music', sound_bg_music);
     assets.enqueueSound('confetti', sound_confetti);
     assets.enqueueSound('success', sound_success);
     assets.enqueueSound('throw', sound_throw);
+
+    // spines
+    assets.enqueueJsonObj('matches_layout', matches_layout);
 
     // fonts
     assets.enqueueFont('Baloo', fontBaloo);
@@ -51,7 +61,12 @@ export class Loader extends GameObject {
       this.enqueueAsset(name, this.__getAsset('atlas_json_obj', name, this.mDefaultPath + imageUrl, jsonData));
     };
 
+    assetManager.enqueueJsonObj = function(name, jsonData) {
+      this.enqueueAsset(name, this.__getAsset('json_obj', name, jsonData));
+    };
+
     assetManager.setAssetType('atlas_json_obj', AtlasTextureObjAsset);
+    assetManager.setAssetType('json_obj', JsonObjAsset);
   }
 
   onAssetsProgress(msg, p) {

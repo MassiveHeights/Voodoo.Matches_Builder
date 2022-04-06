@@ -1,5 +1,5 @@
 import { Black, DisplayObject, Graphics, Sprite, TilingInfo } from "black-engine";
-import PhysicsOption from "../physics/physics-options";
+import PhysicsOption from "../../physics/physics-options";
 
 export default class DotsHelper extends DisplayObject {
   constructor() {
@@ -44,7 +44,7 @@ export default class DotsHelper extends DisplayObject {
 
     dot.beginPath();
     dot.fillStyle(0x00ff00, 1);
-    dot.circle(0, 0, 10);
+    dot.circle(0, 0, 7);
     dot.fill();
 
     this.add(dot);
