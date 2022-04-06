@@ -12,6 +12,12 @@ export default class Background extends DisplayObject {
 
     this._s = PhysicsOption.worldScale;
 
+    this._platformData = {
+      scale: 0.8,
+      x: this._levelSize * 0.1,
+      y: this._levelSize * 0.17,
+    }
+
     this._init();
   }
 
@@ -23,8 +29,8 @@ export default class Background extends DisplayObject {
     this._initGroundBody();
     this._initPlatformBody();
 
-    Black.stage.on('resize', () => this.onResize());
-    this.onResize();
+    // Black.stage.on('resize', () => this.onResize());
+    // this.onResize();
   }
 
   _initSky() {
@@ -43,7 +49,7 @@ export default class Background extends DisplayObject {
 
   _initGroundTile() {
     const groundTileBottom = this._groundTileBottom = new Sprite('bg/level_4_01_tile');
-    groundTileBottom.tiling = new TilingInfo(1000, 1000);
+    groundTileBottom.tiling = new TilingInfo(this._levelSize, 1000);
 
     groundTileBottom.alignAnchor(0.5, 0);
 
@@ -125,7 +131,7 @@ export default class Background extends DisplayObject {
       Vec2(-0.0574, -0.025),
     ];
 
-    points.forEach(point => point.mul(ls));
+    points.forEach(point => point.mul(ls * this._platformData.scale));
 
     const platform = this._physics.world.createBody(Vec2(0, 0));
     platform.createFixture(Polygon(points), {
@@ -134,8 +140,8 @@ export default class Background extends DisplayObject {
     });
 
     const bounds = Black.stage.bounds;
-    const platformX = (bounds.center().x + this._levelSize * 0.13) / s;
-    const platformY = bounds.center().y / s;
+    const platformX = (bounds.center().x + this._platformData.x) / s;
+    const platformY = (bounds.center().y + this._platformData.y) / s;
 
     platform.setPosition(Vec2(platformX, platformY));
   }
@@ -162,8 +168,8 @@ export default class Background extends DisplayObject {
     groundTileBottom.x = center.x;
     groundTileBottom.y = ground.y;
     
-    platform.x = center.x + levelSize * 0.13;
-    platform.y = center.y;
-    platform.scale = ground.scaleY;
+    platform.x = center.x + this._platformData.x;
+    platform.y = center.y + this._platformData.y;
+    platform.scale = ground.scaleY * this._platformData.scale;
   }
 }

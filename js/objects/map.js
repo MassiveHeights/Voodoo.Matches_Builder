@@ -24,21 +24,7 @@ export default class Map extends DisplayObject {
   }
 
   _init() {
-    this._initOverlay();
     this._initDotsHelper();
-
-    this._setupSignals();
-  }
-
-  _initOverlay() {
-    const overlay = this._overlay = new Overlay();
-    this.add(overlay);
-  }
-
-  _setupSignals() {
-    this._overlay.on('onPointerMove', (msg, pointer) => this.onPointerMove(pointer));
-    this._overlay.on('onPointerDown', (msg, pointer) => this.onPointerDown(pointer));
-    this._overlay.on('onPointerUp', (msg, pointer) => this.onPointerUp(pointer));
   }
 
   onPointerDown() {
