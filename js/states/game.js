@@ -6,6 +6,7 @@ import SoundButton from "../ui/sound-button";
 import SoundManager from "../objects/soundManager";
 import {CreativeWrapper} from "../libs/wrapper/creative-wrapper";
 import GameScene from '../scene/game-scene';
+import UI from '../ui/ui';
 
 export default class Game extends BaseGame {
   constructor() {
@@ -90,16 +91,19 @@ export default class Game extends BaseGame {
   }
 
   _initUI() {
-    if (creativeWrapper.getParam('tutorial') === true) {
-      this._tutorial = new Tutorial();
-      Black.stage.add(this._tutorial);
-    }
+    const ui = new UI();
+    Black.stage.addChild(ui);
 
-    if (creativeWrapper.getParam('sounds') === true) {
-      let soundButton = new SoundButton();
-      Black.stage.addChild(soundButton);
-      this._soundManager.registerSoundButton(soundButton);
-    }
+    // if (creativeWrapper.getParam('tutorial') === true) {
+    //   this._tutorial = new Tutorial();
+    //   Black.stage.add(this._tutorial);
+    // }
+
+    // if (creativeWrapper.getParam('sounds') === true) {
+    //   let soundButton = new SoundButton();
+    //   Black.stage.addChild(soundButton);
+    //   this._soundManager.registerSoundButton(soundButton);
+    // }
   }
 
   _onPlayerInteraction(m, p) {

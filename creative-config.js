@@ -18,7 +18,7 @@ module.exports.config = {
     hintDelay: {value: 5, type: 'range', min: 1, max: 60, name: 'Delay before showing the tutorial (sec).'},
     skyColor: {value: "#00A3FF", type: 'color', name: 'Top sky color'},
     tapsToWin: {value: 5, type: 'range', min: 1, max: 50, name: 'Taps to win'},
-
+    levelText: { value: 'Level 1', type: 'string', name: 'Level text on progress bar' }
   },
   endLevel: {
     sounds: {
