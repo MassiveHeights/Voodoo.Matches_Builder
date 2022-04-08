@@ -11,6 +11,10 @@ import atlas from './../assets/atlas.png';
 import atlasData from '../assets/atlas.json';
 import fire from './../assets/fire.png';
 import fireData from '../assets/fire.json';
+import rocket from './../assets/rocket.png';
+import rocketData from '../assets/rocket.json';
+import firework from './../assets/firework.png';
+import fireworkData from '../assets/firework.json';
 
 //Sounds
 import sound_throw from 'assets/sounds/throw_01.mp3';
@@ -20,6 +24,8 @@ import sound_confetti from 'assets/sounds/confetti.mp3';
 
 //Spines
 import matches_layout from 'assets/spines/matches_layout.json';
+import rocketSpine from 'assets/spines/rocket.json';
+import fireworkSpine from 'assets/spines/firework.json';
 
 //Fonts
 import fontBaloo from 'assets/fonts/Baloo-Regular.woff';
@@ -38,6 +44,8 @@ export class Loader extends GameObject {
     //Black/UI
     assets.enqueueAtlasObj('assets', atlas, atlasData);
     assets.enqueueAtlasObj('fire', fire, fireData);
+    assets.enqueueAtlasObj('firework', firework, fireworkData);
+    assets.enqueueAtlasObj('rocket', rocket, rocketData);
 
     //sounds
     assets.enqueueSound('bg_music', sound_bg_music);
@@ -47,6 +55,8 @@ export class Loader extends GameObject {
 
     // spines
     assets.enqueueJsonObj('matches_layout', matches_layout);
+    assets.enqueueJsonObj('rocket', rocketSpine);
+    assets.enqueueJsonObj('firework', fireworkSpine);
 
     // fonts
     assets.enqueueFont('Baloo', fontBaloo);

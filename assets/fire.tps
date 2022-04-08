@@ -56,7 +56,7 @@
         <key>jxrCompressionLevel</key>
         <uint>0</uint>
         <key>ditherType</key>
-        <enum type="SettingsBase::DitherType">NearestNeighbour</enum>
+        <enum type="SettingsBase::DitherType">PngQuantLow</enum>
         <key>backgroundColor</key>
         <uint>0</uint>
         <key>libGdx</key>
@@ -82,7 +82,7 @@
         <key>atfFormats</key>
         <string></string>
         <key>textureFormat</key>
-        <enum type="SettingsBase::TextureFormat">png</enum>
+        <enum type="SettingsBase::TextureFormat">png8</enum>
         <key>borderPadding</key>
         <uint>0</uint>
         <key>maxTextureSize</key>
@@ -132,7 +132,7 @@
             <key>blackjson</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>fire.json</filename>
+                <filename>spines/fire.json</filename>
             </struct>
         </map>
         <key>multiPack</key>
@@ -181,7 +181,7 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">fire/fire_1_0000.png</key>
+            <key type="filename">spines/fire/fire_1_0000.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -196,7 +196,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">fire/fire_1_0001.png</key>
+            <key type="filename">spines/fire/fire_1_0001.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -211,7 +211,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">fire/fire_1_0002.png</key>
+            <key type="filename">spines/fire/fire_1_0002.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -226,8 +226,8 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">fire/fire_1_0003.png</key>
-            <key type="filename">fire/fire_1_0010.png</key>
+            <key type="filename">spines/fire/fire_1_0003.png</key>
+            <key type="filename">spines/fire/fire_1_0010.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -242,7 +242,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">fire/fire_1_0004.png</key>
+            <key type="filename">spines/fire/fire_1_0004.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -257,7 +257,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">fire/fire_1_0005.png</key>
+            <key type="filename">spines/fire/fire_1_0005.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -272,7 +272,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">fire/fire_1_0006.png</key>
+            <key type="filename">spines/fire/fire_1_0006.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -287,7 +287,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">fire/fire_1_0007.png</key>
+            <key type="filename">spines/fire/fire_1_0007.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -302,7 +302,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">fire/fire_1_0008.png</key>
+            <key type="filename">spines/fire/fire_1_0008.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -317,7 +317,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">fire/fire_1_0009.png</key>
+            <key type="filename">spines/fire/fire_1_0009.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -332,7 +332,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">fire/fire_1_0011.png</key>
+            <key type="filename">spines/fire/fire_1_0011.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -347,7 +347,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">fire/fire_1_0012.png</key>
+            <key type="filename">spines/fire/fire_1_0012.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -362,7 +362,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">fire/fire_1_0013.png</key>
+            <key type="filename">spines/fire/fire_1_0013.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -377,7 +377,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">fire/fire_1_0014.png</key>
+            <key type="filename">spines/fire/fire_1_0014.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -392,7 +392,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">fire/fire_1_0015.png</key>
+            <key type="filename">spines/fire/fire_1_0015.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -407,7 +407,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">fire/fire_2_0000.png</key>
+            <key type="filename">spines/fire/fire_2_0000.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -422,7 +422,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">fire/fire_2_0001.png</key>
+            <key type="filename">spines/fire/fire_2_0001.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -437,7 +437,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">fire/fire_2_0002.png</key>
+            <key type="filename">spines/fire/fire_2_0002.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -452,7 +452,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">fire/fire_2_0003.png</key>
+            <key type="filename">spines/fire/fire_2_0003.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -467,7 +467,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">fire/fire_2_0004.png</key>
+            <key type="filename">spines/fire/fire_2_0004.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -482,7 +482,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">fire/fire_2_0005.png</key>
+            <key type="filename">spines/fire/fire_2_0005.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -497,7 +497,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">fire/fire_2_0006.png</key>
+            <key type="filename">spines/fire/fire_2_0006.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -512,7 +512,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">fire/fire_2_0007.png</key>
+            <key type="filename">spines/fire/fire_2_0007.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -527,7 +527,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">fire/fire_2_0008.png</key>
+            <key type="filename">spines/fire/fire_2_0008.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -542,7 +542,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">fire/fire_2_0009.png</key>
+            <key type="filename">spines/fire/fire_2_0009.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -557,7 +557,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">fire/fire_2_0010.png</key>
+            <key type="filename">spines/fire/fire_2_0010.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -572,7 +572,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">fire/fire_2_0011.png</key>
+            <key type="filename">spines/fire/fire_2_0011.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -587,7 +587,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">fire/fire_2_0012.png</key>
+            <key type="filename">spines/fire/fire_2_0012.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -602,7 +602,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">fire/fire_2_0013.png</key>
+            <key type="filename">spines/fire/fire_2_0013.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -617,7 +617,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">fire/fire_2_0014.png</key>
+            <key type="filename">spines/fire/fire_2_0014.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -632,7 +632,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">fire/fire_2_0015.png</key>
+            <key type="filename">spines/fire/fire_2_0015.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -647,7 +647,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">fire/fire_light_1.png</key>
+            <key type="filename">spines/fire/fire_light_1.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -662,7 +662,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">fire/fire_light_2.png</key>
+            <key type="filename">spines/fire/fire_light_2.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -677,8 +677,8 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">fire/wood.png</key>
-            <key type="filename">fire/wood_light.png</key>
+            <key type="filename">spines/fire/wood.png</key>
+            <key type="filename">spines/fire/wood_light.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -696,7 +696,7 @@
         </map>
         <key>fileList</key>
         <array>
-            <filename>fire</filename>
+            <filename>spines/fire</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

@@ -1,5 +1,5 @@
 {
-  "smartUpdateKey":"$TexturePacker:SmartUpdate:cc6c0c9e57acee3bebb0fe25718a2271:c051db35e3a01d26ed67e09abc506183:cbce6b53f0f49e0bf15173c25c41f876$",
+  "smartUpdateKey":"$TexturePacker:SmartUpdate:a82d7c63cc4b9207ba2dea93982fdedb:79927e0f9ff899b1f3b0fbc6da482d1d:cbce6b53f0f49e0bf15173c25c41f876$",
   "format":"bta",
   "v":"1.0",
   "frames":{
@@ -12,6 +12,7 @@
     "matches/match_burned01":[927,1096,25,314,2,9,32,325],
     "matches/match_tint00":[954,1096,22,325,10,0,32,325],
     "matches/match_tint01":[963,1,21,325,0,0,32,325],
+    "matches/node":[465,1419,38,33,0,0,38,33],
     "textures/overlay":[965,1489,10,10,0,0,10,10],
     "ui/button_BACK":[866,1423,97,73,0,0,97,73],
     "ui/button_RETRY_small":[515,1411,88,98,0,0,88,98],

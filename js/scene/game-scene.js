@@ -58,15 +58,13 @@ export default class GameScene extends GameObject {
   }
 
   _initMap() {
-    const map = this._map = new Map(this._physics);
+    const map = this._map = new Map(this._physics, this._levelSize);
     this.add(map);
   }
 
   _initPhysics() {
     this._physics = new Physics();
-
-    const debug = this._debugger = new Debugger(this._physics.world);
-    debug.isActive = true;
+    this._debugger = new Debugger(this._physics.world);
   }
 
   _initOverlay() {
@@ -97,7 +95,7 @@ export default class GameScene extends GameObject {
   onResize() {
     const bounds = Black.stage.bounds;
     
-    this.y = -bounds.width * Utils.LP(0.65, 0.7);
+    this.y = -bounds.width * Utils.LP(0.65, 0.8);
     this.x = Utils.LP(bounds.left, -this._levelSize * 0.2); //- Utils.LP(0, bounds.height * 0.3);
     
     const scaleL = 1.25 * bounds.width/this._levelSize;

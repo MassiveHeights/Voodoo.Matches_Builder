@@ -1,16 +1,18 @@
-import { Black, DisplayObject, Graphics, Vector } from "black-engine";
+import { Black, DisplayObject, Sprite, Vector } from "black-engine";
 import { Vec2, WeldJoint } from "planck-js";
 import Delayed from "../kernel/delayed-call";
 import PhysicsOption from "../physics/physics-options";
 import Bonfire from "./map-items/bonfire";
+import Rocket from "./map-items/rocket";
 import DotsHelper from "./matches/dots-helper";
 import Match from "./matches/match";
 
 export default class Map extends DisplayObject {
-  constructor(physics) {
+  constructor(physics, levelSize) {
     super();
 
     this._physics = physics;
+    this._levelSize = levelSize;
     this._s = PhysicsOption.worldScale;
 
     this._matchesPool = [];
@@ -26,6 +28,7 @@ export default class Map extends DisplayObject {
   _init() {
     this._initDotsHelper();
     this._initBonfire();
+    this._initRocket();
     this._createDebugLevel();
   }
 
@@ -35,61 +38,18 @@ export default class Map extends DisplayObject {
     }
     this._startPointer = this.globalToLocal(Black.input.pointerPosition);
     this._currentMatch = this._createMatch(this._startPointer);
+
+    this._checkDotsHelper();
   }
 
   onPointerMove() {
-    const p1 = this._startPointer;
-    const p2 = this.globalToLocal(Black.input.pointerPosition);
-
-    const disX = p1.x - p2.x;
-    const disY = p1.y - p2.y;
-
-    let rotation = Math.atan(-disX/disY);
-
-    if(disY < 0){
-      rotation = rotation - Math.PI;
-    }
-
-    const length = Vec2.distance(p1, p2);
-
-    if(length > 10){
-      this._currentMatch.setRotation(rotation);
-    }
-
-    this._resetDotsHelper();
-    const jointPoints = this._getJointPoints(this._currentMatch);
-    if(jointPoints.length !== 0) {
-      this._setDotsHelper(jointPoints);
-    }
+    this._calcRotation();
+    this._checkDotsHelper();
   }
 
   onPointerUp() {
-    const isFirst = this._matchesPool.length === 0;
-    const currentMatch = this._currentMatch;
-    currentMatch.createBody();
-
-    const jointPoints = this._getJointPoints(currentMatch);
-    const isIntersection = jointPoints.length !== 0;
-
-    if(isIntersection || isFirst){
-      this._matchesPool.push(currentMatch);
-      if(!isFirst){
-        this._createJoints(jointPoints);
-      }
-    }else{
-      this._removeMatch(this._currentMatch);
-    }
-
-    this._currentMatch = null;
+    this._setMatch();
     this._resetDotsHelper();
-  }
-
-  _removeMatch(match) {
-    const body = match.getBody();
-    if(body){
-      this._physics.world.destroyBody(body);
-    }
-    this.removeChild(match);
   }
 
   _createJoints(jointPoints) {
@@ -98,12 +58,20 @@ export default class Map extends DisplayObject {
       const joint = WeldJoint({
         frequencyHz: 2.5,
         dampingRatio: 0.7,
+        collideConnected: false,
       }, body1, body2, anchor);
       this._physics.world.createJoint(joint);
 
-      body1.setActive(true);
-      body2.setActive(true);
+      // body1.setActive(true);
+      // body2.setActive(true);
+
+      this._createNode(anchor);
     });
+  }
+
+  _createNode(anchor) {
+    anchor.mul(this._s);
+    this._currentMatch.addNode(anchor);
   }
 
   _getJointPoints(currentMatch) {
@@ -201,12 +169,50 @@ export default class Map extends DisplayObject {
     const bonfire = new Bonfire();
     this.add(bonfire);
 
-    bonfire.x = 440;
-    bonfire.y = 860;
+    const bounds = Black.stage.bounds;
+    bonfire.x = bounds.center().x + this._levelSize * 0.1;
+    bonfire.y = bounds.center().y + this._levelSize * 0.38;
+  }
+
+  _initRocket() {
+    const rocket = new Rocket();
+    this.add(rocket);
+
+    const bounds = Black.stage.bounds;
+    rocket.x = bounds.center().x + this._levelSize * 0.07;
+    rocket.y = bounds.center().y + this._levelSize * 0.12;
+  }
+
+  _checkDotsHelper() {
+    this._resetDotsHelper();
+    const jointPoints = this._getJointPoints(this._currentMatch);
+    if(jointPoints.length !== 0) {
+      this._setDotsHelper(jointPoints);
+    }
+  }
+
+  _calcRotation() {
+    const p1 = this._startPointer;
+    const p2 = this.globalToLocal(Black.input.pointerPosition);
+
+    const disX = p1.x - p2.x;
+    const disY = p1.y - p2.y;
+
+    let rotation = Math.atan(-disX/disY);
+
+    if(disY < 0){
+      rotation = rotation - Math.PI;
+    }
+
+    const length = Vec2.distance(p1, p2);
+
+    if(length > 10){
+      this._currentMatch.setRotation(rotation);
+    }
   }
 
   _createMatch(pointer) {
-    const match = new Match(this._physics);
+    const match = new Match(this, this._physics);
     match.visible = false;
 
     const x = pointer.x;
@@ -220,6 +226,34 @@ export default class Map extends DisplayObject {
     Delayed.call(0.01, () => match.visible = true);
 
     return match;
+  }
+
+  _setMatch() {
+    const isFirst = this._matchesPool.length === 0;
+    const currentMatch = this._currentMatch;
+    currentMatch.createBody();
+
+    const jointPoints = this._getJointPoints(currentMatch);
+    const isIntersection = jointPoints.length !== 0;
+
+    if(isIntersection || isFirst){
+      this._matchesPool.push(currentMatch);
+      if(!isFirst){
+        this._createJoints(jointPoints);
+      }
+    }else{
+      this._removeMatch(this._currentMatch);
+    }
+
+    this._currentMatch = null;
+  }
+
+  _removeMatch(match) {
+    const body = match.getBody();
+    if(body){
+      this._physics.world.destroyBody(body);
+    }
+    this.removeChild(match);
   }
 
   _createDebugLevel() {

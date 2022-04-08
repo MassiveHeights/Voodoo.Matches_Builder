@@ -11,7 +11,7 @@ export default class Debugger extends DisplayObject {
     this._gr = new Graphics();
     this.add(this._gr);
 
-    this.isActive = true;
+    this.isActive = false;
   }
 
   update() {

@@ -7,9 +7,10 @@ import PhysicsOption from "../../physics/physics-options";
 const PI = Math.PI;
 
 export default class Match extends DisplayObject {
-  constructor(physics) {
+  constructor(parent, physics) {
     super();
 
+    this._parent = parent;
     this._physics = physics;
     this._mass = 0.2;
     this._scale = 0.26;
@@ -23,6 +24,8 @@ export default class Match extends DisplayObject {
     this._viewPos = null;
     this._rot = null;
 
+    this._nodesPool = [];
+
     this._init();
   }
 
@@ -32,6 +35,25 @@ export default class Match extends DisplayObject {
       this._centerViewAnchor();
     }
     // this._body.setActive(true);
+  }
+
+  addNode(pos) {
+    const node = this._createNode();
+    const view = this._view;
+    const viewPos = Vec2(view.x, view.y);
+    const distance = Vec2.distance(viewPos, pos);
+    
+    const diffX = viewPos.x - pos.x;
+    const diffY = viewPos.y - pos.y;
+
+    const nodeVecRotation = Math.atan(-diffX/diffY) - (diffY < 0 ? Math.PI : 0);
+    const angleBetweenVectors = nodeVecRotation - view.rotation + Math.PI * 0.5;
+    const direction = Math.round(angleBetweenVectors/(Math.PI * 0.5));
+
+    this._nodesPool.push({
+      view: node,
+      distance: distance * direction,
+    });
   }
 
   getBody() {
@@ -85,6 +107,26 @@ export default class Match extends DisplayObject {
   }
 
   onUpdate() {
+    this._updateNodes();
+    this._updateShadows();
+  }
+
+  _updateNodes() {
+    const { _view: view, _nodesPool: nodesPool } = this;
+    const rot = view.rotation;
+
+    nodesPool.forEach(data => {
+      const nodeView = data.view;
+      const d = data.distance;
+
+      nodeView.x = (view.x + d * Math.sin(rot));
+      nodeView.y = (view.y - d * Math.cos(rot));
+
+      nodeView.rotation = rot;
+    })
+  }
+
+  _updateShadows() {
     const { _shadowL: shadowL, _shadowR: shadowR, _view: view } = this;
 
     shadowL.x = shadowR.x = view.x;
@@ -165,5 +207,14 @@ export default class Match extends DisplayObject {
     
     this.setPos(this._viewPos)
     this._body.setAngle(this._rot);
+  }
+
+  _createNode() {
+    const node = new Sprite('matches/node');
+    this._parent.add(node)
+    node.scale = this._scale * 1.3;
+    node.alignAnchor(0.5);
+
+    return node;
   }
 }
