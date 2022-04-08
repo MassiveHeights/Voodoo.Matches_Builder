@@ -53,7 +53,7 @@ export default class Map extends DisplayObject {
   }
 
   _createJoints(jointPoints) {
-    jointPoints.forEach(intersection => {
+    jointPoints.forEach((intersection, index) => {
       const { body1, body2, anchor } = intersection;
       const joint = WeldJoint({
         frequencyHz: 2.5,
@@ -65,13 +65,14 @@ export default class Map extends DisplayObject {
       // body1.setActive(true);
       // body2.setActive(true);
 
-      this._createNode(anchor);
+      const match = this._currentMatch;
+      Delayed.call(0.1 * index, () => this._createNode(match, anchor));
     });
   }
 
-  _createNode(anchor) {
+  _createNode(match, anchor) {
     anchor.mul(this._s);
-    this._currentMatch.addNode(anchor);
+    match.addNode(anchor);
   }
 
   _getJointPoints(currentMatch) {

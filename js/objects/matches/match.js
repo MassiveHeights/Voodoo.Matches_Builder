@@ -1,8 +1,9 @@
-import {BlendMode, DisplayObject, FontAlign, FontStyle, FontWeight, GameObject, Graphics, MessageDispatcher, Sprite, TextField} from "black-engine";
+import { DisplayObject, Sprite } from "black-engine";
 import * as planck from 'planck-js';
 import { Vec2 } from "planck-js";
 import BodiesTypes from "../../physics/bodies-types";
 import PhysicsOption from "../../physics/physics-options";
+import Node from "./node";
 
 const PI = Math.PI;
 
@@ -47,13 +48,16 @@ export default class Match extends DisplayObject {
     const diffY = viewPos.y - pos.y;
 
     const nodeVecRotation = Math.atan(-diffX/diffY) - (diffY < 0 ? Math.PI : 0);
-    const angleBetweenVectors = nodeVecRotation - view.rotation + Math.PI * 0.5;
-    const direction = Math.round(angleBetweenVectors/(Math.PI * 0.5));
+    const nodeDirection = Math.sin(nodeVecRotation) >= 0 ? -1 : 1;
+    const viewDirection = Math.sin(view.rotation) >= 0 ? -1 : 1;
+    const direction = nodeDirection * viewDirection;
 
     this._nodesPool.push({
       view: node,
       distance: distance * direction,
     });
+
+    node.animate();
   }
 
   getBody() {
@@ -210,10 +214,8 @@ export default class Match extends DisplayObject {
   }
 
   _createNode() {
-    const node = new Sprite('matches/node');
+    const node = new Node(this._scale * 1.3);
     this._parent.add(node)
-    node.scale = this._scale * 1.3;
-    node.alignAnchor(0.5);
 
     return node;
   }

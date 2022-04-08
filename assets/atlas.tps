@@ -56,7 +56,7 @@
         <key>jxrCompressionLevel</key>
         <uint>0</uint>
         <key>ditherType</key>
-        <enum type="SettingsBase::DitherType">NearestNeighbour</enum>
+        <enum type="SettingsBase::DitherType">PngQuantLow</enum>
         <key>backgroundColor</key>
         <uint>0</uint>
         <key>libGdx</key>
@@ -82,7 +82,7 @@
         <key>atfFormats</key>
         <string></string>
         <key>textureFormat</key>
-        <enum type="SettingsBase::TextureFormat">png</enum>
+        <enum type="SettingsBase::TextureFormat">png8</enum>
         <key>borderPadding</key>
         <uint>0</uint>
         <key>maxTextureSize</key>
@@ -272,6 +272,43 @@
                 <rect>10,8,19,17</rect>
                 <key>scale9Paddings</key>
                 <rect>10,8,19,17</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../atlas/matches/node/fix_1.png</key>
+            <key type="filename">../atlas/matches/node/fix_10.png</key>
+            <key type="filename">../atlas/matches/node/fix_11.png</key>
+            <key type="filename">../atlas/matches/node/fix_12.png</key>
+            <key type="filename">../atlas/matches/node/fix_13.png</key>
+            <key type="filename">../atlas/matches/node/fix_14.png</key>
+            <key type="filename">../atlas/matches/node/fix_15.png</key>
+            <key type="filename">../atlas/matches/node/fix_16.png</key>
+            <key type="filename">../atlas/matches/node/fix_17.png</key>
+            <key type="filename">../atlas/matches/node/fix_18.png</key>
+            <key type="filename">../atlas/matches/node/fix_19.png</key>
+            <key type="filename">../atlas/matches/node/fix_2.png</key>
+            <key type="filename">../atlas/matches/node/fix_20.png</key>
+            <key type="filename">../atlas/matches/node/fix_21.png</key>
+            <key type="filename">../atlas/matches/node/fix_22.png</key>
+            <key type="filename">../atlas/matches/node/fix_23.png</key>
+            <key type="filename">../atlas/matches/node/fix_3.png</key>
+            <key type="filename">../atlas/matches/node/fix_4.png</key>
+            <key type="filename">../atlas/matches/node/fix_5.png</key>
+            <key type="filename">../atlas/matches/node/fix_6.png</key>
+            <key type="filename">../atlas/matches/node/fix_7.png</key>
+            <key type="filename">../atlas/matches/node/fix_8.png</key>
+            <key type="filename">../atlas/matches/node/fix_9.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>12,12,25,23</rect>
+                <key>scale9Paddings</key>
+                <rect>12,12,25,23</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
