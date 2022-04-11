@@ -20,7 +20,7 @@ export default class Node extends DisplayObject {
       view.visible = true;
       view.scale = 0;
 
-      const tween = new Tween({scaleX: this._scale, scaleY: this._scale}, 0.2, {
+      const tween = new Tween({scaleX: this._scale, scaleY: this._scale}, 0.18, {
         playOnAdded: true,
         ease: Ease.backOut,
       });

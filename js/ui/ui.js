@@ -27,6 +27,10 @@ export default class UI extends DisplayObject {
     this.onResize();
   }
 
+  decreaseProgressBar() {
+    this._progressBar.decrease();
+  }
+
   _init() {
     this._initProgressBar();
     this._initAnnouncer();

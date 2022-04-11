@@ -60,6 +60,8 @@ export default class GameScene extends GameObject {
   _initMap() {
     const map = this._map = new Map(this._physics, this._levelSize);
     this.add(map);
+
+    map.events.on('addedMatch', () => this.events.post('addedMatch'));
   }
 
   _initPhysics() {

@@ -1,4 +1,4 @@
-import { Black, DisplayObject, Sprite, Vector } from "black-engine";
+import { Black, DisplayObject, MessageDispatcher, Sprite, Vector } from "black-engine";
 import { Vec2, WeldJoint } from "planck-js";
 import Delayed from "../kernel/delayed-call";
 import PhysicsOption from "../physics/physics-options";
@@ -11,6 +11,7 @@ export default class Map extends DisplayObject {
   constructor(physics, levelSize) {
     super();
 
+    this.events = new MessageDispatcher(false);
     this._physics = physics;
     this._levelSize = levelSize;
     this._s = PhysicsOption.worldScale;
@@ -66,7 +67,7 @@ export default class Map extends DisplayObject {
       body2.setActive(true);
 
       const match = this._currentMatch;
-      Delayed.call(0.1 * index, () => this._createNode(match, anchor));
+      Delayed.call(0.06 * index, () => this._createNode(match, anchor));
     });
   }
 
@@ -247,6 +248,7 @@ export default class Map extends DisplayObject {
     }
 
     this._currentMatch = null;
+    this.events.post('addedMatch');
   }
 
   _removeMatch(match) {

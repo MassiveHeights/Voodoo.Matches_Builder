@@ -7,6 +7,7 @@ import SoundManager from "../objects/soundManager";
 import {CreativeWrapper} from "../libs/wrapper/creative-wrapper";
 import GameScene from '../scene/game-scene';
 import UI from '../ui/ui';
+import GameController from './game-controller';
 
 export default class Game extends BaseGame {
   constructor() {
@@ -14,6 +15,8 @@ export default class Game extends BaseGame {
     this._gameScene = null;
     this._tutorial = null;
     this._soundManager = null;
+    this._ui = null;
+    this._controller = null;
 
     this._totalTaps = 0;
     this._inputEnabled = true;
@@ -44,6 +47,7 @@ export default class Game extends BaseGame {
 
     this._initScene();
     this._initUI();
+    this._initController();
 
     Black.input.on('pointerDown', (m, p) => {
       this._gameStarted = true;
@@ -91,7 +95,7 @@ export default class Game extends BaseGame {
   }
 
   _initUI() {
-    const ui = new UI();
+    const ui = this._ui = new UI();
     Black.stage.addChild(ui);
 
     // if (creativeWrapper.getParam('tutorial') === true) {
@@ -104,6 +108,15 @@ export default class Game extends BaseGame {
       Black.stage.addChild(soundButton);
       this._soundManager.registerSoundButton(soundButton);
     }
+  }
+
+  _initController() {
+    const data = {
+      ui: this._ui,
+      scene: this._gameScene,
+    };
+
+    this._controller = new GameController(data);
   }
 
   _onPlayerInteraction(m, p) {
