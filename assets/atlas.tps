@@ -56,7 +56,7 @@
         <key>jxrCompressionLevel</key>
         <uint>0</uint>
         <key>ditherType</key>
-        <enum type="SettingsBase::DitherType">NearestNeighbour</enum>
+        <enum type="SettingsBase::DitherType">PngQuantLow</enum>
         <key>backgroundColor</key>
         <uint>0</uint>
         <key>libGdx</key>
@@ -82,7 +82,7 @@
         <key>atfFormats</key>
         <string></string>
         <key>textureFormat</key>
-        <enum type="SettingsBase::TextureFormat">png</enum>
+        <enum type="SettingsBase::TextureFormat">png8</enum>
         <key>borderPadding</key>
         <uint>0</uint>
         <key>maxTextureSize</key>
@@ -132,7 +132,7 @@
             <key>blackjson</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename></filename>
+                <filename>atlas.json</filename>
             </struct>
         </map>
         <key>multiPack</key>
@@ -180,9 +180,296 @@
             <false/>
         </struct>
         <key>individualSpriteSettings</key>
-        <map type="IndividualSpriteSettingsMap"/>
+        <map type="IndividualSpriteSettingsMap">
+            <key type="filename">../atlas/bg/level_4_00.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>240,33,480,65</rect>
+                <key>scale9Paddings</key>
+                <rect>240,33,480,65</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../atlas/bg/level_4_01_tile.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>12,12,24,24</rect>
+                <key>scale9Paddings</key>
+                <rect>12,12,24,24</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../atlas/bg/level_4_02.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>40,26,81,51</rect>
+                <key>scale9Paddings</key>
+                <rect>40,26,81,51</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../atlas/bg/level_4_bg.jpg</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>240,240,480,480</rect>
+                <key>scale9Paddings</key>
+                <rect>240,240,480,480</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../atlas/matches/match.png</key>
+            <key type="filename">../atlas/matches/match_burned00.png</key>
+            <key type="filename">../atlas/matches/match_burned01.png</key>
+            <key type="filename">../atlas/matches/match_tint00.png</key>
+            <key type="filename">../atlas/matches/match_tint01.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>8,81,16,163</rect>
+                <key>scale9Paddings</key>
+                <rect>8,81,16,163</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../atlas/matches/node.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>10,8,19,17</rect>
+                <key>scale9Paddings</key>
+                <rect>10,8,19,17</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../atlas/matches/node/fix_1.png</key>
+            <key type="filename">../atlas/matches/node/fix_10.png</key>
+            <key type="filename">../atlas/matches/node/fix_11.png</key>
+            <key type="filename">../atlas/matches/node/fix_12.png</key>
+            <key type="filename">../atlas/matches/node/fix_13.png</key>
+            <key type="filename">../atlas/matches/node/fix_14.png</key>
+            <key type="filename">../atlas/matches/node/fix_15.png</key>
+            <key type="filename">../atlas/matches/node/fix_16.png</key>
+            <key type="filename">../atlas/matches/node/fix_17.png</key>
+            <key type="filename">../atlas/matches/node/fix_18.png</key>
+            <key type="filename">../atlas/matches/node/fix_19.png</key>
+            <key type="filename">../atlas/matches/node/fix_2.png</key>
+            <key type="filename">../atlas/matches/node/fix_20.png</key>
+            <key type="filename">../atlas/matches/node/fix_21.png</key>
+            <key type="filename">../atlas/matches/node/fix_22.png</key>
+            <key type="filename">../atlas/matches/node/fix_23.png</key>
+            <key type="filename">../atlas/matches/node/fix_3.png</key>
+            <key type="filename">../atlas/matches/node/fix_4.png</key>
+            <key type="filename">../atlas/matches/node/fix_5.png</key>
+            <key type="filename">../atlas/matches/node/fix_6.png</key>
+            <key type="filename">../atlas/matches/node/fix_7.png</key>
+            <key type="filename">../atlas/matches/node/fix_8.png</key>
+            <key type="filename">../atlas/matches/node/fix_9.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>12,12,25,23</rect>
+                <key>scale9Paddings</key>
+                <rect>12,12,25,23</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../atlas/textures/overlay.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>3,3,5,5</rect>
+                <key>scale9Paddings</key>
+                <rect>3,3,5,5</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../atlas/ui/HandTap0001.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>27,36,55,71</rect>
+                <key>scale9Paddings</key>
+                <rect>27,36,55,71</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../atlas/ui/button_BACK.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>24,18,49,37</rect>
+                <key>scale9Paddings</key>
+                <rect>24,18,49,37</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../atlas/ui/button_RETRY_small.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>22,25,44,49</rect>
+                <key>scale9Paddings</key>
+                <rect>22,25,44,49</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../atlas/ui/button_SOUND_off.png</key>
+            <key type="filename">../atlas/ui/button_SOUND_on.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>42,41,84,82</rect>
+                <key>scale9Paddings</key>
+                <rect>42,41,84,82</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../atlas/ui/frame_tutorial.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>85,42,169,83</rect>
+                <key>scale9Paddings</key>
+                <rect>85,42,169,83</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../atlas/ui/hand.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>88,104,176,208</rect>
+                <key>scale9Paddings</key>
+                <rect>88,104,176,208</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../atlas/ui/progressbar.png</key>
+            <key type="filename">../atlas/ui/progressbar_empty.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>65,7,129,15</rect>
+                <key>scale9Paddings</key>
+                <rect>65,7,129,15</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../atlas/ui/progressbar_limit_red.png</key>
+            <key type="filename">../atlas/ui/progressbar_limit_yell.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>2,8,3,15</rect>
+                <key>scale9Paddings</key>
+                <rect>2,8,3,15</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../atlas/ui/star.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>38,36,76,72</rect>
+                <key>scale9Paddings</key>
+                <rect>38,36,76,72</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+        </map>
         <key>fileList</key>
-        <array/>
+        <array>
+            <filename>../atlas</filename>
+        </array>
         <key>ignoreFileList</key>
         <array/>
         <key>replaceList</key>

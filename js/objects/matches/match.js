@@ -1,80 +1,222 @@
-import {DisplayObject, FontAlign, FontStyle, FontWeight, GameObject, Graphics, MessageDispatcher, Sprite, TextField} from "black-engine";
+import { DisplayObject, Sprite } from "black-engine";
 import * as planck from 'planck-js';
+import { Vec2 } from "planck-js";
+import BodiesTypes from "../../physics/bodies-types";
 import PhysicsOption from "../../physics/physics-options";
+import Node from "./node";
+
+const PI = Math.PI;
 
 export default class Match extends DisplayObject {
-  constructor(physics) {
+  constructor(parent, physics) {
     super();
 
+    this._parent = parent;
     this._physics = physics;
+    this._mass = 0.2;
+    this._scale = 0.26;
 
     this._view = null;
     this._body = null;
+    this._shadowL = null;
+    this._shadowR = null;
 
-    this._pos = null;
+    this._bodyPos = null;
+    this._viewPos = null;
+    this._rot = null;
+
+    this._nodesPool = [];
 
     this._init();
   }
 
-  activate() {
+  createBody() {
     if(!this._body){
       this._initBody();
-      this._body.setPosition(this._pos);
+      this._centerViewAnchor();
     }
-    this._body.setActive(true);
+    // this._body.setActive(true);
   }
 
-  deactivate() {
-    this._body.setActive(false);
+  addNode(pos) {
+    const node = this._createNode();
+    const view = this._view;
+    const viewPos = Vec2(view.x, view.y);
+    const distance = Vec2.distance(viewPos, pos);
+    
+    const diffX = viewPos.x - pos.x;
+    const diffY = viewPos.y - pos.y;
+
+    const nodeVecRotation = Math.atan(-diffX/diffY) - (diffY < 0 ? Math.PI : 0);
+    const nodeDirection = Math.sin(nodeVecRotation) >= 0 ? -1 : 1;
+    const viewDirection = Math.sin(view.rotation) >= 0 ? -1 : 1;
+    const direction = nodeDirection * viewDirection;
+
+    this._nodesPool.push({
+      view: node,
+      distance: distance * direction,
+    });
+
+    node.animate();
+  }
+
+  getBody() {
+    return this._body;
+  }
+
+  getHeight() {
+    return this._height;
+  }
+
+  getBodyLine() {
+    const viewPos = new Vec2(this._view.x, this._view.y);
+    const s = PhysicsOption.worldScale;
+    
+    const p1 = new Vec2();
+    const p2 = new Vec2();
+    
+    const rot = this._view.rotation;
+    
+    const d1 = this._height * this._view.anchorY;
+    const d2 = this._height * (1 - this._view.anchorY);
+
+    p1.x = (viewPos.x + d1 * Math.sin(rot))/s;
+    p1.y = (viewPos.y - d1 * Math.cos(rot))/s;
+
+    p2.x = (viewPos.x - d2 * Math.sin(rot))/s;
+    p2.y = (viewPos.y + d2 * Math.cos(rot))/s;
+
+    return {
+      p1, 
+      p2,
+    }
+  }
+
+  setRotation(rotation) {
+    this._view.rotation = this._rot = rotation;
   }
 
   setPos(pos) {
-    pos.y -= this._view.height * 0.5;
-
     this._view.x = pos.x;
     this._view.y = pos.y;
+
+    this._viewPos = {...pos};
 
     const s = PhysicsOption.worldScale;
     pos.x /= s;
     pos.y /= s;
 
-    this._pos = pos;
+    this._bodyPos = {...pos};
     this._body?.setPosition(pos);
+  }
+
+  onUpdate() {
+    this._updateNodes();
+    this._updateShadows();
+  }
+
+  _updateNodes() {
+    const { _view: view, _nodesPool: nodesPool } = this;
+    const rot = view.rotation;
+
+    nodesPool.forEach(data => {
+      const nodeView = data.view;
+      const d = data.distance;
+
+      nodeView.x = (view.x + d * Math.sin(rot));
+      nodeView.y = (view.y - d * Math.cos(rot));
+
+      nodeView.rotation = rot;
+    })
+  }
+
+  _updateShadows() {
+    const { _shadowL: shadowL, _shadowR: shadowR, _view: view } = this;
+
+    shadowL.x = shadowR.x = view.x;
+    shadowL.y = shadowR.y = view.y;
+
+    const rot = view.rotation;
+    shadowL.rotation = shadowR.rotation = rot;
+
+    let alpha = (PI * 0.5 - rot)/PI;
+
+    if(alpha > 1) {
+      alpha = 2 - alpha;
+    }
+
+    const min = 0.35;
+    const max = 0.65;
+
+    shadowL.alpha = min + (1 - alpha) * (max - min);
+    shadowR.alpha = min + alpha * (max - min);
   }
 
   _init() {
     this._initView();
+    this._initShadows();
   }
 
   _initView() {
     const view = this._view = new Sprite('matches/match');
-    view.scale = 0.5;
+    view.scale = this._scale;
+
+    this._width = view.width;
+    this._height = view.height;
 
     this.add(view);
-    view.alignAnchor(0.5);
+    view.alignAnchor(0.5, 1);
+    view.rotation = this._rot = Math.PI * 0.5;
+  }
+
+  _initShadows() {
+    const shadowL = this._shadowL = new Sprite('matches/match_tint01');
+    const shadowR = this._shadowR = new Sprite('matches/match_tint00');
+    shadowL.scale = shadowR.scale = this._scale;
+
+    this.add(shadowL);
+    this.add(shadowR);
+    shadowL.alignAnchor(0.5, 1);
+    shadowR.alignAnchor(0.5, 1);
   }
 
   _initBody() {
-    const width = this._view.width;
-    const height = this._view.height;
+    const width = this._width;
+    const height = this._height;
     const s = PhysicsOption.worldScale;
-
+    
     const body = this._body = this._physics.world.createDynamicBody(planck.Vec2(0, 0));
     body.createFixture(planck.Box(width * 0.5/s, height * 0.5/s), {
       friction: 10,
       restitution: 0.2,
       density: 0.1,
+      filterCategoryBits: BodiesTypes.match,
+      filterMaskBits: BodiesTypes.ground,
     });
 
-    const mass = Math.random() * 0.4 + 0.3;
-    body.setGravityScale(mass);
-    body.view = this._view;
+    body.setGravityScale(this._mass);
+
     body.setUserData(this._view);
     body.setActive(false);
+  }
 
-    // const angle = Math.random()* 20;
-    // body.setAngle(angle);
+  _centerViewAnchor() {
+    this._view.alignAnchor(0.5);
+    this._shadowL.alignAnchor(0.5);
+    this._shadowR.alignAnchor(0.5);
 
-    // fixture.setSensor(true);
+    const d = this._height * 0.5;
+    this._viewPos.x += d * Math.sin(this._rot);
+    this._viewPos.y -= d * Math.cos(this._rot);
+    
+    this.setPos(this._viewPos)
+    this._body.setAngle(this._rot);
+  }
+
+  _createNode() {
+    const node = new Node(this._scale * 1.3);
+    this._parent.add(node)
+
+    return node;
   }
 }

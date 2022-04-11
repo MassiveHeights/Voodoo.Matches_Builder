@@ -1,0 +1,10 @@
+{
+  "smartUpdateKey":"$TexturePacker:SmartUpdate:dde6f1711de936ea36f18ffc706e484f:38bafb42be1b47862a26a158db4dcd1a:5b196330c4542ebe93f169987b13e01a$",
+  "format":"bta",
+  "v":"1.0",
+  "frames":{
+    "rocket_firework_circle":[1,1,114,114,0,0,114,114],
+    "rocket_firework_square":[117,1,17,248,0,0,17,248],
+    "rocket_firework_star":[1,117,43,41,0,0,43,41]
+  }
+}

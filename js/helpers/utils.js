@@ -1,8 +1,5 @@
-import { Device } from 'black-engine';
-import { Loader } from "../loader";
-
 export default class Utils {
-  static LP() {
-    
+  static LP(l, p) {
+    return window.innerWidth > window.innerHeight ? l : p;
   }
 }
