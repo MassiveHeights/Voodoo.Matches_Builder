@@ -20,7 +20,7 @@ export default class Node extends DisplayObject {
       view.visible = true;
       view.scale = 0;
 
-      const tween = new Tween({scaleX: this._scale, scaleY: this._scale}, 0.3, {
+      const tween = new Tween({scaleX: this._scale, scaleY: this._scale}, 0.2, {
         playOnAdded: true,
         ease: Ease.backOut,
       });
@@ -41,7 +41,7 @@ export default class Node extends DisplayObject {
     const textureAnim = Black.assets.getTextures('matches/node/fix_*');
     const animController = new AnimationController();
     const anim = this._anim = frames.addComponent(animController);
-    anim.add('anim', textureAnim, 150, false);
+    anim.add('anim', textureAnim, 200, false);
 
     frames.scale = this._scale;
   }

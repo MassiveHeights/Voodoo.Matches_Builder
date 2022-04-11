@@ -62,8 +62,8 @@ export default class Map extends DisplayObject {
       }, body1, body2, anchor);
       this._physics.world.createJoint(joint);
 
-      // body1.setActive(true);
-      // body2.setActive(true);
+      body1.setActive(true);
+      body2.setActive(true);
 
       const match = this._currentMatch;
       Delayed.call(0.1 * index, () => this._createNode(match, anchor));
