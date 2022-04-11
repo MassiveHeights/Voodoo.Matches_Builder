@@ -99,11 +99,11 @@ export default class Game extends BaseGame {
     //   Black.stage.add(this._tutorial);
     // }
 
-    // if (creativeWrapper.getParam('sounds') === true) {
-    //   let soundButton = new SoundButton();
-    //   Black.stage.addChild(soundButton);
-    //   this._soundManager.registerSoundButton(soundButton);
-    // }
+    if (creativeWrapper.getParam('sounds')) {
+      let soundButton = new SoundButton();
+      Black.stage.addChild(soundButton);
+      this._soundManager.registerSoundButton(soundButton);
+    }
   }
 
   _onPlayerInteraction(m, p) {

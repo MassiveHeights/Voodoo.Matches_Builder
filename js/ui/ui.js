@@ -31,7 +31,6 @@ export default class UI extends DisplayObject {
     this._initProgressBar();
     this._initAnnouncer();
     this._initRetryButton();
-    this._initBackButton();
     this._listenButtons();
   }
 
@@ -39,7 +38,7 @@ export default class UI extends DisplayObject {
     const progressBar = this._progressBar = new ProgressBar();
     this.add(progressBar);
 
-    // // TEMP
+    // TEMP
     // for (let i = 1; i < 16; ++i) {
     //   Delayed.call(i / 3, () => {
     //     progressBar.decrease();
@@ -51,7 +50,7 @@ export default class UI extends DisplayObject {
     const announcer = this._announcer = new Announcer();
     this.add(announcer);
 
-    // // TEMP
+    // TEMP
     // for (let i = 1; i < 16; ++i) {
     //   Delayed.call(i, () => {
     //     announcer.show(16 - i);
@@ -65,44 +64,28 @@ export default class UI extends DisplayObject {
     const retryButton = this._retryButton = new Sprite(Black.assets.getTexture(frame));
     retryButton.alignPivotOffset();
     retryButton.touchable = true;
+    retryButton.width = 65;
+    retryButton.scaleY = retryButton.scaleX;
 
     this.add(retryButton);
   }
 
-  _initBackButton() {
-    const frame = 'ui/button_BACK';
-
-    const backButton = this._backButton = new Sprite(Black.assets.getTexture(frame));
-    backButton.alignPivotOffset();
-    backButton.touchable = true;
-
-    this.add(backButton);
-  }
-
   _listenButtons() {
-    const { _retryButton, _backButton } = this;
+    const { _retryButton } = this;
 
     _retryButton.on('pointerDown', (msg, p) => this._onRetryButtonClick());
-    _backButton.on('pointerDown', (msg, p) => this._onBackButtonClick());
   }
 
   _onRetryButtonClick() {
     console.log('Retry Button Click');
   }
 
-  _onBackButtonClick() {
-    console.log('Back Button Click');
-  }
-
   onResize() {
-    const { _retryButton, _backButton } = this;
+    const { _retryButton } = this;
 
     const bounds = Black.stage.bounds;
 
     _retryButton.x = bounds.topRight.x - 70;
     _retryButton.y = bounds.topRight.y + 70;
-
-    _backButton.x = bounds.topLeft.x + 70;
-    _backButton.y = bounds.topLeft.y + 70;
   }
 }

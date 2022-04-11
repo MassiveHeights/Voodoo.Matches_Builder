@@ -150,7 +150,7 @@ export default class ProgressBar extends DisplayObject {
     const bounds = Black.stage.bounds;
 
     this.x = bounds.center().x;
-    this.y = bounds.top + 70;
+    this.y = bounds.top + 63;
 
     this._setMarkersPosition();
   }

@@ -7,11 +7,13 @@ export default class SoundButton extends DisplayObject {
 
     this.events = new MessageDispatcher();
 
-    this._textureOn = Black.assets.getTexture('textures/sound_on');
-    this._textureOff = Black.assets.getTexture('textures/sound_off');
+    this._textureOn = Black.assets.getTexture('ui/button_SOUND_on');
+    this._textureOff = Black.assets.getTexture('ui/button_SOUND_off');
 
     this._sprite = new Sprite(this._textureOn);
     this._sprite.alignPivotOffset();
+    this._sprite.width = 70;
+    this._sprite.scaleY = this._sprite.scaleX;
 
     this.addChild(this._sprite);
 
@@ -42,7 +44,7 @@ export default class SoundButton extends DisplayObject {
   }
 
   __onResize() {
-    this.x = this.stage.bounds.x + 60;
-    this.y = this.stage.bounds.y + 120;
+    this.x = this.stage.bounds.x + 70;
+    this.y = this.stage.bounds.top + 70;
   }
 }
