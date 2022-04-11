@@ -67,7 +67,7 @@ export default class Map extends DisplayObject {
     jointPoints.forEach((intersection, index) => {
       const { body1, body2, anchor } = intersection;
       const joint = WeldJoint({
-        frequencyHz: 4,
+        frequencyHz: 1,
         dampingRatio: 1,
         collideConnected: false,
       }, body1, body2, anchor);

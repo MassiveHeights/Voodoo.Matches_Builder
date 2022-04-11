@@ -13,7 +13,7 @@ export default class Match extends DisplayObject {
 
     this._parent = parent;
     this._physics = physics;
-    this._mass = 2;
+    this._mass = 0.2;
     this._scale = 0.26;
 
     this._view = null;
