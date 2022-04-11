@@ -29,6 +29,9 @@ export default class UI extends DisplayObject {
 
   decreaseProgressBar() {
     this._progressBar.decrease();
+
+    const value = this._progressBar.getValue();
+    this._announcer.show(value)
   }
 
   _init() {
@@ -72,6 +75,8 @@ export default class UI extends DisplayObject {
     retryButton.scaleY = retryButton.scaleX;
 
     this.add(retryButton);
+
+    retryButton.visible = false;
   }
 
   _listenButtons() {

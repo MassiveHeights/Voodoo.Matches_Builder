@@ -47,8 +47,7 @@ export default class Rocket extends DisplayObject {
 
     rocket.scale = this._scale;
     rocket.rotation = -Math.PI * 0.12;
-    console.log(rocket.mState)
-    rocket.mState.trackEntry(-1, 'anim', false)
+    rocket.play('static', false);
   }
 
   _initFirework() {

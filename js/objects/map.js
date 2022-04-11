@@ -23,6 +23,8 @@ export default class Map extends DisplayObject {
     
     this.touchable = true;
 
+    this._isFinished = false;
+
     this._init();
   }
 
@@ -31,9 +33,13 @@ export default class Map extends DisplayObject {
     this._initBonfire();
     this._initRocket();
     this._createDebugLevel();
+
+    this._createStartMatch();
   }
 
   onPointerDown() {
+    if(this._isFinished) return;
+
     if(this._currentMatch){
       this.onPointerUp();
     }
@@ -44,11 +50,15 @@ export default class Map extends DisplayObject {
   }
 
   onPointerMove() {
+    if(this._isFinished) return;
+
     this._calcRotation();
     this._checkDotsHelper();
   }
 
   onPointerUp() {
+    if(this._isFinished) return;
+
     this._setMatch();
     this._resetDotsHelper();
   }
@@ -57,8 +67,8 @@ export default class Map extends DisplayObject {
     jointPoints.forEach((intersection, index) => {
       const { body1, body2, anchor } = intersection;
       const joint = WeldJoint({
-        frequencyHz: 2.5,
-        dampingRatio: 0.7,
+        frequencyHz: 4,
+        dampingRatio: 1,
         collideConnected: false,
       }, body1, body2, anchor);
       this._physics.world.createJoint(joint);
@@ -118,14 +128,12 @@ export default class Map extends DisplayObject {
     const { x: x3, y: y3 } = p3;
     const { x: x4, y: y4 } = p4;
 
-    // Check if none of the lines are of length 0
     if ((x1 === x2 && y1 === y2) || (x3 === x4 && y3 === y4)) {
       return false
     }
   
     const denominator = ((y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1))
   
-    // Lines are parallel
     if (denominator === 0) {
       return false
     }
@@ -133,12 +141,10 @@ export default class Map extends DisplayObject {
     let ua = ((x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3)) / denominator
     let ub = ((x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3)) / denominator
   
-    // is the intersection along the segments
     if (ua < 0 || ua > 1 || ub < 0 || ub > 1) {
       return false
     }
   
-    // Return a object with the x and y coordinates of the intersection
     let x = x1 + ua * (x2 - x1)
     let y = y1 + ua * (y2 - y1)
   
@@ -168,7 +174,7 @@ export default class Map extends DisplayObject {
   }
 
   _initBonfire() {
-    const bonfire = new Bonfire();
+    const bonfire = this._bonfire = new Bonfire();
     this.add(bonfire);
 
     const bounds = Black.stage.bounds;
@@ -177,7 +183,7 @@ export default class Map extends DisplayObject {
   }
 
   _initRocket() {
-    const rocket = new Rocket();
+    const rocket = this._rocket = new Rocket();
     this.add(rocket);
 
     const bounds = Black.stage.bounds;
@@ -243,12 +249,16 @@ export default class Map extends DisplayObject {
       if(!isFirst){
         this._createJoints(jointPoints);
       }
+      this.events.post('addedMatch');
+
+      if(this._checkFinish()){
+        this._finish();
+      }
     }else{
       this._removeMatch(this._currentMatch);
     }
 
     this._currentMatch = null;
-    this.events.post('addedMatch');
   }
 
   _removeMatch(match) {
@@ -260,12 +270,60 @@ export default class Map extends DisplayObject {
   }
 
   _createDebugLevel() {
-    debugLevelData.forEach(data => {
-      const match = this._currentMatch = this._createMatch(new Vector(data.x, data.y));
-      match.setRotation(data.rotation);
-      match.createBody();
-      this.onPointerUp();
-    })
+    // debugLevelData.forEach(data => {
+    //   const match = this._currentMatch = this._createMatch(new Vector(data.x, data.y));
+    //   match.setRotation(data.rotation);
+    //   match.createBody();
+    //   this.onPointerUp();
+    // })
+  }
+
+  _createStartMatch() {
+    const match = this._currentMatch = this._createMatch(new Vector(220, 855));
+    match.setRotation(Math.PI * 0.5);
+    match.createBody();
+    this.onPointerUp();
+  }
+
+  _checkFinish() {
+    let minToBonfire = 0;
+    let minToRocket = 0;
+
+    const bonfirePos = Vec2(this._bonfire.x, this._bonfire.y);
+    const rocketPos = Vec2(this._rocket.x, this._rocket.y);
+
+    this._matchesPool.forEach((match, index) => {
+      const matchPos = match.getPosition();
+
+      if(index === 0) {
+        minToBonfire = this._calcDistance(matchPos, bonfirePos);
+        minToRocket = this._calcDistance(matchPos, rocketPos);
+      }
+
+      minToBonfire = Math.min(minToBonfire, this._calcDistance(matchPos, bonfirePos));
+      minToRocket = Math.min(minToRocket, this._calcDistance(matchPos, rocketPos));
+    });
+
+    const matchHeight = this._matchesPool[0].getHeight();
+
+    if(matchHeight * 0.5 > minToBonfire && matchHeight * 0.5 > minToRocket) {
+      this._isFinished = true;
+
+      return true;
+    }
+
+    return false;
+  }
+
+  _finish() {
+    this._rocket.launch();
+    this._matchesPool.forEach(match => match.burnTest());
+  }
+
+  _calcDistance(pos1, pos2) {
+    const distance = Vec2.distance(pos1, pos2);
+    
+    return distance;
   }
 }
 

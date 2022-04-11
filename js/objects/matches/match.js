@@ -1,4 +1,4 @@
-import { DisplayObject, Sprite } from "black-engine";
+import { Black, DisplayObject, Sprite } from "black-engine";
 import * as planck from 'planck-js';
 import { Vec2 } from "planck-js";
 import BodiesTypes from "../../physics/bodies-types";
@@ -13,7 +13,7 @@ export default class Match extends DisplayObject {
 
     this._parent = parent;
     this._physics = physics;
-    this._mass = 0.2;
+    this._mass = 2;
     this._scale = 0.26;
 
     this._view = null;
@@ -36,6 +36,12 @@ export default class Match extends DisplayObject {
       this._centerViewAnchor();
     }
     // this._body.setActive(true);
+  }
+
+  burnTest() {
+    this._view.texture = Black.assets.getTexture('matches/match_burned00');
+    this._shadowL.visible = false;
+    this._shadowR.visible = false;
   }
 
   addNode(pos) {
@@ -68,8 +74,13 @@ export default class Match extends DisplayObject {
     return this._height;
   }
 
-  getBodyLine() {
+  getPosition() {
     const viewPos = new Vec2(this._view.x, this._view.y);
+    return viewPos;
+  }
+
+  getBodyLine() {
+    const viewPos = this.getPosition();
     const s = PhysicsOption.worldScale;
     
     const p1 = new Vec2();
@@ -148,8 +159,8 @@ export default class Match extends DisplayObject {
     const min = 0.35;
     const max = 0.65;
 
-    shadowL.alpha = min + (1 - alpha) * (max - min);
-    shadowR.alpha = min + alpha * (max - min);
+    shadowR.alpha = min + (1 - alpha) * (max - min);
+    shadowL.alpha = min + alpha * (max - min);
   }
 
   _init() {
@@ -186,13 +197,15 @@ export default class Match extends DisplayObject {
     const s = PhysicsOption.worldScale;
     
     const body = this._body = this._physics.world.createDynamicBody(planck.Vec2(0, 0));
-    body.createFixture(planck.Box(width * 0.5/s, height * 0.5/s), {
-      friction: 10,
-      restitution: 0.2,
-      density: 0.1,
-      filterCategoryBits: BodiesTypes.match,
-      filterMaskBits: BodiesTypes.ground,
+    const fixture = body.createFixture(planck.Box(width * 0.5 * 0.75/s, height * 0.5 * 0.95/s), {
+      friction: 100,
+      // restitution: 0.2,
+      density: 0.001,
+      // filterCategoryBits: BodiesTypes.match,
+      // filterMaskBits: BodiesTypes.ground,
     });
+
+    console.log(fixture.getDensity())
 
     body.setGravityScale(this._mass);
 

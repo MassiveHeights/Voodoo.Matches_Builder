@@ -65,27 +65,28 @@ export default class Background extends DisplayObject {
 
   _initGroundBody() {
     const groundPoints1 = [
-      Vec2(-0.5, 0),
+      Vec2(-0.5, 0.1),
       Vec2(-0.5, -0.135),
       Vec2(-0.35, -0.13),
       Vec2(-0.145, -0.1),
-      Vec2(-0.13, 0),
+      Vec2(-0.13, -0.025),
+      Vec2(-0.13, 0.1),
     ];
 
     const groundPoints2 = [
-      Vec2(-0.13, 0),
+      Vec2(-0.13, 0.1),
       Vec2(-0.13, -0.025),
       Vec2(0.21, -0.027),
-      Vec2(0.21, 0),
+      Vec2(0.21, 0.1),
     ];
 
     const groundPoints3 = [
-      Vec2(0.21, 0),
+      Vec2(0.21, 0.1),
       Vec2(0.21, -0.027),
       Vec2(0.28, -0.09),
       Vec2(0.34, -0.12),
       Vec2(0.5, -0.134),
-      Vec2(0.5, 0),
+      Vec2(0.5, 0.1),
     ];
 
     const bounds = Black.stage.bounds;
@@ -102,11 +103,17 @@ export default class Background extends DisplayObject {
     const ground = this._physics.world.createBody(Vec2(0, 0));
 
     const ls = this._levelSize / this._s;
-    points.forEach(point => point.mul(ls));
+    points.forEach(point => {
+      point.mul(ls * 1.05);
+      point.y += 0.3;
+    });
 
     ground.createFixture(Polygon(points), {
-      filterCategoryBits: BodiesTypes.ground,
-      filterMaskBits: BodiesTypes.match,
+      // filterCategoryBits: BodiesTypes.ground,
+      // filterMaskBits: BodiesTypes.match,
+      // density: 100,
+      friction: 100,
+      // restitution: 0.2,
     });
 
     ground.setPosition(pos);
@@ -131,7 +138,7 @@ export default class Background extends DisplayObject {
       Vec2(-0.0574, -0.025),
     ];
 
-    points.forEach(point => point.mul(ls * this._platformData.scale));
+    points.forEach(point => point.mul(ls * this._platformData.scale * 0.93));
 
     const platform = this._physics.world.createBody(Vec2(0, 0));
     platform.createFixture(Polygon(points), {

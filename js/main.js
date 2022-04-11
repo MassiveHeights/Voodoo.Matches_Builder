@@ -23,7 +23,7 @@ if (!window.creativeWrapper) {
   window.creativeWrapper.init();
 
   //Will be ignored in production build
-  showFPSMeter();
+  // showFPSMeter();
 }
 
 function showFPSMeter() {

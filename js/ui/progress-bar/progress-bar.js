@@ -9,15 +9,16 @@ import {
   FontWeight,
   FontAlign,
 } from "black-engine";
+import GAME_CONFIG from "../../states/game-config";
 import Stars from "./stars";
 
 export default class ProgressBar extends DisplayObject {
   constructor() {
     super();
 
-    this._startMatchesValue = 15;
-    this._yellowMarkerValue = 10;
-    this._redMarkerValue = 5;
+    this._startMatchesValue = GAME_CONFIG.startMatchesValue;
+    this._yellowMarkerValue = GAME_CONFIG.yellowMarkerValue;
+    this._redMarkerValue = GAME_CONFIG.redMarkerValue;
 
     this.touchable = false;
     
@@ -25,6 +26,10 @@ export default class ProgressBar extends DisplayObject {
     this._progress = null;
     this._bar = null;
     this._stars = null;
+  }
+
+  getValue() {
+    return this._currentMatchesValue;
   }
 
   onAdded() {
@@ -40,6 +45,10 @@ export default class ProgressBar extends DisplayObject {
   }
 
   decrease() {
+    if(this._currentMatchesValue === 0){
+      return;
+    }
+    
     this._currentMatchesValue -= 1;
 
     this._updateProgress();
