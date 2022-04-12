@@ -195,7 +195,7 @@ export default class Match extends DisplayObject {
     const width = this._width;
     const height = this._height;
     const s = PhysicsOption.worldScale;
-    
+  
     const body = this._body = this._physics.world.createDynamicBody(planck.Vec2(0, 0));
     const fixture = body.createFixture(planck.Box(width * 0.5 * 0.75/s, height * 0.5 * 0.95/s), {
       friction: 100,
@@ -205,10 +205,7 @@ export default class Match extends DisplayObject {
       // filterMaskBits: BodiesTypes.ground,
     });
 
-    console.log(fixture.getDensity())
-
     body.setGravityScale(this._mass);
-
     body.setUserData(this._view);
     body.setActive(false);
   }

@@ -38,10 +38,10 @@ export default class GameScene extends GameObject {
 
   _init() {
     this._initPhysics();
-    this._initOverlay()
-
+    
     this._initBg();
     this._initMap();
+    this._initOverlay();
 
     this.add(this._debugger);
 

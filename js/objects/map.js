@@ -22,9 +22,8 @@ export default class Map extends DisplayObject {
     this._dotsHelper = null;
     
     this.touchable = true;
-
     this._isFinished = false;
-
+    this._state = STATES.disable;
     this._init();
   }
 
@@ -33,31 +32,32 @@ export default class Map extends DisplayObject {
     this._initBonfire();
     this._initRocket();
     this._createDebugLevel();
-
     this._createStartMatch();
   }
 
   onPointerDown() {
-    if(this._isFinished) return;
-
+    this._startPointer = this.globalToLocal(Black.input.pointerPosition);
+    this._enableMatch = this._startPointer.y < this._getGroundY();
+    
+    if(this._isFinished || !this._enableMatch) return;
+    
     if(this._currentMatch){
       this.onPointerUp();
     }
-    this._startPointer = this.globalToLocal(Black.input.pointerPosition);
-    this._currentMatch = this._createMatch(this._startPointer);
 
+    this._currentMatch = this._createMatch(this._startPointer);
     this._checkDotsHelper();
   }
 
   onPointerMove() {
-    if(this._isFinished) return;
+    if(this._isFinished || !this._enableMatch) return;
 
     this._calcRotation();
     this._checkDotsHelper();
   }
 
   onPointerUp() {
-    if(this._isFinished) return;
+    if(this._isFinished || !this._enableMatch) return;
 
     this._setMatch();
     this._resetDotsHelper();
@@ -67,7 +67,7 @@ export default class Map extends DisplayObject {
     jointPoints.forEach((intersection, index) => {
       const { body1, body2, anchor } = intersection;
       const joint = WeldJoint({
-        frequencyHz: 1,
+        frequencyHz: 4,
         dampingRatio: 1,
         collideConnected: false,
       }, body1, body2, anchor);
@@ -92,9 +92,7 @@ export default class Map extends DisplayObject {
     this._matchesPool.forEach(match => {
       if(currentMatch !== match){
         const intersection = this._getIntersection(currentMatch, match);
-        if(intersection) {
-          jointPoints.push(intersection)
-        }
+        if(intersection) jointPoints.push(intersection);
       }
     });
 
@@ -132,21 +130,21 @@ export default class Map extends DisplayObject {
       return false
     }
   
-    const denominator = ((y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1))
+    const denominator = ((y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1));
   
     if (denominator === 0) {
       return false
     }
   
-    let ua = ((x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3)) / denominator
-    let ub = ((x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3)) / denominator
+    let ua = ((x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3)) / denominator;
+    let ub = ((x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3)) / denominator;
   
     if (ua < 0 || ua > 1 || ub < 0 || ub > 1) {
       return false
     }
   
-    let x = x1 + ua * (x2 - x1)
-    let y = y1 + ua * (y2 - y1)
+    let x = x1 + ua * (x2 - x1);
+    let y = y1 + ua * (y2 - y1);
   
     return {x, y}
   }
@@ -162,13 +160,8 @@ export default class Map extends DisplayObject {
 
   _setDotsHelper(intersections) {
     const dotsHelper = this._dotsHelper;
-
     const points = [];
-
-    intersections.forEach(data => {
-      points.push(data.anchor)
-    });
-
+    intersections.forEach(data => points.push(data.anchor));
     dotsHelper.set(points);
     this.setChildIndex(dotsHelper, 999);
   }
@@ -213,10 +206,30 @@ export default class Map extends DisplayObject {
     }
 
     const length = Vec2.distance(p1, p2);
+    const isNearGround = this._getGroundY() - p1.y < this._currentMatch.getHeight();
+
+    if(isNearGround){
+      rotation = this._fixAngle(rotation)
+    }
 
     if(length > 10){
       this._currentMatch.setRotation(rotation);
     }
+  }
+
+  _fixAngle(rotation) {
+    const isLeft = Math.sin(rotation) < 0;
+    const l = this._currentMatch.getHeight();
+    const p = this._startPointer;
+    const endY = p.y - l * Math.cos(rotation);
+    if(endY > this._getGroundY()){
+      rotation = Math.acos((p.y - this._getGroundY())/l);
+      if(isLeft){
+        rotation = -rotation;
+      }
+    }
+
+    return rotation;
   }
 
   _createMatch(pointer) {
@@ -236,9 +249,8 @@ export default class Map extends DisplayObject {
     return match;
   }
 
-  _setMatch() {
+  _setMatch(currentMatch = this._currentMatch) {
     const isFirst = this._matchesPool.length === 0;
-    const currentMatch = this._currentMatch;
     currentMatch.createBody();
 
     const jointPoints = this._getJointPoints(currentMatch);
@@ -279,10 +291,16 @@ export default class Map extends DisplayObject {
   }
 
   _createStartMatch() {
-    const match = this._currentMatch = this._createMatch(new Vector(220, 855));
+    const bounds = Black.stage.bounds;
+    const x = bounds.center().x - this._levelSize * 0.1;
+    const match = this._createMatch(new Vector(x, this._getGroundY()));
     match.setRotation(Math.PI * 0.5);
-    match.createBody();
-    this.onPointerUp();
+    this._setMatch(match);
+  }
+
+  _getGroundY() {
+    const bounds = Black.stage.bounds;
+    return bounds.center().y + this._levelSize * 0.38;
   }
 
   _checkFinish() {
@@ -325,6 +343,12 @@ export default class Map extends DisplayObject {
     
     return distance;
   }
+}
+
+const STATES = {
+  enable: 'enable',
+  disable: 'disable',
+  finished: 'finished',
 }
 
 const debugLevelData = [

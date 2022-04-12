@@ -30,7 +30,7 @@ export default class Overlay extends DisplayObject {
     const view = this._view = new Sprite('textures/overlay');
     this.add(view);
 
-    view.alpha = 0.2;
+    view.alpha = 0;
     view.touchable = true;
   }
 
@@ -59,6 +59,6 @@ export default class Overlay extends DisplayObject {
     this._view.y = bounds.top;
 
     this._view.width = bounds.width;
-    this._view.height = bounds.height;
+    this._view.height = bounds.height * 2;
   }
 }
