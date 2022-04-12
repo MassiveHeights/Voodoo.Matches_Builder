@@ -40,15 +40,22 @@ export default class ProgressBar extends DisplayObject {
     this._initStars();
     this._initLevelText();
 
-    this._resize = Black.stage.on("resize", () => this.onResize());
+    Black.stage.on("resize", () => this.onResize());
     this.onResize();
+  }
+
+  restore() {
+    this._currentMatchesValue = this._startMatchesValue;
+
+    this._updateProgress();
+    this._stars.showAll();
   }
 
   decrease() {
     if(this._currentMatchesValue === 0){
       return;
     }
-    
+
     this._currentMatchesValue -= 1;
 
     this._updateProgress();
@@ -143,7 +150,7 @@ export default class ProgressBar extends DisplayObject {
   _updateProgress() {
     const { _bar, _startMatchesValue, _progress } = this;
 
-    _progress.x -= _bar.width / _startMatchesValue;
+    _progress.x = -_bar.width * 0.5 - (_bar.width * (_startMatchesValue - this._currentMatchesValue) / _startMatchesValue);
     _bar.clipRect = _progress;
   }
 

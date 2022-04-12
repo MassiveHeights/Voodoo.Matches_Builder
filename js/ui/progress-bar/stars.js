@@ -24,6 +24,11 @@ export default class Stars extends DisplayObject {
     // this.onResize();
   }
 
+  showAll() {
+    this._stars.forEach(star => star.visible = true);
+    this._currentStar = 0;
+  }
+
   hideStar() {
     const _stars = this._stars;
 

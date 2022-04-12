@@ -26,6 +26,7 @@ export default class GameScene extends GameObject {
 
   start() {
     this.touchable = true;
+    this._map.start();
   }
 
   pause() {

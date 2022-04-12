@@ -17,29 +17,43 @@ export default class Map extends DisplayObject {
     this._s = PhysicsOption.worldScale;
 
     this._matchesPool = [];
+    this._matchesWrapper = null;
     this._currentMatch = null;
     this._startPointer = null;
     this._dotsHelper = null;
 
     this.touchable = true;
-    this._isFinished = false;
+    this._isPlaying = false;
+
     this._state = STATES.disable;
     this._init();
   }
 
+  start() {
+    this._isPlaying = true;
+    this._matchesPool.forEach(match => {
+      match.removeBody();
+    });
+    this._matchesPool = [];
+    this._matchesWrapper.removeAllChildren();
+    this._createStartMatch();
+  }
+
   _init() {
+    this._matchesWrapper = new DisplayObject();
+    this.add(this._matchesWrapper);
+
     this._initDotsHelper();
     this._initBonfire();
     this._initRocket();
     this._createDebugLevel();
-    this._createStartMatch();
   }
 
   onPointerDown() {
     this._startPointer = this.globalToLocal(Black.input.pointerPosition);
     this._enableMatch = this._startPointer.y < this._getGroundY() + 10;
     
-    if(this._isFinished || !this._enableMatch) return;
+    if(!this._isPlaying || !this._enableMatch) return;
     
     if(this._currentMatch){
       this.onPointerUp();
@@ -50,14 +64,14 @@ export default class Map extends DisplayObject {
   }
 
   onPointerMove() {
-    if(this._isFinished || !this._enableMatch) return;
+    if(!this._isPlaying || !this._enableMatch) return;
 
     this._calcRotation();
     this._checkDotsHelper();
   }
 
   onPointerUp() {
-    if(this._isFinished || !this._enableMatch) return;
+    if(!this._isPlaying || !this._enableMatch) return;
 
     this._setMatch();
     this._resetDotsHelper();
@@ -225,7 +239,7 @@ export default class Map extends DisplayObject {
     const p = this._startPointer;
     const endY = p.y - l * Math.cos(rotation);
     const groundY = this._getGroundY();
-    
+
     if(endY > groundY){
       rotation = Math.acos((p.y - groundY)/l);
       if(isLeft){
@@ -237,7 +251,7 @@ export default class Map extends DisplayObject {
   }
 
   _createMatch(pointer) {
-    const match = new Match(this, this._physics);
+    const match = new Match(this._matchesWrapper, this._physics);
     match.visible = false;
 
     const x = pointer.x;
@@ -246,7 +260,7 @@ export default class Map extends DisplayObject {
     const pos = Vec2(x, y);
     match.setPos(pos);
 
-    this.add(match);
+    this._matchesWrapper.add(match);
 
     Black._soundManager.playFx('new_match');
 
@@ -255,7 +269,7 @@ export default class Map extends DisplayObject {
     return match;
   }
 
-  _setMatch(currentMatch = this._currentMatch) {
+  _setMatch(currentMatch = this._currentMatch, isAutoSet = false) {
     const isFirst = this._matchesPool.length === 0;
     currentMatch.createBody();
     const jointPoints = this._getJointPoints(currentMatch);
@@ -267,7 +281,10 @@ export default class Map extends DisplayObject {
         Black._soundManager.playFx('match_fixed_2');
         this._createJoints(jointPoints);
       }
-      this.events.post('addedMatch');
+
+      if(!isAutoSet) {
+        this.events.post('addedMatch');
+      }
 
       if (this._checkFinish()) {
         this._finish();
@@ -301,7 +318,7 @@ export default class Map extends DisplayObject {
     const x = bounds.center().x - this._levelSize * 0.1;
     const match = this._createMatch(new Vector(x, this._getGroundY()));
     match.setRotation(Math.PI * 0.5);
-    this._setMatch(match);
+    this._setMatch(match, true);
   }
 
   _getGroundY() {
@@ -331,7 +348,7 @@ export default class Map extends DisplayObject {
     const matchHeight = this._matchesPool[0].getHeight();
 
     if (matchHeight * 0.5 > minToBonfire && matchHeight * 0.5 > minToRocket) {
-      this._isFinished = true;
+      this._isPlaying = false;
 
       return true;
     }

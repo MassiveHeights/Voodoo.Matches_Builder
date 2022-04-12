@@ -1,4 +1,4 @@
-import { Black, DisplayObject, Sprite } from "black-engine";
+import { Black, DisplayObject, MessageDispatcher, Sprite } from "black-engine";
 import Delayed from "../kernel/delayed-call";
 import Announcer from "./announcer";
 import ProgressBar from "./progress-bar/progress-bar";
@@ -8,7 +8,7 @@ export default class UI extends DisplayObject {
   constructor(renderer, camera) {
     super();
 
-    this._resize = null;
+    this.events = new MessageDispatcher(false);
 
     this._camera = camera;
     this._renderer = renderer;
@@ -19,12 +19,16 @@ export default class UI extends DisplayObject {
     this.touchable = true;
   }
 
+  start() {
+    this._progressBar.restore();
+  }
+
   onAdded() {
     super.onAdded();
 
     this._init();
 
-    this._resize = Black.stage.on("resize", () => this.onResize());
+    Black.stage.on("resize", () => this.onResize());
     this.onResize();
   }
 
@@ -46,13 +50,6 @@ export default class UI extends DisplayObject {
   _initProgressBar() {
     const progressBar = this._progressBar = new ProgressBar();
     this.add(progressBar);
-
-    // TEMP
-    // for (let i = 1; i < 16; ++i) {
-    //   Delayed.call(i / 3, () => {
-    //     progressBar.decrease();
-    //   });
-    // }
   }
 
   _initTutorial() {
@@ -63,13 +60,6 @@ export default class UI extends DisplayObject {
   _initAnnouncer() {
     const announcer = this._announcer = new Announcer();
     this.add(announcer);
-
-    // TEMP
-    // for (let i = 1; i < 16; ++i) {
-    //   Delayed.call(i, () => {
-    //     announcer.show(16 - i);
-    //   });
-    // }
   }
 
   _initRetryButton() {
@@ -85,13 +75,11 @@ export default class UI extends DisplayObject {
   }
 
   _listenButtons() {
-    const { _retryButton } = this;
-
-    _retryButton.on('pointerDown', (msg, p) => this._onRetryButtonClick());
+    this._retryButton.on('pointerDown', () => this._onRetryButtonClick());
   }
 
   _onRetryButtonClick() {
-    console.log('Retry Button Click');
+    this.events.post('retryClick');
   }
 
   onResize() {

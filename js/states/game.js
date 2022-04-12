@@ -25,6 +25,12 @@ export default class Game extends BaseGame {
     this._initEvents();
   }
 
+  retry() {
+    // this._restartGame();
+    this._ui.start();
+    this._gameScene.start();
+  }
+
   victory() {
     Black._soundManager.playFx('cta_win');
 
@@ -116,6 +122,7 @@ export default class Game extends BaseGame {
 
   _initController() {
     const data = {
+      game: this,
       ui: this._ui,
       scene: this._gameScene,
     };

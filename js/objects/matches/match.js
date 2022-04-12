@@ -38,6 +38,12 @@ export default class Match extends DisplayObject {
     // this._body.setActive(true);
   }
 
+  removeBody() {
+    if(this._body){
+      this._physics.world.destroyBody(this._body);
+    }
+  }
+
   burnTest() {
     this._view.texture = Black.assets.getTexture('matches/match_burned00');
     this._shadowL.visible = false;
