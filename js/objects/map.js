@@ -377,7 +377,7 @@ export default class Map extends DisplayObject {
 
   _createStartMatch() {
     const bounds = Black.stage.bounds;
-    const x = bounds.center().x - this._levelSize * 0.1;
+    const x = bounds.center().x - this._levelSize * 0.05;
     const match = this._createMatch(new Vector(x, this._getGroundY()));
     match.setRotation(Math.PI * 0.5);
     this._setMatch(match, true);
@@ -420,7 +420,7 @@ export default class Map extends DisplayObject {
 
   _finish() {
     this._rocket.launch();
-    this._matchesPool.forEach(match => match.burnTest());
+    // this._matchesPool.forEach(match => match.burnTest());
   }
 
   _calcDistance(pos1, pos2) {
