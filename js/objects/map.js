@@ -1,5 +1,5 @@
-import { Black, DisplayObject, MessageDispatcher, Sprite, Vector } from "black-engine";
-import { Vec2, WeldJoint } from "planck-js";
+import {Black, DisplayObject, MessageDispatcher, Sprite, Vector} from "black-engine";
+import {Vec2, WeldJoint} from "planck-js";
 import Delayed from "../kernel/delayed-call";
 import PhysicsOption from "../physics/physics-options";
 import Bonfire from "./map-items/bonfire";
@@ -22,6 +22,11 @@ export default class Map extends DisplayObject {
     this._startPointer = null;
     this._dotsHelper = null;
 
+    this._disableInput = false;
+
+    this._fireLayer = null;
+    this._bonFireLayer = null;
+
     this.touchable = true;
     this._isPlaying = false;
 
@@ -41,21 +46,29 @@ export default class Map extends DisplayObject {
 
   _init() {
     this._matchesWrapper = new DisplayObject();
-    this.add(this._matchesWrapper);
+    this._fireLayer = new DisplayObject();
+    this._bonFireLayer = new DisplayObject();
 
     this._initDotsHelper();
     this._initBonfire();
     this._initRocket();
     this._createDebugLevel();
+    this._checkCollisions();
+
+    this.add(this._matchesWrapper);
+    this.add(this._fireLayer);
+    this.add(this._bonFireLayer);
   }
 
   onPointerDown() {
+    if (this._disableInput) return;
+
     this._startPointer = this.globalToLocal(Black.input.pointerPosition);
     this._enableMatch = this._startPointer.y < this._getGroundY() + 10;
-    
-    if(!this._isPlaying || !this._enableMatch) return;
-    
-    if(this._currentMatch){
+
+    if (!this._isPlaying || !this._enableMatch) return;
+
+    if (this._currentMatch) {
       this.onPointerUp();
     }
 
@@ -64,14 +77,18 @@ export default class Map extends DisplayObject {
   }
 
   onPointerMove() {
-    if(!this._isPlaying || !this._enableMatch) return;
+    if (this._disableInput) return;
+
+    if (!this._isPlaying || !this._enableMatch) return;
 
     this._calcRotation();
     this._checkDotsHelper();
   }
 
   onPointerUp() {
-    if(!this._isPlaying || !this._enableMatch) return;
+    if (this._disableInput) return;
+
+    if (!this._isPlaying || !this._enableMatch) return;
 
     this._setMatch();
     this._resetDotsHelper();
@@ -79,7 +96,7 @@ export default class Map extends DisplayObject {
 
   _createJoints(jointPoints) {
     jointPoints.forEach((intersection, index) => {
-      const { body1, body2, anchor } = intersection;
+      const {body1, body2, anchor} = intersection;
       const joint = WeldJoint({
         frequencyHz: 4,
         dampingRatio: 1,
@@ -107,7 +124,7 @@ export default class Map extends DisplayObject {
       if (currentMatch !== match) {
         const intersection = this._getIntersection(currentMatch, match);
         if (intersection) {
-          jointPoints.push(intersection)
+          jointPoints.push(intersection);
         }
       }
     });
@@ -119,7 +136,7 @@ export default class Map extends DisplayObject {
     const intersect = this._intersect(match1, match2);
 
     if (!intersect) {
-      return null
+      return null;
     }
 
     const point = Vec2(intersect.x, intersect.y);
@@ -134,35 +151,73 @@ export default class Map extends DisplayObject {
   }
 
   _intersect(match1, match2) {
-    const { p1, p2 } = match1.getBodyLine();
-    const { p1: p3, p2: p4 } = match2.getBodyLine();
+    const {p1, p2} = match1.getBodyLine();
+    const {p1: p3, p2: p4} = match2.getBodyLine();
 
-    const { x: x1, y: y1 } = p1;
-    const { x: x2, y: y2 } = p2;
-    const { x: x3, y: y3 } = p3;
-    const { x: x4, y: y4 } = p4;
+    const {x: x1, y: y1} = p1;
+    const {x: x2, y: y2} = p2;
+    const {x: x3, y: y3} = p3;
+    const {x: x4, y: y4} = p4;
 
     if ((x1 === x2 && y1 === y2) || (x3 === x4 && y3 === y4)) {
-      return false
+      return false;
     }
-  
+
     const denominator = ((y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1));
-  
+
     if (denominator === 0) {
-      return false
+      return false;
     }
-  
+
     let ua = ((x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3)) / denominator;
     let ub = ((x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3)) / denominator;
-  
+
     if (ua < 0 || ua > 1 || ub < 0 || ub > 1) {
-      return false
+      return false;
     }
-  
+
     let x = x1 + ua * (x2 - x1);
     let y = y1 + ua * (y2 - y1);
-  
-    return {x, y}
+
+    return {x, y};
+  }
+
+  _checkCollisions() {
+    this._physics.world.on('pre-solve', (contact, oldManifold) => {
+      var fixtureA = contact.getFixtureA();
+      var fixtureB = contact.getFixtureB();
+
+      if (fixtureA.getBody().getUserData()) {
+
+        if (fixtureA.getBody().getUserData().id === 'bonfire') {
+
+          if (fixtureB.getBody().getUserData().userData && fixtureB.getBody().getUserData().userData.id === 'match') {
+            if (!fixtureB.getBody().getUserData().userData.object._burning) {
+              let worldManifold = contact.getWorldManifold();
+              this._disableInput = true;
+              fixtureB.getBody().getUserData().userData.object.startBurn(worldManifold.points[0].x, worldManifold.points[0].y);
+            }
+          }
+          contact.setEnabled(false);
+        }
+
+        if (fixtureB.getBody().getUserData().id === 'fire') {
+          if (fixtureA.getBody().getUserData().userData && fixtureA.getBody().getUserData().userData.id === 'match') {
+            if (!fixtureA.getBody().getUserData().userData.object._burning) {
+              let worldManifold = contact.getWorldManifold();
+              this._disableInput = true;
+              fixtureA.getBody().getUserData().userData.object.startBurn(worldManifold.points[0].x, worldManifold.points[0].y);
+            }
+
+          }
+          contact.setEnabled(false);
+        }
+
+        if (fixtureB.getBody().getUserData().id === 'fire' || fixtureA.getBody().getUserData().id === 'fire') {
+          contact.setEnabled(false);
+        }
+      }
+    });
   }
 
   _initDotsHelper() {
@@ -183,7 +238,7 @@ export default class Map extends DisplayObject {
   }
 
   _initBonfire() {
-    const bonfire = this._bonfire = new Bonfire();
+    const bonfire = this._bonfire = new Bonfire(this._physics);
     this.add(bonfire);
 
     const bounds = Black.stage.bounds;
@@ -224,8 +279,8 @@ export default class Map extends DisplayObject {
     const length = Vec2.distance(p1, p2);
     const isNearGround = this._getGroundY() - p1.y < this._currentMatch.getHeight();
 
-    if(isNearGround){
-      rotation = this._fixAngle(rotation)
+    if (isNearGround) {
+      rotation = this._fixAngle(rotation);
     }
 
     if (length > 10) {
@@ -240,9 +295,9 @@ export default class Map extends DisplayObject {
     const endY = p.y - l * Math.cos(rotation);
     const groundY = this._getGroundY();
 
-    if(endY > groundY){
-      rotation = Math.acos((p.y - groundY)/l);
-      if(isLeft){
+    if (endY > groundY) {
+      rotation = Math.acos((p.y - groundY) / l);
+      if (isLeft) {
         rotation = -rotation;
       }
     }
@@ -251,7 +306,7 @@ export default class Map extends DisplayObject {
   }
 
   _createMatch(pointer) {
-    const match = new Match(this._matchesWrapper, this._physics);
+    const match = new Match(this._matchesWrapper, this._physics, this._fireLayer);
     match.visible = false;
 
     const x = pointer.x;
@@ -366,7 +421,7 @@ const STATES = {
   enable: 'enable',
   disable: 'disable',
   finished: 'finished',
-}
+};
 
 const debugLevelData = [
   {
