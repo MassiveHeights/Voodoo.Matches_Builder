@@ -2,6 +2,7 @@ import { Black, DisplayObject, Sprite } from "black-engine";
 import Delayed from "../kernel/delayed-call";
 import Announcer from "./announcer";
 import ProgressBar from "./progress-bar/progress-bar";
+import Tutorial from "./tutorial";
 
 export default class UI extends DisplayObject {
   constructor(renderer, camera) {
@@ -38,6 +39,7 @@ export default class UI extends DisplayObject {
     this._initProgressBar();
     this._initAnnouncer();
     this._initRetryButton();
+    this._initTutorial();
     this._listenButtons();
   }
 
@@ -51,6 +53,11 @@ export default class UI extends DisplayObject {
     //     progressBar.decrease();
     //   });
     // }
+  }
+
+  _initTutorial() {
+    const tutorial = this._tutorial = new Tutorial();
+    this.add(tutorial);
   }
 
   _initAnnouncer() {
@@ -75,8 +82,6 @@ export default class UI extends DisplayObject {
     retryButton.scaleY = retryButton.scaleX;
 
     this.add(retryButton);
-
-    retryButton.visible = false;
   }
 
   _listenButtons() {

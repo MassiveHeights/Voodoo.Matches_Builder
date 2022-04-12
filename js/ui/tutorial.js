@@ -15,7 +15,10 @@ export default class Tutorial extends DisplayObject {
   constructor() {
     super();
 
-    this._resize = null;
+    this._bg = null;
+    this._txt = null;
+
+    this.visible = false;
 
     this._init();
   }
@@ -23,43 +26,48 @@ export default class Tutorial extends DisplayObject {
   onAdded() {
     super.onAdded();
 
-    this._resize = Black.stage.on('resize', () => this._onResize());
+    Black.stage.on('resize', () => this._onResize());
     this._onResize();
 
-    this.__initTween();
-    this._tween.play();
+    this.show();
   }
 
-  onRemoved() {
-    this._resize.off();
+  show() {
+    this.removeAllComponents();
+    this.visible = true;
+    this.scale = 0;
+
+    const tween = new Tween({scale: 1.2}, 0.35, {
+      delay: 0.2,
+      playOnAdded: true,
+      ease: Ease.backOut
+    });
+
+    tween.once('complete', () => {
+      // setTimeout(() => {
+      //   this.hide()
+      // }, 2000)
+    });
+
+    this.addComponent(tween);
   }
 
-  __initTween() {
-    this._hand.removeAllComponents();
+  hide() {
+    const tween = new Tween({scale: 0}, 0.3, {
+      playOnAdded: true,
+      ease: Ease.backIn
+    });
 
-    let t1 = new Tween({scaleX: 1.2, scaleY: 1.2}, 1, {delay: 0.2, playOnAdded: true, ease: Ease.sinusoidalInOut });
-    t1.loop = true;
-    t1.yoyo = true;
+    tween.once('complete', () => {
+      this.visible = false;
+    });
 
-    this._hand.addComponent(t1);
-
-    this._tween = t1;
+    this.addComponent(tween);
   }
 
   _init() {
-    this._hand = new Sprite('textures/icon_hand');
-    this._hand.pivotOffsetX = 13;
-    this._hand.pivotOffsetY = 0;
-
-    this.addChild(this._hand);
-
-    this._txt = new TextField(localization.get('TUTORIAL_TEXT'), 'Baloo', 0xffffff, 56, FontStyle.NORMAL, FontWeight.NORMAL, 8, 0x000000);
-    this._txt.align = FontAlign.CENTER;
-    this._txt.multiline = true;
-    this._txt.lineHeight = 0.95;
-    this._txt.alignPivotOffset();
-
-    this.addChild(this._txt);
+    this._initBg();
+    this._initText();
 
     this._tween = null;
 
@@ -70,38 +78,43 @@ export default class Tutorial extends DisplayObject {
     this.addComponent(this._timer);
   }
 
-  _onResize() {
-    this._hand.x = this.stage.centerX - 30;
-    this._hand.y = this.stage.centerY;
+  _initBg() {
+    const bg = this._bg = new Sprite('ui/frame_tutorial');
+    bg.alignPivotOffset(0.485, 0.5);
+    bg.scaleX = 1.2;
+    this.add(bg);
+  }
 
-    this._txt.x = this.stage.centerX;
-    this._txt.y = this.stage.bounds.height + this.stage.bounds.y - 180;
+  _initText() {
+    const text = this._txt = new TextField(
+      localization.get('TUTORIAL_TEXT'),
+      'Baloo',
+      0xffffff,
+      56,
+      FontStyle.NORMAL,
+      FontWeight.NORMAL,
+      8,
+      0x6a6666
+    );
+
+    text.align = FontAlign.CENTER;
+    text.multiline = true;
+    text.lineHeight = 1.2;
+    text.alignPivotOffset();
+
+    this.addChild(text);
+  }
+
+  _onResize() {
+    this.x = this.stage.centerX;
+    this.y = this.stage.bounds.height + this.stage.bounds.y - 180;
+
+    this._txt.width = this._bg.width * 0.8;
+    this._txt.scaleY = this._txt.scaleX;
   }
 
   _onRestart() {
     this._onResize();
-    this.__initTween();
-    this._tween.play();
     this.visible = true;
-  }
-
-  onTap() {
-    this.visible = false;
-    this._resetTimer();
-  }
-
-  _resetTimer() {
-    this._timer.reset();
-
-    if (this._timer.isRunning === false)
-      this._timer.start();
-  }
-
-  setEnabled(value) {
-    this.visible = value;
-    if (!value)
-      this._timer.pause();
-    else
-      this._timer.start();
   }
 }

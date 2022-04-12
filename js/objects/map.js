@@ -37,7 +37,7 @@ export default class Map extends DisplayObject {
 
   onPointerDown() {
     this._startPointer = this.globalToLocal(Black.input.pointerPosition);
-    this._enableMatch = this._startPointer.y < this._getGroundY();
+    this._enableMatch = this._startPointer.y < this._getGroundY() + 10;
     
     if(this._isFinished || !this._enableMatch) return;
     
@@ -102,7 +102,7 @@ export default class Map extends DisplayObject {
   }
 
   _getIntersection(match1, match2) {
-    const intersect = this.intersect(match1, match2);
+    const intersect = this._intersect(match1, match2);
 
     if (!intersect) {
       return null
@@ -119,7 +119,7 @@ export default class Map extends DisplayObject {
     return intersection;
   }
 
-  intersect(match1, match2) {
+  _intersect(match1, match2) {
     const { p1, p2 } = match1.getBodyLine();
     const { p1: p3, p2: p4 } = match2.getBodyLine();
 
@@ -224,8 +224,10 @@ export default class Map extends DisplayObject {
     const l = this._currentMatch.getHeight();
     const p = this._startPointer;
     const endY = p.y - l * Math.cos(rotation);
-    if(endY > this._getGroundY()){
-      rotation = Math.acos((p.y - this._getGroundY())/l);
+    const groundY = this._getGroundY();
+    
+    if(endY > groundY){
+      rotation = Math.acos((p.y - groundY)/l);
       if(isLeft){
         rotation = -rotation;
       }

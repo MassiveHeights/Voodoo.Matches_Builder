@@ -10,7 +10,7 @@ export const stringsDataStr = `
     "br": "Jogue agora"
   },
   "TUTORIAL_TEXT": {
-    "en": "Tap few times\\nto win!"
+    "en": "Connect bonfire with\\nrocket to launch it!"
   }
 }
 `;
