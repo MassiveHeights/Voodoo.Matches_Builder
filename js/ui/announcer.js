@@ -8,7 +8,6 @@ export default class Announcer extends DisplayObject {
     this._text = null;
 
     this.visible = false;
-    this._isHidden = false;
   }
 
   onAdded() {
@@ -25,15 +24,15 @@ export default class Announcer extends DisplayObject {
     this._setText(string);
 
     this.visible = true;
-    this._isHidden = false;
 
     const text = this._text;
+    text.removeAllComponents();
     text.scale = 0;
     text.alpha = 0;
 
-    const duration = 0.6;
+    const duration = 0.4;
     const tween = new Tween({ scale: 1.1 }, duration * 0.5, {
-      ease: Ease.backInOut,
+      ease: Ease.backOut,
     });
     text.addComponent(tween);
 
@@ -43,10 +42,26 @@ export default class Announcer extends DisplayObject {
     text.addComponent(alphaTween);
 
     alphaTween.once('complete', () => {
-      Delayed.call(0.5, () => {
-        this._isHidden = true;
-        this._onHide();
-      });
+      Delayed.call(0.25, () => this.hide());
+    });
+  }
+
+  hide() {
+    const text = this._text;
+    text.removeAllComponents();
+    const duration = 0.15;
+    const tween = new Tween({ scale: 0 }, duration, {
+      ease: Ease.backIn,
+    });
+    text.addComponent(tween);
+
+    const alphaTween = new Tween({ alpha: 0 }, duration, {
+      ease: Ease.sinusoidalIn,
+    });
+    text.addComponent(alphaTween);
+
+    alphaTween.once('complete', () => {
+      this.visible = false;
     });
   }
 
@@ -70,14 +85,6 @@ export default class Announcer extends DisplayObject {
     this._text.text = string;
 
     this.__onResize();
-  }
-
-  _onHide() {
-    if (this._isHidden === true) {
-      return;
-    }
-
-    this.visible = false;
   }
 
   __onResize() {

@@ -270,19 +270,16 @@ export default class Map extends DisplayObject {
   }
 
   _setMatch(currentMatch = this._currentMatch, isAutoSet = false) {
-    const isFirst = this._matchesPool.length === 0;
+    // const isFirst = this._matchesPool.length === 0;
     currentMatch.createBody();
     const jointPoints = this._getJointPoints(currentMatch);
     const isIntersection = jointPoints.length !== 0;
 
-    if (isIntersection || isFirst) {
+    if (isIntersection || isAutoSet) {
       this._matchesPool.push(currentMatch);
-      if (!isFirst) {
+      if (!isAutoSet) {
         Black._soundManager.playFx('match_fixed_2');
         this._createJoints(jointPoints);
-      }
-
-      if(!isAutoSet) {
         this.events.post('addedMatch');
       }
 
@@ -297,11 +294,8 @@ export default class Map extends DisplayObject {
   }
 
   _removeMatch(match) {
-    const body = match.getBody();
-    if (body) {
-      this._physics.world.destroyBody(body);
-    }
-    this.removeChild(match);
+    match.removeBody();
+    this._matchesWrapper.removeChild(match);
   }
 
   _createDebugLevel() {

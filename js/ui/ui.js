@@ -39,6 +39,10 @@ export default class UI extends DisplayObject {
     this._announcer.show(value)
   }
 
+  hideTutorial() {
+    this._tutorial.hide();
+  }
+
   _init() {
     this._initProgressBar();
     this._initAnnouncer();

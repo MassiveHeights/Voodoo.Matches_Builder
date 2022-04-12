@@ -12,6 +12,10 @@ export default class GameController {
       this._ui.decreaseProgressBar();
     });
 
+    this._scene.events.once('addedMatch', () => {
+      this._ui.hideTutorial();
+    });
+
     this._ui.events.on('retryClick', () => {
       this._game.retry();
     });
