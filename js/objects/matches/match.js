@@ -286,8 +286,8 @@ export default class Match extends DisplayObject {
       density: 0.001,
       // filterCategoryBits: BodiesTypes.match,
       // filterMaskBits: BodiesTypes.ground,
-      filterCategoryBits: BodiesTypes.match,
-      filterMaskBits: BodiesTypes.ground | BodiesTypes.campfire | BodiesTypes.fire,
+     // filterCategoryBits: BodiesTypes.match,
+      filterMaskBits: BodiesTypes.campfire | BodiesTypes.fire,
     });
 
 

@@ -13,10 +13,10 @@ export default class FireEffect extends DisplayObject {
     this._physics = physics;
     this._body = null;
 
-    this._moveSpeed = 0.02;
-    this._bodyWidth = 0.5;
-    this._bodyHeight = 1;
-    this._fireScale = 0.2;
+    this._moveSpeed = 0.01;
+    this._bodyWidth = 0.7;
+    this._bodyHeight = 2;
+    this._fireScale = 0.3;
 
     this.moveDirection = 0;
     this.movePercent = 0;
@@ -58,6 +58,7 @@ export default class FireEffect extends DisplayObject {
 
   _initBody() {
     this._body = this._physics.world.createBody({
+      bullet: true,
       gravityScale: 0,
       position: Vec2(0, 0),
       userData: {

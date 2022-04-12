@@ -86,7 +86,15 @@ export default class Map extends DisplayObject {
   }
 
   onPointerUp() {
-    if (this._disableInput) return;
+    if (this._disableInput) {
+
+      if (this._currentMatch != null) {
+        this._removeMatch(this._currentMatch);
+      }
+      this._resetDotsHelper();
+
+      return;
+    }
 
     if (!this._isPlaying || !this._enableMatch) return;
 
@@ -195,6 +203,8 @@ export default class Map extends DisplayObject {
             if (!fixtureB.getBody().getUserData().userData.object._burning) {
               let worldManifold = contact.getWorldManifold();
               this._disableInput = true;
+              this.onPointerUp();
+
               fixtureB.getBody().getUserData().userData.object.startBurn(worldManifold.points[0].x, worldManifold.points[0].y);
             }
           }
@@ -206,6 +216,8 @@ export default class Map extends DisplayObject {
             if (!fixtureA.getBody().getUserData().userData.object._burning) {
               let worldManifold = contact.getWorldManifold();
               this._disableInput = true;
+              this.onPointerUp();
+
               fixtureA.getBody().getUserData().userData.object.startBurn(worldManifold.points[0].x, worldManifold.points[0].y);
             }
 
@@ -325,8 +337,9 @@ export default class Map extends DisplayObject {
   }
 
   _setMatch(currentMatch = this._currentMatch, isAutoSet = false) {
-    // const isFirst = this._matchesPool.length === 0;
+    const isFirst = this._matchesPool.length === 0;
     currentMatch.createBody();
+
     const jointPoints = this._getJointPoints(currentMatch);
     const isIntersection = jointPoints.length !== 0;
 
