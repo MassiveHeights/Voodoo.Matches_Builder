@@ -42,6 +42,7 @@ export default class Match extends DisplayObject {
     this._view.texture = Black.assets.getTexture('matches/match_burned00');
     this._shadowL.visible = false;
     this._shadowR.visible = false;
+    Black._soundManager.playFx('match_end_2', 0.5);
   }
 
   addNode(pos) {

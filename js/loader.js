@@ -17,10 +17,21 @@ import firework from './../assets/firework.png';
 import fireworkData from '../assets/firework.json';
 
 //Sounds
-import sound_throw from 'assets/sounds/throw_01.mp3';
 import sound_bg_music from 'assets/sounds/bg_music.mp3';
-import sound_success from 'assets/sounds/success.mp3';
-import sound_confetti from 'assets/sounds/confetti.mp3';
+import cta_lose from 'assets/sounds/cta_lose.mp3';
+import cta_stars_1 from 'assets/sounds/cta_stars_1.mp3';
+import cta_stars_2 from 'assets/sounds/cta_stars_2.mp3';
+import cta_win from 'assets/sounds/cta_win.mp3';
+import firework_1 from 'assets/sounds/firework_1.mp3';
+import firework_2 from 'assets/sounds/firework_2.mp3';
+import firework_3 from 'assets/sounds/firework_3.mp3';
+import match_end_1 from 'assets/sounds/match_end_1.mp3';
+import match_end_2 from 'assets/sounds/match_end_2.mp3';
+import match_fixed_1 from 'assets/sounds/match_fixed_1.mp3';
+import match_fixed_2 from 'assets/sounds/match_fixed_2.mp3';
+import new_match from 'assets/sounds/new_match.mp3';
+import rocketS from 'assets/sounds/rocket.mp3';
+import walking_fire_loop from 'assets/sounds/walking_fire_loop.mp3';
 
 //Spines
 import matches_layout from 'assets/spines/matches_layout.json';
@@ -49,9 +60,20 @@ export class Loader extends GameObject {
 
     //sounds
     assets.enqueueSound('bg_music', sound_bg_music);
-    assets.enqueueSound('confetti', sound_confetti);
-    assets.enqueueSound('success', sound_success);
-    assets.enqueueSound('throw', sound_throw);
+    assets.enqueueSound('cta_lose', cta_lose);
+    assets.enqueueSound('cta_stars_1', cta_stars_1);
+    assets.enqueueSound('cta_stars_2', cta_stars_2);
+    assets.enqueueSound('cta_win', cta_win);
+    assets.enqueueSound('firework_1', firework_1);
+    assets.enqueueSound('firework_2', firework_2);
+    assets.enqueueSound('firework_3', firework_3);
+    assets.enqueueSound('match_end_1', match_end_1);
+    assets.enqueueSound('match_end_2', match_end_2);
+    assets.enqueueSound('match_fixed_1', match_fixed_1);
+    assets.enqueueSound('match_fixed_2', match_fixed_2);
+    assets.enqueueSound('new_match', new_match);
+    assets.enqueueSound('rocketS', rocketS);
+    assets.enqueueSound('walking_fire_loop', walking_fire_loop);
 
     // spines
     assets.enqueueJsonObj('matches_layout', matches_layout);

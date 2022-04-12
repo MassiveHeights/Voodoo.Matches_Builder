@@ -16,7 +16,6 @@ export default class DotsHelper extends DisplayObject {
 
     points.forEach(point => {
       const dot = this._getDot();
-
       dot.visible = true;
       dot.x = point.x * s;
       dot.y = point.y * s;

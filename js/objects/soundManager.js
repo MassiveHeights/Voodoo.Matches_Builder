@@ -64,18 +64,17 @@ export default class SoundManager {
       this._backSound = Black.assets.getSound('bg_music');
     }
 
-    this._backSound.play('master', 1, true);
+    this._backSound.play('master', 0.5, true);
   }
 
-  playTapSfx() {
+  playFx(name, volume = 1, loop = false) {
     if (!this.canPlaySound) return;
 
-    if (this._sfxSound == null) {
-      this._sfxSound = Black.assets.getSound('throw');
-    }
+    const sound = Black.assets.getSound(name);
 
-    this._sfxSound.play('master', 1, false);
+    sound.play('master', volume, loop);
   }
+
 
   registerSoundButton(soundButton) {
     this._soundButton = soundButton;
