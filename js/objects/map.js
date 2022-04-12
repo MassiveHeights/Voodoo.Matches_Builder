@@ -36,9 +36,8 @@ export default class Map extends DisplayObject {
 
   start() {
     this._isPlaying = true;
-    this._matchesPool.forEach(match => {
-      match.removeBody();
-    });
+    this._disableInput = false;
+    this._matchesPool.forEach(match => this._removeMatch(match));
     this._matchesPool = [];
     this._matchesWrapper.removeAllChildren();
     this._createStartMatch();
@@ -74,6 +73,7 @@ export default class Map extends DisplayObject {
 
     this._currentMatch = this._createMatch(this._startPointer);
     this._checkDotsHelper();
+    this.deactivatePhysics();
   }
 
   onPointerMove() {
@@ -100,6 +100,15 @@ export default class Map extends DisplayObject {
 
     this._setMatch();
     this._resetDotsHelper();
+    this.activatePhysics();
+  }
+
+  activatePhysics() {
+    this._matchesPool.forEach(match => match.setActive(true));
+  }
+
+  deactivatePhysics() {
+    this._matchesPool.forEach(match => match.setActive(false));
   }
 
   _createJoints(jointPoints) {

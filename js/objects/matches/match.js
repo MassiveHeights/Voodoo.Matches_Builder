@@ -47,6 +47,12 @@ export default class Match extends DisplayObject {
     // this._body.setActive(true);
   }
 
+  setActive(value) {
+    if(this._body) {
+      this._body.setActive(value);
+    }
+  }
+
   removeBody() {
     if (this._body) {
       this._physics.world.destroyBody(this._body);

@@ -8,10 +8,9 @@ export default class Debugger extends DisplayObject {
 
     this._s = PhysicsOption.worldScale;
     this._world = world;
-    this._gr = new Graphics();
-    this.add(this._gr);
+    this._graphicsPool = [];
 
-    this.isActive = false;
+    this.isActive = true;
   }
 
   update() {
@@ -19,11 +18,17 @@ export default class Debugger extends DisplayObject {
       return;
     }
 
+    this.cleanGraphics();
+
     for (let body = this._world.getBodyList(); body; body = body.getNext()) {
       for (let fixture = body.getFixtureList(); fixture; fixture = fixture.getNext()) {
         this.switchDrawer(fixture, body);
       }
     }
+  }
+
+  cleanGraphics() {
+    this._graphicsPool.forEach(gr => gr.clear());
   }
 
   switchDrawer(fixture, body) {
@@ -43,6 +48,7 @@ export default class Debugger extends DisplayObject {
     if(!body.gr){
       const gr = body.gr = new Graphics();
       this.add(gr);
+      this._graphicsPool.push(gr);
     }
 
     const s = this._s;
@@ -66,6 +72,7 @@ export default class Debugger extends DisplayObject {
     if(!body.gr){
       const gr = body.gr = new Graphics();
       this.add(gr);
+      this._graphicsPool.push(gr);
     }
 
     const vertices = shape.m_vertices;
@@ -103,6 +110,7 @@ export default class Debugger extends DisplayObject {
     if(!body.gr){
       const gr = body.gr = new Graphics();
       this.add(gr);
+      this._graphicsPool.push(gr);
     }
 
     const s = this._s;
