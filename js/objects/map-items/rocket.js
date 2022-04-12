@@ -1,5 +1,6 @@
 import { DisplayObject, Sprite } from "black-engine";
 import { Spine } from 'black-spine';
+import { Black, GameObject } from 'black-engine';
 
 export default class Rocket extends DisplayObject {
   constructor() {
@@ -14,6 +15,8 @@ export default class Rocket extends DisplayObject {
   }
 
   launch() {
+    Black._soundManager.playFx('rocketS');
+
     const rocket = this._rocket;
     const firework = this._firework;
     const rocketView = rocket.skeleton.bones.find(bone => bone.data.name === "rocket");
@@ -29,6 +32,9 @@ export default class Rocket extends DisplayObject {
 
       firework.visible = true;
       firework.play('animation', true);
+      Black._soundManager.playFx('firework_1', 1, true);
+      Black._soundManager.playFx('firework_2', 1, true);
+      Black._soundManager.playFx('firework_3', 1, true);
 
       this._firework.on('animationComplete', () => {
         this._firework.rotation = Math.random() * 2 * Math.PI;

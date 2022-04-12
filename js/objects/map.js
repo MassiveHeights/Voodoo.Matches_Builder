@@ -20,7 +20,7 @@ export default class Map extends DisplayObject {
     this._currentMatch = null;
     this._startPointer = null;
     this._dotsHelper = null;
-    
+
     this.touchable = true;
 
     this._isFinished = false;
@@ -38,9 +38,9 @@ export default class Map extends DisplayObject {
   }
 
   onPointerDown() {
-    if(this._isFinished) return;
+    if (this._isFinished) return;
 
-    if(this._currentMatch){
+    if (this._currentMatch) {
       this.onPointerUp();
     }
     this._startPointer = this.globalToLocal(Black.input.pointerPosition);
@@ -50,14 +50,14 @@ export default class Map extends DisplayObject {
   }
 
   onPointerMove() {
-    if(this._isFinished) return;
+    if (this._isFinished) return;
 
     this._calcRotation();
     this._checkDotsHelper();
   }
 
   onPointerUp() {
-    if(this._isFinished) return;
+    if (this._isFinished) return;
 
     this._setMatch();
     this._resetDotsHelper();
@@ -90,9 +90,9 @@ export default class Map extends DisplayObject {
     const jointPoints = [];
 
     this._matchesPool.forEach(match => {
-      if(currentMatch !== match){
+      if (currentMatch !== match) {
         const intersection = this._getIntersection(currentMatch, match);
-        if(intersection) {
+        if (intersection) {
           jointPoints.push(intersection)
         }
       }
@@ -104,7 +104,7 @@ export default class Map extends DisplayObject {
   _getIntersection(match1, match2) {
     const intersect = this.intersect(match1, match2);
 
-    if(!intersect) {
+    if (!intersect) {
       return null
     }
 
@@ -131,24 +131,24 @@ export default class Map extends DisplayObject {
     if ((x1 === x2 && y1 === y2) || (x3 === x4 && y3 === y4)) {
       return false
     }
-  
+
     const denominator = ((y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1))
-  
+
     if (denominator === 0) {
       return false
     }
-  
+
     let ua = ((x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3)) / denominator
     let ub = ((x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3)) / denominator
-  
+
     if (ua < 0 || ua > 1 || ub < 0 || ub > 1) {
       return false
     }
-  
+
     let x = x1 + ua * (x2 - x1)
     let y = y1 + ua * (y2 - y1)
-  
-    return {x, y}
+
+    return { x, y }
   }
 
   _initDotsHelper() {
@@ -194,7 +194,7 @@ export default class Map extends DisplayObject {
   _checkDotsHelper() {
     this._resetDotsHelper();
     const jointPoints = this._getJointPoints(this._currentMatch);
-    if(jointPoints.length !== 0) {
+    if (jointPoints.length !== 0) {
       this._setDotsHelper(jointPoints);
     }
   }
@@ -206,15 +206,15 @@ export default class Map extends DisplayObject {
     const disX = p1.x - p2.x;
     const disY = p1.y - p2.y;
 
-    let rotation = Math.atan(-disX/disY);
+    let rotation = Math.atan(-disX / disY);
 
-    if(disY < 0){
+    if (disY < 0) {
       rotation = rotation - Math.PI;
     }
 
     const length = Vec2.distance(p1, p2);
 
-    if(length > 10){
+    if (length > 10) {
       this._currentMatch.setRotation(rotation);
     }
   }
@@ -225,11 +225,13 @@ export default class Map extends DisplayObject {
 
     const x = pointer.x;
     const y = pointer.y;
-    
+
     const pos = Vec2(x, y);
     match.setPos(pos);
 
     this.add(match);
+
+    Black._soundManager.playFx('new_match');
 
     Delayed.call(0.01, () => match.visible = true);
 
@@ -240,21 +242,21 @@ export default class Map extends DisplayObject {
     const isFirst = this._matchesPool.length === 0;
     const currentMatch = this._currentMatch;
     currentMatch.createBody();
-
     const jointPoints = this._getJointPoints(currentMatch);
     const isIntersection = jointPoints.length !== 0;
 
-    if(isIntersection || isFirst){
+    if (isIntersection || isFirst) {
       this._matchesPool.push(currentMatch);
-      if(!isFirst){
+      if (!isFirst) {
+        Black._soundManager.playFx('match_fixed_2');
         this._createJoints(jointPoints);
       }
       this.events.post('addedMatch');
 
-      if(this._checkFinish()){
+      if (this._checkFinish()) {
         this._finish();
       }
-    }else{
+    } else {
       this._removeMatch(this._currentMatch);
     }
 
@@ -263,7 +265,7 @@ export default class Map extends DisplayObject {
 
   _removeMatch(match) {
     const body = match.getBody();
-    if(body){
+    if (body) {
       this._physics.world.destroyBody(body);
     }
     this.removeChild(match);
@@ -295,7 +297,7 @@ export default class Map extends DisplayObject {
     this._matchesPool.forEach((match, index) => {
       const matchPos = match.getPosition();
 
-      if(index === 0) {
+      if (index === 0) {
         minToBonfire = this._calcDistance(matchPos, bonfirePos);
         minToRocket = this._calcDistance(matchPos, rocketPos);
       }
@@ -306,7 +308,7 @@ export default class Map extends DisplayObject {
 
     const matchHeight = this._matchesPool[0].getHeight();
 
-    if(matchHeight * 0.5 > minToBonfire && matchHeight * 0.5 > minToRocket) {
+    if (matchHeight * 0.5 > minToBonfire && matchHeight * 0.5 > minToRocket) {
       this._isFinished = true;
 
       return true;
@@ -322,7 +324,7 @@ export default class Map extends DisplayObject {
 
   _calcDistance(pos1, pos2) {
     const distance = Vec2.distance(pos1, pos2);
-    
+
     return distance;
   }
 }

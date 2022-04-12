@@ -26,11 +26,15 @@ export default class Game extends BaseGame {
   }
 
   victory() {
+    Black._soundManager.playFx('cta_win');
+
     console.log("win!");
     window._gameplayEvents.endGame("win");
   }
 
   defeat() {
+    Black._soundManager.playFx('cta_lose');
+
     console.log("lose!");
     window._gameplayEvents.lose();
   }
@@ -69,7 +73,7 @@ export default class Game extends BaseGame {
 
   _initSoundManger() {
     if (this._soundManager == null) {
-      this._soundManager = new SoundManager();
+      Black._soundManager= this._soundManager = new SoundManager();
 
       this._soundManager.playBackgroundMusic();
     }
@@ -126,7 +130,7 @@ export default class Game extends BaseGame {
 
       this._onPointerDown(p);
 
-      this._soundManager.playTapSfx();
+      // this._soundManager.playTapSfx();
 
       if (this._tutorial) {
         this._tutorial.onTap();
