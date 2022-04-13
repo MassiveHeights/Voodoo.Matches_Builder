@@ -10,6 +10,8 @@ import {
   Ease
 } from "black-engine";
 import localization from "js/localization";
+import Utils from "../helpers/utils";
+import Delayed from "../kernel/delayed-call";
 
 export default class Tutorial extends DisplayObject {
   constructor() {
@@ -28,8 +30,6 @@ export default class Tutorial extends DisplayObject {
 
     Black.stage.on('resize', () => this._onResize());
     this._onResize();
-
-    // this.show();
   }
 
   show() {
@@ -37,18 +37,13 @@ export default class Tutorial extends DisplayObject {
     this.visible = true;
     this.scale = 0;
 
-    const tween = new Tween({scale: 1.2}, 0.35, {
+    const tween = new Tween({scale: this._getScale()}, 0.35, {
       delay: 0.2,
       playOnAdded: true,
       ease: Ease.backOut
     });
 
-    tween.once('complete', () => {
-      // setTimeout(() => {
-      //   this.hide()
-      // }, 2000)
-    });
-
+    // tween.once('complete', () => Delayed.call(4, this.hide, this));
     this.addComponent(tween);
   }
 
@@ -105,9 +100,15 @@ export default class Tutorial extends DisplayObject {
     this.addChild(text);
   }
 
+  _getScale() {
+    return Utils.LP(1.8, 1.2);
+  }
+
   _onResize() {
+    this.scale = this._getScale();
+
     this.x = this.stage.centerX;
-    this.y = this.stage.bounds.height + this.stage.bounds.y - 180;
+    this.y = this.stage.centerY - 100;
 
     this._txt.width = this._bg.width * 0.8;
     this._txt.scaleY = this._txt.scaleX;

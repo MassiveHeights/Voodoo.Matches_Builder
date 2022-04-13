@@ -8,6 +8,8 @@ import {CreativeWrapper} from "../libs/wrapper/creative-wrapper";
 import GameScene from '../scene/game-scene';
 import UI from '../ui/ui';
 import GameController from './game-controller';
+import GAME_CONFIG from './game-config';
+import Utils from '../helpers/utils';
 
 export default class Game extends BaseGame {
   constructor() {
@@ -26,9 +28,8 @@ export default class Game extends BaseGame {
   }
 
   retry() {
-    // this._restartGame();
-    this._ui.start();
-    this._gameScene.start();
+    this._ui.start(true);
+    this._gameScene.start(true);
   }
 
   victory() {
@@ -73,6 +74,7 @@ export default class Game extends BaseGame {
   _startGame() {
     console.log("start game: launch game");
     this._initSoundManger();
+    this._ui.start();
 
     this._gameStarted = true;
   }

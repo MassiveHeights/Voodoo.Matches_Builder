@@ -1,19 +1,21 @@
-import {Black, DisplayObject, MessageDispatcher, Sprite, Vector} from "black-engine";
+import {Black, DisplayObject, Ease, MessageDispatcher, Sprite, Tween, Vector} from "black-engine";
 import {Vec2, WeldJoint} from "planck-js";
+import Utils from "../helpers/utils";
 import Delayed from "../kernel/delayed-call";
 import PhysicsOption from "../physics/physics-options";
+import GAME_CONFIG from "../states/game-config";
 import Bonfire from "./map-items/bonfire";
 import Rocket from "./map-items/rocket";
 import DotsHelper from "./matches/dots-helper";
 import Match from "./matches/match";
 
 export default class Map extends DisplayObject {
-  constructor(physics, levelSize) {
+  constructor(physics) {
     super();
 
     this.events = new MessageDispatcher(false);
     this._physics = physics;
-    this._levelSize = levelSize;
+    this._levelSize = GAME_CONFIG.levelSize;
     this._s = PhysicsOption.worldScale;
 
     this._matchesPool = [];
@@ -29,12 +31,15 @@ export default class Map extends DisplayObject {
 
     this.touchable = true;
     this._isPlaying = false;
+    this._launchingRocket = false;
 
+    
     this._state = STATES.disable;
     this._init();
   }
 
   start() {
+    this._launchingRocket = false;
     this._isPlaying = true;
     this._disableInput = false;
     this._matchesPool.forEach(match => this._removeMatch(match));
@@ -43,20 +48,15 @@ export default class Map extends DisplayObject {
     this._createStartMatch();
   }
 
-  _init() {
-    this._matchesWrapper = new DisplayObject();
-    this._fireLayer = new DisplayObject();
-    this._bonFireLayer = new DisplayObject();
+  getHintPos() {
+    return this._getStartMatchPos();
+  }
 
-    this._initDotsHelper();
-    this._initBonfire();
-    this._initRocket();
-    this._createDebugLevel();
-    this._checkCollisions();
-
-    this.add(this._matchesWrapper);
-    this.add(this._fireLayer);
-    this.add(this._bonFireLayer);
+  onUpdate() {
+    if(this._launchingRocket){
+      this.parent.x = this.parentPos.x - this._rocket.getRocketPos().x;
+      this.parent.y = this.parentPos.y + this._rocket.getRocketPos().y;
+    }
   }
 
   onPointerDown() {
@@ -109,6 +109,22 @@ export default class Map extends DisplayObject {
 
   deactivatePhysics() {
     this._matchesPool.forEach(match => match.setActive(false));
+  }
+
+  _init() {
+    this._matchesWrapper = new DisplayObject();
+    this._fireLayer = new DisplayObject();
+    this._bonFireLayer = new DisplayObject();
+
+    this._initDotsHelper();
+    this._initBonfire();
+    this._initRocket();
+    this._createDebugLevel();
+    this._checkCollisions();
+
+    this.add(this._matchesWrapper);
+    this.add(this._fireLayer);
+    this.add(this._bonFireLayer);
   }
 
   _createJoints(jointPoints) {
@@ -230,7 +246,8 @@ export default class Map extends DisplayObject {
         }
 
         if (fixtureAId === 'rocket' && fixtureBId === 'fire') {
-          this._rocket.launch();
+         //this._rocket.launch();
+          this._finish();
         }
 
         if (fixtureAId === 'fire' || fixtureBId === 'fire') {
@@ -373,9 +390,9 @@ export default class Map extends DisplayObject {
         this.events.post('addedMatch');
       }
 
-      if (this._checkFinish()) {
-        this._finish();
-      }
+      // if (this._checkFinish()) {
+      //   this._finish();
+      // }
     } else {
       this._removeMatch(this._currentMatch);
     }
@@ -398,11 +415,14 @@ export default class Map extends DisplayObject {
   }
 
   _createStartMatch() {
-    const bounds = Black.stage.bounds;
-    const x = bounds.center().x - this._levelSize * 0.05;
-    const match = this._createMatch(new Vector(x, this._getGroundY()));
+    const match = this._createMatch(this._getStartMatchPos());
     match.setRotation(Math.PI * 0.5);
     this._setMatch(match, true);
+  }
+
+  _getStartMatchPos() {
+    const x = Black.stage.bounds.center().x - this._levelSize * 0.05;
+    return new Vector(x, this._getGroundY());;
   }
 
   _getGroundY() {
@@ -441,8 +461,19 @@ export default class Map extends DisplayObject {
   }
 
   _finish() {
-    // this._rocket.launch();
-    // this._matchesPool.forEach(match => match.burnTest());
+    this._rocket.launch();
+    const topY = this.parent.y + this._levelSize * Utils.LP(0.6, 0.3);
+
+    const tween = new Tween({ y: topY }, 2, { 
+      ease: Ease.sinusoidalIn,
+    });
+
+    tween.on('complete', () => {
+      this.parentPos = new Vector(this.parent.x, this.parent.y);
+      this._launchingRocket = true;
+    });
+
+    this.parent.addComponent(tween);
   }
 
   _calcDistance(pos1, pos2) {

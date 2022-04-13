@@ -226,6 +226,21 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">../atlas/bg/level_4_04.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>12,33,24,65</rect>
+                <key>scale9Paddings</key>
+                <rect>12,33,24,65</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">../atlas/bg/level_4_bg.jpg</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>

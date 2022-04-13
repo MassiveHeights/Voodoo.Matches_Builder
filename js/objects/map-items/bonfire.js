@@ -32,7 +32,7 @@ export default class Bonfire extends DisplayObject {
 
   initBody() {
     const width = 2;
-    const height = 2;
+    const height = 1.8;
     const s = PhysicsOption.worldScale;
 
     const bonfireBox = this._physics.world.createBody({
@@ -56,8 +56,6 @@ export default class Bonfire extends DisplayObject {
       });
 
     bonfireBox.setPosition(Vec2(this.x / s - width * 0.5, this.y / s - height));
-
     bonfireBox.setActive(true);
   }
-
 }

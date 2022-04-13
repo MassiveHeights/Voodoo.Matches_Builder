@@ -10,7 +10,7 @@ export default class Debugger extends DisplayObject {
     this._world = world;
     this._graphicsPool = [];
 
-    this.isActive = true;
+    this.isActive = false;
   }
 
   update() {
