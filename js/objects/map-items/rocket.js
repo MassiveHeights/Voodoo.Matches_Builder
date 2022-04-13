@@ -1,10 +1,15 @@
+import {Spine} from 'black-spine';
+import {Black, GameObject} from 'black-engine';
+import PhysicsOption from "../../physics/physics-options";
+import {Polygon, Vec2} from "planck-js";
+import * as planck from "planck-js";
+import BodiesTypes from "../../physics/bodies-types";
 import { DisplayObject, Sprite, Vector } from "black-engine";
-import { Spine } from 'black-spine';
-import { Black } from 'black-engine';
 
 export default class Rocket extends DisplayObject {
-  constructor() {
+  constructor(physics) {
     super();
+    this._physics = physics;
 
     this._rocket = null;
     this._firework = null;
@@ -53,6 +58,42 @@ export default class Rocket extends DisplayObject {
   _init() {
     this._initRocket();
     this._initFirework();
+
+  }
+
+  initBody() {
+    const width = 1.5;
+    const height = 0.5;
+    const s = PhysicsOption.worldScale;
+
+    const rocketBox = this._physics.world.createBody({
+      bullet: true,
+      type: 'dynamic',
+      position: Vec2(0, 0),
+      userData: {
+        id: 'rocket',
+        type: 'rocket',
+        object: this
+      },
+      gravityScale:0
+    });
+
+    rocketBox.createFixture({
+      shape: Polygon([
+        planck.Vec2(0, 0),
+        planck.Vec2(width, 0),
+        planck.Vec2(width, height),
+        planck.Vec2(0, height)
+      ]),
+
+      filterCategoryBits: BodiesTypes.rocket,
+      filterMaskBits: BodiesTypes.fire,
+    });
+
+    rocketBox.setAngle(Math.PI * 0.37);
+
+    rocketBox.setPosition(Vec2(this.x / s - 0.25, this.y / s - 0.75));
+    rocketBox.setActive(true);
   }
 
   _initRocket() {
@@ -71,7 +112,7 @@ export default class Rocket extends DisplayObject {
     const firework = this._firework = new Spine('firework');
     this.add(firework);
 
-    firework.alignPivotOffset(0.5)
+    firework.alignPivotOffset(0.5);
 
     firework.scale = this._scale;
     firework.visible = false;

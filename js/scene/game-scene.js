@@ -61,7 +61,7 @@ export default class GameScene extends GameObject {
     this._initOverlay();
     this._initHint();
 
-    this.add(this._debugger);
+    // this.add(this._debugger);
 
     this._setupSignals();
     Black.stage.on('resize', () => this.onResize());

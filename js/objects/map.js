@@ -217,44 +217,54 @@ export default class Map extends DisplayObject {
 
   _checkCollisions() {
     this._physics.world.on('pre-solve', (contact, oldManifold) => {
-      var fixtureA = contact.getFixtureA();
-      var fixtureB = contact.getFixtureB();
+      let fixtureA = contact.getFixtureA();
+      let fixtureB = contact.getFixtureB();
 
-      if (fixtureA.getBody().getUserData()) {
+      const hasUserData = fixtureA.getBody().getUserData() && fixtureB.getBody().getUserData();
 
-        if (fixtureA.getBody().getUserData().id === 'bonfire') {
+      if (hasUserData) {
+        const fixtureAId = fixtureA.getBody().getUserData().id;
+        const fixtureBId = fixtureB.getBody().getUserData().id;
 
-          if (fixtureB.getBody().getUserData().userData && fixtureB.getBody().getUserData().userData.id === 'match') {
-            if (!fixtureB.getBody().getUserData().userData.object._burning) {
-              let worldManifold = contact.getWorldManifold();
-              this._disableInput = true;
-              this.onPointerUp();
+        const matchAUserData = fixtureA.getBody().getUserData().userData || null;
+        const matchBUserdata = fixtureB.getBody().getUserData().userData || null;
 
-              fixtureB.getBody().getUserData().userData.object.startBurn(worldManifold.points[0].x, worldManifold.points[0].y);
-            }
+        if (fixtureAId === 'bonfire') {
+          if (matchBUserdata && matchBUserdata.id === 'match') {
+            const object = matchBUserdata.object;
+            !object.burning && this._burnMatch(object, contact);
           }
           contact.setEnabled(false);
         }
 
-        if (fixtureB.getBody().getUserData().id === 'fire') {
-          if (fixtureA.getBody().getUserData().userData && fixtureA.getBody().getUserData().userData.id === 'match') {
-            if (!fixtureA.getBody().getUserData().userData.object._burning) {
-              let worldManifold = contact.getWorldManifold();
-              this._disableInput = true;
-              this.onPointerUp();
-
-              fixtureA.getBody().getUserData().userData.object.startBurn(worldManifold.points[0].x, worldManifold.points[0].y);
-            }
-
+        if (fixtureBId === 'fire') {
+          if (matchAUserData && matchAUserData.id === 'match') {
+            const object = matchAUserData.object;
+            !object.burning && this._burnMatch(object, contact);
           }
           contact.setEnabled(false);
         }
 
-        if (fixtureB.getBody().getUserData().id === 'fire' || fixtureA.getBody().getUserData().id === 'fire') {
+        if (fixtureAId === 'rocket' && fixtureBId === 'fire') {
+         //this._rocket.launch();
+          this._finish();
+        }
+
+        if (fixtureAId === 'fire' || fixtureBId === 'fire') {
+          contact.setEnabled(false);
+        } else if (fixtureAId === 'rocket' || fixtureBId === 'rocket') {
           contact.setEnabled(false);
         }
       }
     });
+  }
+
+  _burnMatch(match, contactData) {
+    let worldManifold = contactData.getWorldManifold();
+    this._disableInput = true;
+    this.onPointerUp();
+
+    match.startBurn(worldManifold.points[0].x, worldManifold.points[0].y);
   }
 
   _initDotsHelper() {
@@ -281,15 +291,19 @@ export default class Map extends DisplayObject {
     const bounds = Black.stage.bounds;
     bonfire.x = bounds.center().x + this._levelSize * 0.1;
     bonfire.y = bounds.center().y + this._levelSize * 0.38;
+
+    bonfire.initBody();
   }
 
   _initRocket() {
-    const rocket = this._rocket = new Rocket();
+    const rocket = this._rocket = new Rocket(this._physics);
     this.add(rocket);
 
     const bounds = Black.stage.bounds;
     rocket.x = bounds.center().x + this._levelSize * 0.07;
     rocket.y = bounds.center().y + this._levelSize * 0.12;
+
+    rocket.initBody();
   }
 
   _checkDotsHelper() {
