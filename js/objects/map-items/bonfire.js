@@ -14,7 +14,7 @@ export default class Bonfire extends DisplayObject {
     this._scale = 0.5;
 
     this._init();
-    this._initBody();
+    this.initBody();
   }
 
   _init() {
@@ -30,7 +30,7 @@ export default class Bonfire extends DisplayObject {
     view.scale = this._scale ;
   }
 
-  _initBody() {
+  initBody() {
     const width = 2;
     const height = 2;
     const s = PhysicsOption.worldScale;
@@ -55,7 +55,7 @@ export default class Bonfire extends DisplayObject {
         filterMaskBits: BodiesTypes.match,
       });
 
-    bonfireBox.setPosition(Vec2(440 / s - width * 0.5, 860 / s - height));
+    bonfireBox.setPosition(Vec2(this.x / s - width * 0.5, this.y / s - height));
 
     bonfireBox.setActive(true);
   }

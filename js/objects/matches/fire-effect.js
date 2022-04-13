@@ -13,9 +13,9 @@ export default class FireEffect extends DisplayObject {
     this._physics = physics;
     this._body = null;
 
-    this._moveSpeed = 0.01;
+    this._moveSpeed = 0.0125;
     this._bodyWidth = 0.7;
-    this._bodyHeight = 2;
+    this._bodyHeight = 1.5;
     this._fireScale = 0.3;
 
     this.moveDirection = 0;
@@ -68,23 +68,21 @@ export default class FireEffect extends DisplayObject {
       },
     });
 
-    this._body.createFixture(
-      Polygon([
+    this._body.createFixture({
+      shape: Polygon([
         planck.Vec2(0, 0),
         planck.Vec2(this._bodyWidth, 0),
         planck.Vec2(this._bodyWidth, this._bodyHeight),
         planck.Vec2(0, this._bodyHeight)
       ]),
-      {
-        density: 0,
-        friction: 0,
-        restitution: 0,
-        mass: 0,
-      },
-      {
-        filterCategoryBits: BodiesTypes.fire,
-        filterMaskBits: BodiesTypes.match,
-      });
+
+      density: 0,
+      friction: 0,
+      restitution: 0,
+      mass: 0,
+      filterCategoryBits: BodiesTypes.fire,
+      filterMaskBits: BodiesTypes.rocket | BodiesTypes.match,
+    });
 
     this._body.setActive(true);
   }

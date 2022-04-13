@@ -39,6 +39,10 @@ export default class Match extends DisplayObject {
     this._init();
   }
 
+  get burning() {
+    return this._burning;
+  }
+
   createBody() {
     if (!this._body) {
       this._initBody();
