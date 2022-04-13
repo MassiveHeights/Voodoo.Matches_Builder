@@ -154,7 +154,9 @@ export default class Match extends DisplayObject {
 
   onUpdate() {
     this._updateNodes();
-    this._updateShadows();
+    if(!this._burning){
+      this._updateShadows();
+    }
     this._updateBurnedViewTransform();
     this._updateBurn();
   }
@@ -224,11 +226,7 @@ export default class Match extends DisplayObject {
     const rot = view.rotation;
     shadowL.rotation = shadowR.rotation = rot;
 
-    let alpha = (PI * 0.5 - rot) / PI;
-
-    if (alpha > 1) {
-      alpha = 2 - alpha;
-    }
+    const alpha = (Math.cos(rot) + 1) * 0.5;
 
     const min = 0.35;
     const max = 0.65;
