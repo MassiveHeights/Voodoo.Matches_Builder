@@ -118,9 +118,9 @@ export default class GameScene extends GameObject {
   onResize() {
     const levelSize = this._levelSize;
 
-    this.y = Utils.LP(-levelSize * 1, -levelSize * 0.83);
-    this.x = Utils.LP(-levelSize * 0.35, -levelSize * 0.3);
+    this.y = Utils.LP(-levelSize * 1.32, -levelSize * 0.83);
+    this.x = Utils.LP(-levelSize * 0.55, -levelSize * 0.3);
     
-    this.scale = Utils.LP(2.1, 1.8);
+    this.scale = Utils.LP(2.5, 1.8);
   }
 }

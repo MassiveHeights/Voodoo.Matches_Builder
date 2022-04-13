@@ -1,4 +1,5 @@
 import { Black, DisplayObject, TextField, FontAlign, FontStyle, FontWeight, Tween, Ease } from "black-engine";
+import Utils from "../helpers/utils";
 import Delayed from "../kernel/delayed-call";
 
 export default class Announcer extends DisplayObject {
@@ -31,7 +32,7 @@ export default class Announcer extends DisplayObject {
     text.alpha = 0;
 
     const duration = 0.4;
-    const tween = new Tween({ scale: 1.1 }, duration * 0.5, {
+    const tween = new Tween({ scale: this._getScale() }, duration * 0.5, {
       ease: Ease.backOut,
     });
     text.addComponent(tween);
@@ -87,11 +88,17 @@ export default class Announcer extends DisplayObject {
     this.__onResize();
   }
 
+  _getScale() {
+    return Utils.LP(1.8, 1.4);
+  }
+
   __onResize() {
     const { _text } = this;
     const bounds = Black.stage.bounds;
 
+    _text.scale = this._getScale();
+
     _text.x = bounds.center().x;
-    _text.y = bounds.top + 175;
+    _text.y = bounds.top + Utils.LP(200, 200);
   }
 }

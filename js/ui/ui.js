@@ -24,6 +24,7 @@ export default class UI extends DisplayObject {
 
   start() {
     this._progressBar.restore();
+    this._tutorial.show();
   }
 
   onAdded() {

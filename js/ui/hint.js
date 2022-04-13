@@ -1,6 +1,8 @@
 import {
   Black,
   DisplayObject,
+  FontStyle,
+  FontWeight,
   Sprite,
   TextField,
   Timer,
@@ -136,17 +138,19 @@ export default class Hint extends DisplayObject {
 
   _showHintText(startX, startY) {
     const note = this._note;
-    note.x = startX;
-    note.y = startY + 70;
+    note.x = startX - 35;
+    note.y = startY - 70;
     note.alpha = 0;
     note.visible = true;
 
     const duration = this._duration * 0.5;
+    const delay = this._duration * 0.15;
 
-    const textTween = new Tween({ alpha: 1 }, duration, { 
+    const textTween = new Tween({ alpha: 1 }, duration, {
+      delay: delay,
       ease: Ease.sinusoidalOut,
     });
-    textTween.on('complete', () => Delayed.call(this._duration - duration, () => this._hideObj(note)));
+    textTween.on('complete', () => Delayed.call(this._duration - duration - delay, () => this._hideObj(note)));
 
     note.addComponent(textTween);
   }
@@ -183,9 +187,16 @@ export default class Hint extends DisplayObject {
   }
 
   _initNotification() {
-    const note = this._note = new TextField('swipe!', 'Baloo', 0xffffff, 36);
-    note.x = 100;
-    note.y = 260;
+    const note = this._note = new TextField(
+      'swipe!',
+      'Baloo',
+      0xffffff,
+      30, 
+      FontStyle.NORMAL,
+      FontWeight.NORMAL,
+      // 3,
+      // 0x111111
+    );
     note.autoSize = false;
     note.fieldWidth = 960;
     note.align = 'center';

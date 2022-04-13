@@ -32,7 +32,7 @@ export default class Bonfire extends DisplayObject {
 
   _initBody() {
     const width = 2;
-    const height = 2;
+    const height = 1.8;
     const s = PhysicsOption.worldScale;
 
     const bonfireBox = this._physics.world.createBody({
@@ -55,7 +55,7 @@ export default class Bonfire extends DisplayObject {
         filterMaskBits: BodiesTypes.match,
       });
 
-    bonfireBox.setPosition(Vec2(440 / s - width * 0.5, 860 / s - height));
+    bonfireBox.setPosition(Vec2(420 / s - width * 0.5, 860 / s - height));
 
     bonfireBox.setActive(true);
   }
