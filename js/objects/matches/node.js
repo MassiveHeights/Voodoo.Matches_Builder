@@ -1,5 +1,5 @@
-import { AnimationController, Black, DisplayObject, Ease, Sprite, Tween } from "black-engine";
-import { Spine } from 'black-spine';
+import {AnimationController, Black, DisplayObject, Ease, Sprite, Tween} from "black-engine";
+import {Spine} from 'black-spine';
 
 export default class Node extends DisplayObject {
   constructor(scale) {

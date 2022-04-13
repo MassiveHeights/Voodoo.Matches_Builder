@@ -38,6 +38,8 @@ export default class Map extends DisplayObject {
 
     this._state = STATES.disable;
     this._gameWin = false;
+    this._gameLose = false;
+
     this._init();
   }
 
@@ -280,14 +282,24 @@ export default class Map extends DisplayObject {
     this._burnMatches++;
 
     match.events.on('burn-end', () => {
+      if (this._gameWin) {
+        return;
+      }
+
       this._burnMatches--;
       this._totalMatches--;
 
       if (this._burnMatches <= 0) {
         if (this._totalMatches > 0) {
+          let proceeded = false;
           this._matchesPool.forEach(match => {
             if (!match.burning) {
+              proceeded = true;
               this._burnMatch(match);
+            }
+
+            if (!proceeded) {
+              this._lose();
             }
           });
         } else {
@@ -300,6 +312,9 @@ export default class Map extends DisplayObject {
   }
 
   _lose() {
+    if (this._gameLose) return;
+    this._gameLose = true;
+
     console.log('Lose game');
   }
 
@@ -457,7 +472,6 @@ export default class Map extends DisplayObject {
   _getStartMatchPos() {
     const x = Black.stage.bounds.center().x - this._levelSize * 0.05;
     return new Vector(x, this._getGroundY());
-    ;
   }
 
   _getGroundY() {
