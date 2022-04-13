@@ -27,11 +27,11 @@ export default class FireEffect extends DisplayObject {
     this._physics = physics;
     this._body = null;
 
-    this._moveSpeed = 0.025;
+    this._moveSpeed = 0.0125;
     this._bodyWidth = 0.7;
     this._bodyHeight = 1.5;
-    this._fireScale = 0.3;
-    this._additionalFireScale = 0.3;
+    this._fireScale = 1;
+    this._additionalFireScale = 1;
 
     this.moveDirection = 0;
     this.movePercent = 0;
@@ -67,9 +67,9 @@ export default class FireEffect extends DisplayObject {
     this.add(frames);
     frames.alignAnchor(0.5, 0.75);
 
-    const startTexture = Black.assets.getTextures('match_start/match_start__*');
-    const end1Texture = Black.assets.getTextures('match_end_1/match_end_1__*');
-    const end2Texture = Black.assets.getTextures('match_end_2/match_end_2__*');
+    const startTexture = Black.assets.getTextures('fire/match_start/match_start__*');
+    const end1Texture = Black.assets.getTextures('fire/match_end_1/match_end_1__*');
+    const end2Texture = Black.assets.getTextures('fire/match_end_2/match_end_2__*');
 
     const anim = this._fireAnimation = frames.addComponent(new AnimationController());
     anim.add('match_start', startTexture, 200, false);

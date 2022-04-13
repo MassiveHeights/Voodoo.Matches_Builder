@@ -2,9 +2,9 @@
 <data version="1.0">
     <struct type="Settings">
         <key>fileFormatVersion</key>
-        <int>4</int>
+        <int>5</int>
         <key>texturePackerVersion</key>
-        <string>5.3.0</string>
+        <string>6.0.1</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -37,16 +37,20 @@
         <filename></filename>
         <key>flipPVR</key>
         <false/>
-        <key>pvrCompressionQuality</key>
-        <enum type="SettingsBase::PvrCompressionQuality">PVR_QUALITY_NORMAL</enum>
+        <key>pvrQualityLevel</key>
+        <uint>3</uint>
+        <key>astcQualityLevel</key>
+        <uint>2</uint>
+        <key>basisUniversalQualityLevel</key>
+        <uint>2</uint>
         <key>atfCompressData</key>
         <false/>
         <key>mipMapMinSize</key>
         <uint>32768</uint>
-        <key>etc1CompressionQuality</key>
-        <enum type="SettingsBase::Etc1CompressionQuality">ETC1_QUALITY_LOW_PERCEPTUAL</enum>
-        <key>etc2CompressionQuality</key>
-        <enum type="SettingsBase::Etc2CompressionQuality">ETC2_QUALITY_LOW_PERCEPTUAL</enum>
+        <key>etc1QualityLevel</key>
+        <uint>40</uint>
+        <key>etc2QualityLevel</key>
+        <uint>40</uint>
         <key>dxtCompressionMode</key>
         <enum type="SettingsBase::DxtCompressionMode">DXT_PERCEPTUAL</enum>
         <key>jxrColorFormat</key>
@@ -253,6 +257,287 @@
                 <rect>240,240,480,480</rect>
                 <key>scale9Paddings</key>
                 <rect>240,240,480,480</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../atlas/fire/bonfire/bonfire__00.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__01.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__02.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__03.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__04.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__05.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__06.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__07.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__08.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__09.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__10.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__11.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__12.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__13.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__14.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__15.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__16.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__17.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__18.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__19.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__20.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__21.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__22.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__23.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__24.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__25.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__26.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__27.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__28.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__29.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__30.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__31.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__32.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__33.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__34.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__35.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__36.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__37.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__38.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__39.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__40.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__41.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__42.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__43.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__44.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__45.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__46.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__47.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__48.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__49.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__50.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__51.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__52.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__53.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__54.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__55.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__56.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__57.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__58.png</key>
+            <key type="filename">../atlas/fire/bonfire/bonfire__59.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>37,29,73,59</rect>
+                <key>scale9Paddings</key>
+                <rect>37,29,73,59</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__00.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__01.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__02.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__03.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__04.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__05.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__06.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__07.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__08.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__09.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__10.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__11.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__12.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__13.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__14.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__15.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__16.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__17.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__18.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__19.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__20.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__21.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__22.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__23.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__24.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__25.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__26.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__27.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__28.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__29.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__30.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__31.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__32.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__33.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__34.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__35.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__36.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__37.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__38.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__39.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__40.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__41.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__42.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__43.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__44.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__45.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__46.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__47.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__48.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__49.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__50.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__51.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__52.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__53.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__54.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__55.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__56.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__57.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__58.png</key>
+            <key type="filename">../atlas/fire/match_end_1/match_end_1__59.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>6,10,11,21</rect>
+                <key>scale9Paddings</key>
+                <rect>6,10,11,21</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__00.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__01.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__02.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__03.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__04.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__05.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__06.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__07.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__08.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__09.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__10.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__11.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__12.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__13.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__14.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__15.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__16.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__17.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__18.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__19.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__20.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__21.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__22.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__23.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__24.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__25.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__26.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__27.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__28.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__29.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__30.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__31.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__32.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__33.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__34.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__35.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__36.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__37.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__38.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__39.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__40.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__41.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__42.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__43.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__44.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__45.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__46.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__47.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__48.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__49.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__50.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__51.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__52.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__53.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__54.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__55.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__56.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__57.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__58.png</key>
+            <key type="filename">../atlas/fire/match_end_2/match_end_2__59.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>7,13,14,25</rect>
+                <key>scale9Paddings</key>
+                <rect>7,13,14,25</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../atlas/fire/match_start/match_start__00.png</key>
+            <key type="filename">../atlas/fire/match_start/match_start__01.png</key>
+            <key type="filename">../atlas/fire/match_start/match_start__02.png</key>
+            <key type="filename">../atlas/fire/match_start/match_start__03.png</key>
+            <key type="filename">../atlas/fire/match_start/match_start__04.png</key>
+            <key type="filename">../atlas/fire/match_start/match_start__05.png</key>
+            <key type="filename">../atlas/fire/match_start/match_start__06.png</key>
+            <key type="filename">../atlas/fire/match_start/match_start__07.png</key>
+            <key type="filename">../atlas/fire/match_start/match_start__08.png</key>
+            <key type="filename">../atlas/fire/match_start/match_start__09.png</key>
+            <key type="filename">../atlas/fire/match_start/match_start__10.png</key>
+            <key type="filename">../atlas/fire/match_start/match_start__11.png</key>
+            <key type="filename">../atlas/fire/match_start/match_start__12.png</key>
+            <key type="filename">../atlas/fire/match_start/match_start__13.png</key>
+            <key type="filename">../atlas/fire/match_start/match_start__14.png</key>
+            <key type="filename">../atlas/fire/match_start/match_start__15.png</key>
+            <key type="filename">../atlas/fire/match_start/match_start__16.png</key>
+            <key type="filename">../atlas/fire/match_start/match_start__17.png</key>
+            <key type="filename">../atlas/fire/match_start/match_start__18.png</key>
+            <key type="filename">../atlas/fire/match_start/match_start__19.png</key>
+            <key type="filename">../atlas/fire/match_start/match_start__20.png</key>
+            <key type="filename">../atlas/fire/match_start/match_start__21.png</key>
+            <key type="filename">../atlas/fire/match_start/match_start__22.png</key>
+            <key type="filename">../atlas/fire/match_start/match_start__23.png</key>
+            <key type="filename">../atlas/fire/match_start/match_start__24.png</key>
+            <key type="filename">../atlas/fire/match_start/match_start__25.png</key>
+            <key type="filename">../atlas/fire/match_start/match_start__26.png</key>
+            <key type="filename">../atlas/fire/match_start/match_start__27.png</key>
+            <key type="filename">../atlas/fire/match_start/match_start__28.png</key>
+            <key type="filename">../atlas/fire/match_start/match_start__29.png</key>
+            <key type="filename">../atlas/fire/match_start/match_start__30.png</key>
+            <key type="filename">../atlas/fire/match_start/match_start__31.png</key>
+            <key type="filename">../atlas/fire/match_start/match_start__32.png</key>
+            <key type="filename">../atlas/fire/match_start/match_start__33.png</key>
+            <key type="filename">../atlas/fire/match_start/match_start__34.png</key>
+            <key type="filename">../atlas/fire/match_start/match_start__35.png</key>
+            <key type="filename">../atlas/fire/match_start/match_start__36.png</key>
+            <key type="filename">../atlas/fire/match_start/match_start__37.png</key>
+            <key type="filename">../atlas/fire/match_start/match_start__38.png</key>
+            <key type="filename">../atlas/fire/match_start/match_start__39.png</key>
+            <key type="filename">../atlas/fire/match_start/match_start__40.png</key>
+            <key type="filename">../atlas/fire/match_start/match_start__41.png</key>
+            <key type="filename">../atlas/fire/match_start/match_start__42.png</key>
+            <key type="filename">../atlas/fire/match_start/match_start__43.png</key>
+            <key type="filename">../atlas/fire/match_start/match_start__44.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>11,19,21,37</rect>
+                <key>scale9Paddings</key>
+                <rect>11,19,21,37</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>

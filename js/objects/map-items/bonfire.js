@@ -1,4 +1,4 @@
-import { DisplayObject } from "black-engine";
+import {AnimationController, DisplayObject, Sprite} from "black-engine";
 import { Spine } from 'black-spine';
 import { Black, GameObject } from 'black-engine';
 import PhysicsOption from "../../physics/physics-options";
@@ -11,23 +11,28 @@ export default class Bonfire extends DisplayObject {
     super();
     this._physics = physics;
 
-    this._scale = 0.5;
+    this._scale = 1;
 
     this._init();
     this.initBody();
   }
 
   _init() {
-    const view = new Spine('matches_layout');
+
+    const view = new Sprite();
+    this.add(view);
+    view.alignAnchor(0.5,0.75);
+
+    const texture = Black.assets.getTextures('fire/bonfire/bonfire__*');
+
+    const anim = this._fireAnimation = view.addComponent(new AnimationController());
+    anim.add('fire_start', texture, 60, true);
+
 
     view.scale = this._scale;
-    view.play('bonfire', true);
-
-    this.add(view);
+    anim.play('fire_start', true);
 
     Black._soundManager.playFx('walking_fire_loop', 1, true);
-
-    view.scale = this._scale ;
   }
 
   initBody() {

@@ -9,10 +9,6 @@ import JsonObjAsset from './kernel/json-inline-loader-object-asset';
 //Black atlas
 import atlas from './../assets/atlas.png';
 import atlasData from '../assets/atlas.json';
-import fire from './../assets/fire.png';
-import fireData from '../assets/fire.json';
-import fireSequence from './../assets/fire_sequence.png';
-import fireSequenceData from '../assets/fire_sequence.json';
 import rocket from './../assets/rocket.png';
 import rocketData from '../assets/rocket.json';
 import firework from './../assets/firework.png';
@@ -36,7 +32,6 @@ import rocketS from 'assets/sounds/rocket.mp3';
 import walking_fire_loop from 'assets/sounds/walking_fire_loop.mp3';
 
 //Spines
-import matches_layout from 'assets/spines/matches_layout.json';
 import rocketSpine from 'assets/spines/rocket.json';
 import fireworkSpine from 'assets/spines/firework.json';
 
@@ -56,8 +51,6 @@ export class Loader extends GameObject {
 
     //Black/UI
     assets.enqueueAtlasObj('assets', atlas, atlasData);
-    assets.enqueueAtlasObj('fire', fire, fireData);
-    assets.enqueueAtlasObj('fire_sequence', fireSequence, fireSequenceData);
     assets.enqueueAtlasObj('firework', firework, fireworkData);
     assets.enqueueAtlasObj('rocket', rocket, rocketData);
 
@@ -79,7 +72,6 @@ export class Loader extends GameObject {
     assets.enqueueSound('walking_fire_loop', walking_fire_loop);
 
     // spines
-    assets.enqueueJsonObj('matches_layout', matches_layout);
     assets.enqueueJsonObj('rocket', rocketSpine);
     assets.enqueueJsonObj('firework', fireworkSpine);
 
