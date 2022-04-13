@@ -1,4 +1,14 @@
-import {DisplayObject, Ease, Tween, Vector, BlendMode, MessageDispatcher} from "black-engine";
+import {
+  DisplayObject,
+  Ease,
+  Tween,
+  Vector,
+  BlendMode,
+  MessageDispatcher,
+  Sprite,
+  Black,
+  AnimationController
+} from "black-engine";
 import {Spine} from "black-spine";
 import PhysicsOption from "../../physics/physics-options";
 import * as planck from "planck-js";
@@ -12,6 +22,8 @@ export default class FireEffect extends DisplayObject {
     this.events = new MessageDispatcher();
 
     this._fireView = null;
+    this._fireAnimation = null;
+
     this._physics = physics;
     this._body = null;
 
@@ -19,49 +31,57 @@ export default class FireEffect extends DisplayObject {
     this._bodyWidth = 0.7;
     this._bodyHeight = 1.5;
     this._fireScale = 0.3;
+    this._additionalFireScale = 0.3;
 
     this.moveDirection = 0;
     this.movePercent = 0;
+    this.startMovePercent = 0;
+    this.firstSplashShowed = false;
+    this.secondSplashShowed = false;
 
-    this._init();
   }
 
-  _init() {
+  init(addBody = true) {
+    this._initAnimation();
     this._initView();
 
-    setTimeout(() => {
-      this._initBody();
-    }, 500);
+    if (addBody) {
+      setTimeout(() => {
+        this._initBody();
+      }, 500);
+    }
   }
 
   _initView() {
-    this._fireView = new Spine('matches_layout');
-    this._fireView.play('match_start', true);
-    this._fireView.mState.timeScale = 3;
+    this._fireAnimation.play('match_start', false);
     this._fireView.scale = 0;
 
-    let tween = new Tween({scaleX: this._fireScale, scaleY: this._fireScale}, 0.1, {ease: Ease.backOut});
+    let tween = new Tween({scaleX: this._fireScale, scaleY: this._fireScale}, 0.1, {ease: Ease.sinusoidalOut});
     this._fireView.addComponent(tween);
 
     this.add(this._fireView);
   }
 
-  stopFire() {
-    this.events.post('stopFire');
-    this._fireView.play('match_end_' + (Math.random() * 100 > 50 ? 1 : 2), false);
+  _initAnimation() {
+    const frames = this._fireView = new Sprite();
+    this.add(frames);
+    frames.alignAnchor(0.5, 0.75);
 
-    let tween = new Tween({alpha: 0, scaleX: 0, scaleY: 0}, 0.1, {ease: Ease.backIn});
-    this._fireView.addComponent(tween);
+    const startTexture = Black.assets.getTextures('match_start/match_start__*');
+    const end1Texture = Black.assets.getTextures('match_end_1/match_end_1__*');
+    const end2Texture = Black.assets.getTextures('match_end_2/match_end_2__*');
 
-    if (this._body != null) {
-      this._body.setActive(false);
-      this._physics.world.destroyBody(this._body);
-    }
+    const anim = this._fireAnimation = frames.addComponent(new AnimationController());
+    anim.add('match_start', startTexture, 200, false);
+    anim.add('match_end_1', end1Texture, 200, false);
+    anim.add('match_end_2', end2Texture, 200, false);
+
+    // this._fireView.blendMode = BlendMode.SCREEN;
   }
 
   _initBody() {
     this._body = this._physics.world.createBody({
-     // bullet: true,
+      // bullet: true,
       gravityScale: 0,
       position: Vec2(0, 0),
       userData: {
@@ -88,6 +108,41 @@ export default class FireEffect extends DisplayObject {
     });
 
     this._body.setActive(true);
+  }
+
+  _showAdditionalFireAnimation(animName){
+    this._fireView.scale = this._additionalFireScale;
+    this._fireAnimation.play(animName, false);
+
+    this._fireAnimation.on('complete', () => {
+
+      const tween = new Tween({alpha: 0}, 0.18, {
+        playOnAdded: true,
+        ease: Ease.sinusoidalOut,
+      });
+
+      this._fireView.addComponent(tween);
+    });
+  }
+
+  showFireSplash1() {
+    this._showAdditionalFireAnimation('match_end_1');
+  }
+
+  showFireSplash2() {
+    this._showAdditionalFireAnimation('match_end_2');
+  }
+
+  stopFire() {
+    this.events.post('stopFire');
+
+    let tween = new Tween({alpha: 0, scaleX: 0, scaleY: 0}, 0.2, {ease: Ease.backIn});
+    this._fireView.addComponent(tween);
+
+    if (this._body != null) {
+      this._body.setActive(false);
+      this._physics.world.destroyBody(this._body);
+    }
   }
 
   updateMove() {

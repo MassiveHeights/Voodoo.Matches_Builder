@@ -11,6 +11,8 @@ import atlas from './../assets/atlas.png';
 import atlasData from '../assets/atlas.json';
 import fire from './../assets/fire.png';
 import fireData from '../assets/fire.json';
+import fireSequence from './../assets/fire_sequence.png';
+import fireSequenceData from '../assets/fire_sequence.json';
 import rocket from './../assets/rocket.png';
 import rocketData from '../assets/rocket.json';
 import firework from './../assets/firework.png';
@@ -55,6 +57,7 @@ export class Loader extends GameObject {
     //Black/UI
     assets.enqueueAtlasObj('assets', atlas, atlasData);
     assets.enqueueAtlasObj('fire', fire, fireData);
+    assets.enqueueAtlasObj('fire_sequence', fireSequence, fireSequenceData);
     assets.enqueueAtlasObj('firework', firework, fireworkData);
     assets.enqueueAtlasObj('rocket', rocket, rocketData);
 

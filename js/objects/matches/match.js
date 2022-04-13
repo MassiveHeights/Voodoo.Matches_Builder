@@ -36,6 +36,8 @@ export default class Match extends DisplayObject {
 
     this._burning = false;
     this._fires = [];
+    this._additionalFires = [];
+
     this._destoroyedFires = 0;
 
     this._bmdMatchCopy = null;
@@ -180,19 +182,51 @@ export default class Match extends DisplayObject {
     this._burnedView.rotation = this._view.rotation;
   }
 
+  _getPositionOnLine(percent) {
+    const p1 = new Vec2();
+    const rot = this._view.rotation;
+    const d1 = this._height * this._pivotOffsetY - (this._height * percent);
+
+    p1.x = (+d1 * Math.sin(rot));
+    p1.y = (-d1 * Math.cos(rot));
+
+    return p1;
+  }
+
   _updateBurn() {
     this._fires.forEach((fire) => {
       fire.updateMove();
 
-      const p1 = new Vec2();
-      const rot = this._view.rotation;
-      const d1 = this._height * this._pivotOffsetY - (this._height * fire.movePercent);
-
-      p1.x = (+d1 * Math.sin(rot));
-      p1.y = (-d1 * Math.cos(rot));
+      const p1 = this._getPositionOnLine(fire.movePercent);
 
       fire.x = this._view.x + p1.x;
       fire.y = this._view.y + p1.y;
+
+      let diff = Math.abs(fire.startMovePercent - fire.movePercent);
+
+      if (diff > 0.25) {
+        if (!fire.firstSplashShowed || (diff > 0.5 && !fire.secondSplashShowed)) {
+
+          let fireSplashEffect = new FireEffect(this._physics);
+          this._additionalFires.push(
+            {
+              object: fireSplashEffect,
+              movePercent: fire.movePercent
+            });
+
+          fireSplashEffect.init(false);
+
+          this._fireLayer.add(fireSplashEffect);
+
+          if (!fire.firstSplashShowed) {
+            fireSplashEffect.showFireSplash1();
+            fire.firstSplashShowed = true;
+          } else {
+            fireSplashEffect.showFireSplash2();
+            fire.secondSplashShowed = true;
+          }
+        }
+      }
 
       this._sourceTextureContext.clearRect(0, this._height * fire.movePercent, this._width / this._scale, this._height * 0.05);
 
@@ -208,6 +242,13 @@ export default class Match extends DisplayObject {
           });
         }
       });
+    });
+
+    this._additionalFires.forEach((additionalFire) => {
+      const p1 = this._getPositionOnLine(additionalFire.movePercent);
+
+      additionalFire.object.x = this._view.x + p1.x;
+      additionalFire.object.y = this._view.y + p1.y;
     });
 
     if (this._bmdMatchCopy) {
@@ -351,6 +392,7 @@ export default class Match extends DisplayObject {
 
   _createFire(posX, posY, moveDirection) {
     let fire = new FireEffect(this._physics);
+    fire.init();
 
     this._fireLayer.add(fire);
 
@@ -359,11 +401,10 @@ export default class Match extends DisplayObject {
 
     let relativePosition = fire.relativeTo(this._view);
 
-    fire.movePercent = Math.min(1, Math.max(0, (relativePosition.y) / (this._height / this._scale)));
+    fire.movePercent = fire.startMovePercent = Math.min(1, Math.max(0, (relativePosition.y) / (this._height / this._scale)));
     fire.moveDirection = moveDirection;
 
     this._fires.push(fire);
-
 
     fire.events.on('stopFire', () => {
       this._destoroyedFires++;
@@ -405,7 +446,6 @@ export default class Match extends DisplayObject {
     this._view.addComponent(tween1);
     this._shadowL.addComponent(tween2);
     this._shadowR.addComponent(tween3);
-
 
     // this._view.visible = false;
     // this._shadowL.visible = false;

@@ -38,6 +38,8 @@ export default class Map extends DisplayObject {
 
     this._state = STATES.disable;
     this._gameWin = false;
+    this._gameLose = false;
+
     this._init();
   }
 
@@ -307,6 +309,9 @@ export default class Map extends DisplayObject {
   }
 
   _lose() {
+    if (this._gameLose) return;
+    this._gameLose = true;
+
     console.log('Lose game');
   }
 
@@ -468,7 +473,6 @@ export default class Map extends DisplayObject {
   _getStartMatchPos() {
     const x = Black.stage.bounds.center().x - this._levelSize * 0.05;
     return new Vector(x, this._getGroundY());
-    ;
   }
 
   _getGroundY() {
