@@ -8,6 +8,7 @@ import Bonfire from "./map-items/bonfire";
 import Rocket from "./map-items/rocket";
 import DotsHelper from "./matches/dots-helper";
 import Match from "./matches/match";
+import INTERSECT from "./matches/matches-intersection";
 
 export default class Map extends DisplayObject {
   constructor(physics) {
@@ -19,13 +20,13 @@ export default class Map extends DisplayObject {
     this._s = PhysicsOption.worldScale;
 
     this._matchesPool = [];
-    this._matchesWrapper = null;
     this._currentMatch = null;
     this._startPointer = null;
     this._dotsHelper = null;
-
+    
     this._disableInput = false;
-
+    
+    this._matchesLayer = null;
     this._fireLayer = null;
     this._bonFireLayer = null;
 
@@ -36,7 +37,6 @@ export default class Map extends DisplayObject {
     this._burnMatches = 0;
     this._totalMatches = 0;
 
-    this._state = STATES.disable;
     this._gameWin = false;
     this._gameLose = false;
 
@@ -49,7 +49,7 @@ export default class Map extends DisplayObject {
     this._disableInput = false;
     this._matchesPool.forEach(match => this._removeMatch(match));
     this._matchesPool = [];
-    this._matchesWrapper.removeAllChildren();
+    this._matchesLayer.removeAllChildren();
     this._createStartMatch();
 
     this.parent.onResize();
@@ -81,12 +81,11 @@ export default class Map extends DisplayObject {
 
     this._currentMatch = this._createMatch(this._startPointer);
     this._checkDotsHelper();
-    this.deactivatePhysics();
+    this._deactivatePhysics();
   }
 
   onPointerMove() {
     if (this._disableInput) return;
-
     if (!this._isPlaying || !this._enableMatch) return;
 
     this._calcRotation();
@@ -95,7 +94,6 @@ export default class Map extends DisplayObject {
 
   onPointerUp() {
     if (this._disableInput) {
-
       if (this._currentMatch != null) {
         this._removeMatch(this._currentMatch);
       }
@@ -108,29 +106,28 @@ export default class Map extends DisplayObject {
 
     this._setMatch();
     this._resetDotsHelper();
-    this.activatePhysics();
+    this._activatePhysics();
   }
 
-  activatePhysics() {
+  _activatePhysics() {
     this._matchesPool.forEach(match => match.setActive(true));
   }
 
-  deactivatePhysics() {
+  _deactivatePhysics() {
     this._matchesPool.forEach(match => match.setActive(false));
   }
 
   _init() {
-    this._matchesWrapper = new DisplayObject();
+    this._matchesLayer = new DisplayObject();
     this._fireLayer = new DisplayObject();
     this._bonFireLayer = new DisplayObject();
 
     this._initDotsHelper();
     this._initBonfire();
     this._initRocket();
-    // this._createDebugLevel();
     this._checkCollisions();
 
-    this.add(this._matchesWrapper);
+    this.add(this._matchesLayer);
     this.add(this._fireLayer);
     this.add(this._bonFireLayer);
   }
@@ -195,32 +192,7 @@ export default class Map extends DisplayObject {
     const {p1, p2} = match1.getBodyLine();
     const {p1: p3, p2: p4} = match2.getBodyLine();
 
-    const {x: x1, y: y1} = p1;
-    const {x: x2, y: y2} = p2;
-    const {x: x3, y: y3} = p3;
-    const {x: x4, y: y4} = p4;
-
-    if ((x1 === x2 && y1 === y2) || (x3 === x4 && y3 === y4)) {
-      return false;
-    }
-
-    const denominator = ((y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1));
-
-    if (denominator === 0) {
-      return false;
-    }
-
-    let ua = ((x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3)) / denominator;
-    let ub = ((x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3)) / denominator;
-
-    if (ua < 0 || ua > 1 || ub < 0 || ub > 1) {
-      return false;
-    }
-
-    let x = x1 + ua * (x2 - x1);
-    let y = y1 + ua * (y2 - y1);
-
-    return {x, y};
+    return INTERSECT(p1, p2, p3, p4);
   }
 
   _checkCollisions() {
@@ -254,8 +226,7 @@ export default class Map extends DisplayObject {
         }
 
         if (fixtureAId === 'rocket' && fixtureBId === 'fire') {
-          //this._rocket.launch();
-          this._finish();
+          this._win();
         }
 
         if (fixtureAId === 'fire' || fixtureBId === 'fire') {
@@ -268,7 +239,6 @@ export default class Map extends DisplayObject {
   }
 
   _burnMatch(match, contactData = null) {
-
     this._disableInput = true;
     this.onPointerUp();
 
@@ -379,57 +349,51 @@ export default class Map extends DisplayObject {
     }
 
     const length = Vec2.distance(p1, p2);
-    const isNearGround = this._getGroundY() - p1.y < this._currentMatch.getHeight();
+    // const isNearGround = this._getGroundY() - p1.y < this._currentMatch.getHeight();
 
-    if (isNearGround) {
-      rotation = this._fixAngle(rotation);
-    }
+    // if (isNearGround) {
+    //   rotation = this._fixAngle(rotation);
+    // }
 
     if (length > 10) {
       this._currentMatch.setRotation(rotation);
     }
   }
 
-  _fixAngle(rotation) {
-    const isLeft = Math.sin(rotation) < 0;
-    const l = this._currentMatch.getHeight();
-    const p = this._startPointer;
-    const endY = p.y - l * Math.cos(rotation);
-    const groundY = this._getGroundY();
+  // _fixAngle(rotation) {
+  //   const isLeft = Math.sin(rotation) < 0;
+  //   const l = this._currentMatch.getHeight();
+  //   const p = this._startPointer;
+  //   const endY = p.y - l * Math.cos(rotation);
+  //   const groundY = this._getGroundY();
 
-    if (endY > groundY) {
-      rotation = Math.acos((p.y - groundY) / l);
-      if (isLeft) {
-        rotation = -rotation;
-      }
-    }
+  //   if (endY > groundY) {
+  //     rotation = Math.acos((p.y - groundY) / l);
+  //     if (isLeft) {
+  //       rotation = -rotation;
+  //     }
+  //   }
 
-    return rotation;
-  }
+  //   return rotation;
+  // }
 
   _createMatch(pointer) {
-    const match = new Match(this._matchesWrapper, this._physics, this._fireLayer);
+    const match = new Match(this._matchesLayer, this._physics, this._fireLayer);
     match.visible = false;
 
-    const x = pointer.x;
-    const y = pointer.y;
-
-    const pos = Vec2(x, y);
+    const pos = Vec2(pointer.x, pointer.y);
     match.setPos(pos);
-
-    this._matchesWrapper.add(match);
+    this._matchesLayer.add(match);
 
     Black._soundManager.playFx('new_match');
 
     Delayed.call(0.01, () => match.visible = true);
-
     this._totalMatches++;
 
     return match;
   }
 
   _setMatch(currentMatch = this._currentMatch, isAutoSet = false) {
-    const isFirst = this._matchesPool.length === 0;
     currentMatch.createBody();
 
     const jointPoints = this._getJointPoints(currentMatch);
@@ -451,16 +415,7 @@ export default class Map extends DisplayObject {
 
   _removeMatch(match) {
     match.removeBody();
-    this._matchesWrapper.removeChild(match);
-  }
-
-  _createDebugLevel() {
-    debugLevelData.forEach(data => {
-      const match = this._currentMatch = this._createMatch(new Vector(data.x, data.y));
-      match.setRotation(data.rotation);
-      match.createBody();
-      this.onPointerUp();
-    })
+    this._matchesLayer.removeChild(match);
   }
 
   _createStartMatch() {
@@ -479,11 +434,12 @@ export default class Map extends DisplayObject {
     return bounds.center().y + this._levelSize * 0.38;
   }
 
-  _finish() {
+  _win() {
     if(!this._isPlaying) {
       return;
     }
     this._isPlaying = false;
+    this._gameWin = true;
 
     this._rocket.launch();
     const topY = this.parent.y + this._levelSize * Utils.LP(0.6, 0.3);
@@ -506,57 +462,3 @@ export default class Map extends DisplayObject {
     return distance;
   }
 }
-
-const STATES = {
-  enable: 'enable',
-  disable: 'disable',
-  finished: 'finished',
-};
-
-const debugLevelData = [
-  {
-    x: 270,
-    y: 850,
-    rotation: 0.5
-  },
-  {
-    x: 340,
-    y: 850,
-    rotation: -0.5
-  },
-  {
-    x: 305,
-    y: 800,
-    rotation: 0,
-  },
-  {
-    x: 305,
-    y: 730,
-    rotation: 0.2,
-  },
-  {
-    x: 315,
-    y: 660,
-    rotation: 0.8,
-  },
-  {
-    x: 270,
-    y: 700,
-    rotation: Math.PI * 0.5,
-  },
-  {
-    x: 260,
-    y: 850,
-    rotation: Math.PI * 0.5,
-  },
-  {
-    x: 340,
-    y: 850,
-    rotation: Math.PI * 0.5,
-  },
-  {
-    x: 390,
-    y: 850,
-    rotation: -Math.PI * 0.35,
-  },
-];

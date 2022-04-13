@@ -79,10 +79,8 @@ export default class ProgressBar extends DisplayObject {
   }
 
   _initTargetMarkers() {
-    const startMatchesValue = this._startMatchesValue;
-
-    this._yellowMarker = this._createTargetMarker('ui/progressbar_limit_red', startMatchesValue - this._redMarkerValue);
-    this._redMarker = this._createTargetMarker('ui/progressbar_limit_yell', startMatchesValue - this._yellowMarkerValue);
+    this._yellowMarker = this._createTargetMarker('ui/progressbar_limit_yell', this._yellowMarkerValue);
+    this._redMarker = this._createTargetMarker('ui/progressbar_limit_red', this._redMarkerValue);
   }
 
   _createTargetMarker(frame, value) {

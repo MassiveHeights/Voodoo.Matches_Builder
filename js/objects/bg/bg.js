@@ -1,6 +1,5 @@
 import { Black, DisplayObject, Sprite, TilingInfo } from "black-engine";
 import { Polygon, Vec2 } from "planck-js";
-import Utils from "../../helpers/utils";
 import BodiesTypes from "../../physics/bodies-types";
 import PhysicsOption from "../../physics/physics-options";
 import GAME_CONFIG from "../../states/game-config";
@@ -126,6 +125,7 @@ export default class Background extends DisplayObject {
 
     ground.createFixture(Polygon(points), {
       friction: 100,
+      restitution: 0.1,
     });
 
     ground.setPosition(pos);

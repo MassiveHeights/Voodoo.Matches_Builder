@@ -55,12 +55,12 @@ export default class Rocket extends DisplayObject {
   _launchFirework() {
     const firework = this._firework;
 
-    firework.x += this.getRocketPos().x;
-    firework.y -= this.getRocketPos().y;
+    firework.x = this.getRocketPos().x;
+    firework.y = -this.getRocketPos().y;
 
     firework.visible = true;
     firework.play('animation', false);
-    
+
     Black._soundManager.playFx('firework_1', 1, true);
     Black._soundManager.playFx('firework_2', 1, true);
     Black._soundManager.playFx('firework_3', 1, true);

@@ -2,9 +2,9 @@
 <data version="1.0">
     <struct type="Settings">
         <key>fileFormatVersion</key>
-        <int>5</int>
+        <int>4</int>
         <key>texturePackerVersion</key>
-        <string>6.0.1</string>
+        <string>5.3.0</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -37,20 +37,16 @@
         <filename></filename>
         <key>flipPVR</key>
         <false/>
-        <key>pvrQualityLevel</key>
-        <uint>3</uint>
-        <key>astcQualityLevel</key>
-        <uint>2</uint>
-        <key>basisUniversalQualityLevel</key>
-        <uint>2</uint>
+        <key>pvrCompressionQuality</key>
+        <enum type="SettingsBase::PvrCompressionQuality">PVR_QUALITY_NORMAL</enum>
         <key>atfCompressData</key>
         <false/>
         <key>mipMapMinSize</key>
         <uint>32768</uint>
-        <key>etc1QualityLevel</key>
-        <uint>40</uint>
-        <key>etc2QualityLevel</key>
-        <uint>40</uint>
+        <key>etc1CompressionQuality</key>
+        <enum type="SettingsBase::Etc1CompressionQuality">ETC1_QUALITY_LOW_PERCEPTUAL</enum>
+        <key>etc2CompressionQuality</key>
+        <enum type="SettingsBase::Etc2CompressionQuality">ETC2_QUALITY_LOW_PERCEPTUAL</enum>
         <key>dxtCompressionMode</key>
         <enum type="SettingsBase::DxtCompressionMode">DXT_PERCEPTUAL</enum>
         <key>jxrColorFormat</key>
@@ -624,36 +620,6 @@
                 <rect>3,3,5,5</rect>
                 <key>scale9Paddings</key>
                 <rect>3,3,5,5</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">../atlas/ui/HandTap0001.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>spriteScale</key>
-                <double>1</double>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>27,36,55,71</rect>
-                <key>scale9Paddings</key>
-                <rect>27,36,55,71</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">../atlas/ui/button_BACK.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>spriteScale</key>
-                <double>1</double>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>24,18,49,37</rect>
-                <key>scale9Paddings</key>
-                <rect>24,18,49,37</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
