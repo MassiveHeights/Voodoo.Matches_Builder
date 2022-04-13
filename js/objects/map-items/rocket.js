@@ -17,6 +17,7 @@ export default class Rocket extends DisplayObject {
     this._startPos = null;
 
     this._scale = 0.25;
+    this._isLaunched = false;
 
     this._init();
   }
@@ -31,27 +32,42 @@ export default class Rocket extends DisplayObject {
     return pos;
   }
 
+  reset() {
+    this._isLaunched = false;
+    this._rocket.play('static', false);
+    this._firework.off('animationComplete');
+  }
+
   launch() {
+    this._isLaunched = true;
     Black._soundManager.playFx('rocketS');
 
     const rocket = this._rocket;
-    const firework = this._firework;
 
     rocket.play('animation', false);
+    rocket.once('animationComplete', () => {
+      this._launchFirework();
+    });
+  }
 
-    rocket.on('animationComplete', () => {
-      firework.x += this.getRocketPos().x;
-      firework.y -= this.getRocketPos().y;
+  _launchFirework() {
+    const firework = this._firework;
 
-      firework.visible = true;
-      firework.play('animation', true);
-      Black._soundManager.playFx('firework_1', 1, true);
-      Black._soundManager.playFx('firework_2', 1, true);
-      Black._soundManager.playFx('firework_3', 1, true);
+    firework.x += this.getRocketPos().x;
+    firework.y -= this.getRocketPos().y;
 
-      this._firework.on('animationComplete', () => {
+    firework.visible = true;
+    firework.play('animation', false);
+    
+    Black._soundManager.playFx('firework_1', 1, true);
+    Black._soundManager.playFx('firework_2', 1, true);
+    Black._soundManager.playFx('firework_3', 1, true);
+
+    this._firework.once('animationComplete', () => {
+      if(this._isLaunched){
         this._firework.rotation = Math.random() * 2 * Math.PI;
-      });
+        this._launchFirework();
+      }
     });
   }
 

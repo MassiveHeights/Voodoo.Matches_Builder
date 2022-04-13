@@ -33,7 +33,6 @@ export default class Map extends DisplayObject {
     this._isPlaying = false;
     this._launchingRocket = false;
 
-    
     this._state = STATES.disable;
     this._init();
   }
@@ -46,6 +45,9 @@ export default class Map extends DisplayObject {
     this._matchesPool = [];
     this._matchesWrapper.removeAllChildren();
     this._createStartMatch();
+
+    this.parent.onResize();
+    this._rocket.reset();
   }
 
   getHintPos() {
@@ -119,7 +121,7 @@ export default class Map extends DisplayObject {
     this._initDotsHelper();
     this._initBonfire();
     this._initRocket();
-    this._createDebugLevel();
+    // this._createDebugLevel();
     this._checkCollisions();
 
     this.add(this._matchesWrapper);
@@ -246,7 +248,6 @@ export default class Map extends DisplayObject {
         }
 
         if (fixtureAId === 'rocket' && fixtureBId === 'fire') {
-         //this._rocket.launch();
           this._finish();
         }
 
@@ -389,10 +390,6 @@ export default class Map extends DisplayObject {
         this._createJoints(jointPoints);
         this.events.post('addedMatch');
       }
-
-      // if (this._checkFinish()) {
-      //   this._finish();
-      // }
     } else {
       this._removeMatch(this._currentMatch);
     }
@@ -406,12 +403,12 @@ export default class Map extends DisplayObject {
   }
 
   _createDebugLevel() {
-    // debugLevelData.forEach(data => {
-    //   const match = this._currentMatch = this._createMatch(new Vector(data.x, data.y));
-    //   match.setRotation(data.rotation);
-    //   match.createBody();
-    //   this.onPointerUp();
-    // })
+    debugLevelData.forEach(data => {
+      const match = this._currentMatch = this._createMatch(new Vector(data.x, data.y));
+      match.setRotation(data.rotation);
+      match.createBody();
+      this.onPointerUp();
+    })
   }
 
   _createStartMatch() {
@@ -430,37 +427,12 @@ export default class Map extends DisplayObject {
     return bounds.center().y + this._levelSize * 0.38;
   }
 
-  _checkFinish() {
-    let minToBonfire = 0;
-    let minToRocket = 0;
-
-    const bonfirePos = Vec2(this._bonfire.x, this._bonfire.y);
-    const rocketPos = Vec2(this._rocket.x, this._rocket.y);
-
-    this._matchesPool.forEach((match, index) => {
-      const matchPos = match.getPosition();
-
-      if (index === 0) {
-        minToBonfire = this._calcDistance(matchPos, bonfirePos);
-        minToRocket = this._calcDistance(matchPos, rocketPos);
-      }
-
-      minToBonfire = Math.min(minToBonfire, this._calcDistance(matchPos, bonfirePos));
-      minToRocket = Math.min(minToRocket, this._calcDistance(matchPos, rocketPos));
-    });
-
-    const matchHeight = this._matchesPool[0].getHeight();
-
-    if (matchHeight * 0.5 > minToBonfire && matchHeight * 0.5 > minToRocket) {
-      this._isPlaying = false;
-
-      return true;
-    }
-
-    return false;
-  }
-
   _finish() {
+    if(!this._isPlaying) {
+      return;
+    }
+    this._isPlaying = false;
+
     this._rocket.launch();
     const topY = this.parent.y + this._levelSize * Utils.LP(0.6, 0.3);
 
