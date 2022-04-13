@@ -277,13 +277,12 @@ export default class Map extends DisplayObject {
     this._burnMatches++;
 
     match.events.on('burn-end', () => {
-      if(this._gameWin) {
+      if (this._gameWin) {
         return;
       }
 
       this._burnMatches--;
       this._totalMatches--;
-      console.log(this._burnMatches, this._totalMatches);
 
       if (this._burnMatches <= 0) {
         if (this._totalMatches > 0) {
@@ -294,7 +293,7 @@ export default class Map extends DisplayObject {
               this._burnMatch(match);
             }
 
-            if(!proceeded) {
+            if (!proceeded) {
               this._lose();
             }
           });
