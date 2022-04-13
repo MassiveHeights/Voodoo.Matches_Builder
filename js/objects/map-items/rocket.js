@@ -1,6 +1,6 @@
-import { DisplayObject, Sprite } from "black-engine";
+import { DisplayObject, Sprite, Vector } from "black-engine";
 import { Spine } from 'black-spine';
-import { Black, GameObject } from 'black-engine';
+import { Black } from 'black-engine';
 
 export default class Rocket extends DisplayObject {
   constructor() {
@@ -8,10 +8,22 @@ export default class Rocket extends DisplayObject {
 
     this._rocket = null;
     this._firework = null;
-    this._scale = 0.2;
+    this._rocketView = null;
+    this._startPos = null;
+
+    this._scale = 0.25;
 
     this._init();
-    // this.launch()
+  }
+
+  getRocketPos() {
+    const pos = new Vector();
+    const { _rocketView: rocketView, _startPos: startPos } = this;
+
+    pos.x = (rocketView.x - startPos.x) * this._scale * 3.2;
+    pos.y = (rocketView.y - startPos.y) * this._scale;
+
+    return pos;
   }
 
   launch() {
@@ -19,16 +31,12 @@ export default class Rocket extends DisplayObject {
 
     const rocket = this._rocket;
     const firework = this._firework;
-    const rocketView = rocket.skeleton.bones.find(bone => bone.data.name === "rocket");
-
-    const startX = rocketView.x;
-    const startY = rocketView.y;
 
     rocket.play('animation', false);
 
     rocket.on('animationComplete', () => {
-      firework.x += (rocketView.x - startX) * this._scale * 3.2;
-      firework.y -= (rocketView.y - startY) * this._scale;
+      firework.x += this.getRocketPos().x;
+      firework.y -= this.getRocketPos().y;
 
       firework.visible = true;
       firework.play('animation', true);
@@ -54,6 +62,9 @@ export default class Rocket extends DisplayObject {
     rocket.scale = this._scale;
     rocket.rotation = -Math.PI * 0.12;
     rocket.play('static', false);
+
+    this._rocketView = rocket.skeleton.bones.find(bone => bone.data.name === "rocket");
+    this._startPos = new Vector(this._rocketView.x, this._rocketView.y);
   }
 
   _initFirework() {

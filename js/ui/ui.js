@@ -22,9 +22,11 @@ export default class UI extends DisplayObject {
     this.touchable = true;
   }
 
-  start() {
+  start(isRetry = false) {
     this._progressBar.restore();
-    this._tutorial.show();
+    if(!isRetry) {
+      this._tutorial.show();
+    }
   }
 
   onAdded() {

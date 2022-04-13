@@ -28,9 +28,8 @@ export default class Game extends BaseGame {
   }
 
   retry() {
-    // this._restartGame();
-    this._ui.start();
-    this._gameScene.start();
+    this._ui.start(true);
+    this._gameScene.start(true);
   }
 
   victory() {

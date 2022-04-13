@@ -1,5 +1,6 @@
-import {Black, DisplayObject, MessageDispatcher, Sprite, Vector} from "black-engine";
+import {Black, DisplayObject, Ease, MessageDispatcher, Sprite, Tween, Vector} from "black-engine";
 import {Vec2, WeldJoint} from "planck-js";
+import Utils from "../helpers/utils";
 import Delayed from "../kernel/delayed-call";
 import PhysicsOption from "../physics/physics-options";
 import GAME_CONFIG from "../states/game-config";
@@ -30,12 +31,15 @@ export default class Map extends DisplayObject {
 
     this.touchable = true;
     this._isPlaying = false;
+    this._launchingRocket = false;
 
+    
     this._state = STATES.disable;
     this._init();
   }
 
   start() {
+    this._launchingRocket = false;
     this._isPlaying = true;
     this._disableInput = false;
     this._matchesPool.forEach(match => this._removeMatch(match));
@@ -46,6 +50,13 @@ export default class Map extends DisplayObject {
 
   getHintPos() {
     return this._getStartMatchPos();
+  }
+
+  onUpdate() {
+    if(this._launchingRocket){
+      this.parent.x = this.parentPos.x - this._rocket.getRocketPos().x;
+      this.parent.y = this.parentPos.y + this._rocket.getRocketPos().y;
+    }
   }
 
   onPointerDown() {
@@ -365,9 +376,9 @@ export default class Map extends DisplayObject {
         this.events.post('addedMatch');
       }
 
-      if (this._checkFinish()) {
-        this._finish();
-      }
+      // if (this._checkFinish()) {
+      //   this._finish();
+      // }
     } else {
       this._removeMatch(this._currentMatch);
     }
@@ -437,6 +448,18 @@ export default class Map extends DisplayObject {
 
   _finish() {
     this._rocket.launch();
+    const topY = this.parent.y + this._levelSize * Utils.LP(0.6, 0.3);
+
+    const tween = new Tween({ y: topY }, 2, { 
+      ease: Ease.sinusoidalIn,
+    });
+
+    tween.on('complete', () => {
+      this.parentPos = new Vector(this.parent.x, this.parent.y);
+      this._launchingRocket = true;
+    });
+
+    this.parent.addComponent(tween);
   }
 
   _calcDistance(pos1, pos2) {

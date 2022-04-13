@@ -26,10 +26,12 @@ export default class GameScene extends GameObject {
     this.start();
   }
 
-  start() {
+  start(isRetry = false) {
     this.touchable = true;
     this._map.start();
-    this.showHint();
+    if(!isRetry) {
+      this.showHint();
+    }
   }
 
   pause() {
