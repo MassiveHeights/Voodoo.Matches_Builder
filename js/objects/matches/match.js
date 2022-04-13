@@ -183,7 +183,7 @@ export default class Match extends DisplayObject {
       fire.x = this._view.x + p1.x;
       fire.y = this._view.y + p1.y;
 
-      this._sourceTextureContext.clearRect(0, this._height / Black.driver.renderScaleFactor * fire.movePercent, this._width / this._scale, this._height / Black.driver.renderScaleFactor * 0.05);
+      this._sourceTextureContext.clearRect(0, this._height  * fire.movePercent, this._width / this._scale, this._height  * 0.05);
     });
 
     if (this._bmdMatchCopy) {
@@ -285,6 +285,9 @@ export default class Match extends DisplayObject {
     body.createFixture(planck.Box(width * 0.5 * 0.75 / s, height * 0.5 * 0.95 / s), {
       friction: 100,
       density: 0.001,
+      // filterCategoryBits: BodiesTypes.match,
+      // filterMaskBits: BodiesTypes.ground,
+      // filterCategoryBits: BodiesTypes.match,
       filterMaskBits: BodiesTypes.campfire | BodiesTypes.fire,
     });
 
