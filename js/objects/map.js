@@ -33,7 +33,11 @@ export default class Map extends DisplayObject {
     this._isPlaying = false;
     this._launchingRocket = false;
 
+    this._burnMatches = 0;
+    this._totalMatches = 0;
+
     this._state = STATES.disable;
+    this._gameWin = false;
     this._init();
   }
 
@@ -55,7 +59,7 @@ export default class Map extends DisplayObject {
   }
 
   onUpdate() {
-    if(this._launchingRocket){
+    if (this._launchingRocket) {
       this.parent.x = this.parentPos.x - this._rocket.getRocketPos().x;
       this.parent.y = this.parentPos.y + this._rocket.getRocketPos().y;
     }
@@ -248,6 +252,7 @@ export default class Map extends DisplayObject {
         }
 
         if (fixtureAId === 'rocket' && fixtureBId === 'fire') {
+          //this._rocket.launch();
           this._finish();
         }
 
@@ -260,12 +265,42 @@ export default class Map extends DisplayObject {
     });
   }
 
-  _burnMatch(match, contactData) {
-    let worldManifold = contactData.getWorldManifold();
+  _burnMatch(match, contactData = null) {
+
     this._disableInput = true;
     this.onPointerUp();
 
-    match.startBurn(worldManifold.points[0].x, worldManifold.points[0].y);
+    if (contactData == null) {
+      match.burnMatchFromSide(match);
+    } else {
+      let worldManifold = contactData.getWorldManifold();
+      match.startBurn(worldManifold.points[0].x, worldManifold.points[0].y);
+    }
+
+    this._burnMatches++;
+
+    match.events.on('burn-end', () => {
+      this._burnMatches--;
+      this._totalMatches--;
+
+      if (this._burnMatches <= 0) {
+        if (this._totalMatches > 0) {
+          this._matchesPool.forEach(match => {
+            if (!match.burning) {
+              this._burnMatch(match);
+            }
+          });
+        } else {
+          if (!this._gameWin) {
+            this._lose();
+          }
+        }
+      }
+    });
+  }
+
+  _lose() {
+    console.log('Lose game');
   }
 
   _initDotsHelper() {
@@ -373,6 +408,8 @@ export default class Map extends DisplayObject {
 
     Delayed.call(0.01, () => match.visible = true);
 
+    this._totalMatches++;
+
     return match;
   }
 
@@ -419,7 +456,8 @@ export default class Map extends DisplayObject {
 
   _getStartMatchPos() {
     const x = Black.stage.bounds.center().x - this._levelSize * 0.05;
-    return new Vector(x, this._getGroundY());;
+    return new Vector(x, this._getGroundY());
+    ;
   }
 
   _getGroundY() {
@@ -436,7 +474,7 @@ export default class Map extends DisplayObject {
     this._rocket.launch();
     const topY = this.parent.y + this._levelSize * Utils.LP(0.6, 0.3);
 
-    const tween = new Tween({ y: topY }, 2, { 
+    const tween = new Tween({y: topY}, 2, {
       ease: Ease.sinusoidalIn,
     });
 
