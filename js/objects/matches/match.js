@@ -1,6 +1,6 @@
-import {Black, DisplayObject, Sprite, Vector, CanvasRenderTexture, MessageDispatcher} from "black-engine";
+import {Black, CanvasRenderTexture, DisplayObject, Ease, MessageDispatcher, Sprite, Tween, Vector} from "black-engine";
 import * as planck from 'planck-js';
-import {Vec2} from "planck-js";
+import {Vec2} from 'planck-js';
 import BodiesTypes from "../../physics/bodies-types";
 import PhysicsOption from "../../physics/physics-options";
 import Node from "./node";
@@ -99,8 +99,7 @@ export default class Match extends DisplayObject {
   }
 
   getPosition() {
-    const viewPos = new Vec2(this._view.x, this._view.y);
-    return viewPos;
+    return new Vec2(this._view.x, this._view.y);
   }
 
   getBodyLine() {
@@ -166,7 +165,7 @@ export default class Match extends DisplayObject {
 
   onUpdate() {
     this._updateNodes();
-    if(!this._burning){
+    if (!this._burning) {
       this._updateShadows();
     }
     this._updateBurnedViewTransform();
@@ -196,6 +195,19 @@ export default class Match extends DisplayObject {
       fire.y = this._view.y + p1.y;
 
       this._sourceTextureContext.clearRect(0, this._height * fire.movePercent, this._width / this._scale, this._height * 0.05);
+
+      this._nodesPool.forEach(node => {
+        let dist = Vec2.distance(new Vec2(node.view.x, node.view.y), new Vec2(fire.x, fire.y));
+
+        if (dist < 10) {
+          let tween = new Tween({alpha: 0}, 0.1, {ease: Ease.sinusoidalOut});
+          this._view.addComponent(tween);
+          tween.on('complete', () => {
+            this._view.removeComponent(tween);
+            node.view.visible = false;
+          });
+        }
+      });
     });
 
     if (this._bmdMatchCopy) {
@@ -228,6 +240,10 @@ export default class Match extends DisplayObject {
   }
 
   _updateShadows() {
+    if (this._burning) {
+      return;
+    }
+
     const {_shadowL: shadowL, _shadowR: shadowR, _view: view} = this;
 
     shadowL.x = shadowR.x = view.x;
@@ -352,14 +368,14 @@ export default class Match extends DisplayObject {
     fire.events.on('stopFire', () => {
       this._destoroyedFires++;
 
-      if(this._destoroyedFires >= this._fires.length) {
+      if (this._destoroyedFires >= this._fires.length) {
         this.events.post('burn-end');
       }
     });
   }
 
   _createMatchBitmap() {
-    this._updateShadows();
+    // this._updateShadows();
 
     const matchTexture = new CanvasRenderTexture(this._width, this._height, Black.driver.renderScaleFactor);
 
@@ -381,9 +397,19 @@ export default class Match extends DisplayObject {
     const source = this._bmdMatchCopy = new Sprite(matchTexture);
     this.add(source);
 
-    this._view.visible = false;
-    this._shadowL.visible = false;
-    this._shadowR.visible = false;
+
+    let tween1 = new Tween({alpha: 0}, 0.2, {ease: Ease.sinusoidalOut});
+    let tween2 = new Tween({alpha: 0}, 0.2, {ease: Ease.sinusoidalOut});
+    let tween3 = new Tween({alpha: 0}, 0.2, {ease: Ease.sinusoidalOut});
+
+    this._view.addComponent(tween1);
+    this._shadowL.addComponent(tween2);
+    this._shadowR.addComponent(tween3);
+
+
+    // this._view.visible = false;
+    // this._shadowL.visible = false;
+    // this._shadowR.visible = false;
     //this._burnedView.visible = false;
   }
 }
