@@ -1,4 +1,4 @@
-import {Black, DisplayObject, Sprite, Vector, CanvasRenderTexture} from "black-engine";
+import {Black, DisplayObject, Sprite, Vector, CanvasRenderTexture, MessageDispatcher} from "black-engine";
 import * as planck from 'planck-js';
 import {Vec2} from "planck-js";
 import BodiesTypes from "../../physics/bodies-types";
@@ -14,6 +14,8 @@ export default class Match extends DisplayObject {
     super();
 
     this._parent = parent;
+    this.events = new MessageDispatcher();
+
     this._fireLayer = fireLayer;
     this._physics = physics;
     this._mass = 0.2;
@@ -34,6 +36,8 @@ export default class Match extends DisplayObject {
 
     this._burning = false;
     this._fires = [];
+    this._destoroyedFires = 0;
+
     this._bmdMatchCopy = null;
     this._sourceTextureContext = null;
 
@@ -53,7 +57,7 @@ export default class Match extends DisplayObject {
   }
 
   setActive(value) {
-    if(this._body) {
+    if (this._body) {
       this._body.setActive(value);
     }
   }
@@ -156,6 +160,10 @@ export default class Match extends DisplayObject {
     this._createMatchBitmap();
   }
 
+  burnMatchFromSide() {
+    this.startBurn(this._view.x, this._view.y);
+  }
+
   onUpdate() {
     this._updateNodes();
     this._updateShadows();
@@ -176,9 +184,7 @@ export default class Match extends DisplayObject {
       fire.updateMove();
 
       const p1 = new Vec2();
-
       const rot = this._view.rotation;
-
       const d1 = this._height * this._pivotOffsetY - (this._height * fire.movePercent);
 
       p1.x = (+d1 * Math.sin(rot));
@@ -187,7 +193,7 @@ export default class Match extends DisplayObject {
       fire.x = this._view.x + p1.x;
       fire.y = this._view.y + p1.y;
 
-      this._sourceTextureContext.clearRect(0, this._height  * fire.movePercent, this._width / this._scale, this._height  * 0.05);
+      this._sourceTextureContext.clearRect(0, this._height * fire.movePercent, this._width / this._scale, this._height * 0.05);
     });
 
     if (this._bmdMatchCopy) {
@@ -343,6 +349,14 @@ export default class Match extends DisplayObject {
     fire.moveDirection = moveDirection;
 
     this._fires.push(fire);
+
+    fire.events.on('stopFire', () => {
+      this._destoroyedFires++;
+
+      if(this._destoroyedFires >= this._fires.length) {
+        this.events.post('burn-end');
+      }
+    });
   }
 
   _createMatchBitmap() {

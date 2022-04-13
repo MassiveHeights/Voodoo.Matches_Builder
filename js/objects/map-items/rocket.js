@@ -4,7 +4,7 @@ import PhysicsOption from "../../physics/physics-options";
 import {Polygon, Vec2} from "planck-js";
 import * as planck from "planck-js";
 import BodiesTypes from "../../physics/bodies-types";
-import { DisplayObject, Sprite, Vector } from "black-engine";
+import {DisplayObject, Sprite, Vector} from "black-engine";
 
 export default class Rocket extends DisplayObject {
   constructor(physics) {
@@ -15,15 +15,17 @@ export default class Rocket extends DisplayObject {
     this._firework = null;
     this._rocketView = null;
     this._startPos = null;
+    this._rocketBox = null;
 
     this._scale = 0.25;
 
+    this._rocketLaunched = false;
     this._init();
   }
 
   getRocketPos() {
     const pos = new Vector();
-    const { _rocketView: rocketView, _startPos: startPos } = this;
+    const {_rocketView: rocketView, _startPos: startPos} = this;
 
     pos.x = (rocketView.x - startPos.x) * this._scale * 3.2;
     pos.y = (rocketView.y - startPos.y) * this._scale;
@@ -32,6 +34,11 @@ export default class Rocket extends DisplayObject {
   }
 
   launch() {
+    if (this._rocketLaunched) return;
+    this._rocketLaunched = true;
+
+    this._physics.world.destroyBody(this._rocketBox);
+
     Black._soundManager.playFx('rocketS');
 
     const rocket = this._rocket;
@@ -66,7 +73,7 @@ export default class Rocket extends DisplayObject {
     const height = 0.5;
     const s = PhysicsOption.worldScale;
 
-    const rocketBox = this._physics.world.createBody({
+    this._rocketBox = this._physics.world.createBody({
       bullet: true,
       type: 'dynamic',
       position: Vec2(0, 0),
@@ -75,10 +82,10 @@ export default class Rocket extends DisplayObject {
         type: 'rocket',
         object: this
       },
-      gravityScale:0
+      gravityScale: 0
     });
 
-    rocketBox.createFixture({
+    this._rocketBox.createFixture({
       shape: Polygon([
         planck.Vec2(0, 0),
         planck.Vec2(width, 0),
@@ -90,10 +97,10 @@ export default class Rocket extends DisplayObject {
       filterMaskBits: BodiesTypes.fire,
     });
 
-    rocketBox.setAngle(Math.PI * 0.37);
+    this._rocketBox.setAngle(Math.PI * 0.37);
 
-    rocketBox.setPosition(Vec2(this.x / s - 0.25, this.y / s - 0.75));
-    rocketBox.setActive(true);
+    this._rocketBox.setPosition(Vec2(this.x / s - 0.25, this.y / s - 0.75));
+    this._rocketBox.setActive(true);
   }
 
   _initRocket() {

@@ -1,4 +1,4 @@
-import {DisplayObject, Ease, Tween, Vector, BlendMode} from "black-engine";
+import {DisplayObject, Ease, Tween, Vector, BlendMode, MessageDispatcher} from "black-engine";
 import {Spine} from "black-spine";
 import PhysicsOption from "../../physics/physics-options";
 import * as planck from "planck-js";
@@ -8,6 +8,8 @@ import BodiesTypes from "../../physics/bodies-types";
 export default class FireEffect extends DisplayObject {
   constructor(physics) {
     super();
+
+    this.events = new MessageDispatcher();
 
     this._fireView = null;
     this._physics = physics;
@@ -45,6 +47,7 @@ export default class FireEffect extends DisplayObject {
   }
 
   stopFire() {
+    this.events.post('stopFire');
     this._fireView.play('match_end_' + (Math.random() * 100 > 50 ? 1 : 2), false);
 
     let tween = new Tween({alpha: 0, scaleX: 0, scaleY: 0}, 0.1, {ease: Ease.backIn});
