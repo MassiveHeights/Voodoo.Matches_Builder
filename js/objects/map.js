@@ -277,14 +277,25 @@ export default class Map extends DisplayObject {
     this._burnMatches++;
 
     match.events.on('burn-end', () => {
+      if(this._gameWin) {
+        return;
+      }
+
       this._burnMatches--;
       this._totalMatches--;
+      console.log(this._burnMatches, this._totalMatches);
 
       if (this._burnMatches <= 0) {
         if (this._totalMatches > 0) {
+          let proceeded = false;
           this._matchesPool.forEach(match => {
             if (!match.burning) {
+              proceeded = true;
               this._burnMatch(match);
+            }
+
+            if(!proceeded) {
+              this._lose();
             }
           });
         } else {

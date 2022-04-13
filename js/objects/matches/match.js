@@ -348,9 +348,11 @@ export default class Match extends DisplayObject {
 
     this._fires.push(fire);
 
+
     fire.events.on('stopFire', () => {
       this._destoroyedFires++;
 
+      console.log('destroyFire', this._destoroyedFires , this._fires.length)
       if(this._destoroyedFires >= this._fires.length) {
         this.events.post('burn-end');
       }
