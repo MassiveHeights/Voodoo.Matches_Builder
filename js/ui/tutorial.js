@@ -29,7 +29,7 @@ export default class Tutorial extends DisplayObject {
     Black.stage.on('resize', () => this._onResize());
     this._onResize();
 
-    this.show();
+    // this.show();
   }
 
   show() {

@@ -112,7 +112,7 @@ export default class ProgressBar extends DisplayObject {
 
   _initProgress() {
     const bar = this._bar;
-
+    this._startWidth = bar.width;
     this._progress = new Rectangle(-bar.width * 0.5, -bar.height * 0.5, bar.width, bar.height);
   }
 
@@ -166,9 +166,12 @@ export default class ProgressBar extends DisplayObject {
     const bounds = Black.stage.bounds;
 
     this.x = bounds.center().x;
-    this.y = bounds.top + 63;
+    this.y = bounds.top + 67;
 
     this._setMarkersPosition();
+
+    const width = Math.min(bounds.width * 0.5, 430);
+    this.scale = width/this._startWidth;
   }
 
   _setMarkersPosition() {

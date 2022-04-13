@@ -36,9 +36,8 @@ export default class Map extends DisplayObject {
 
   start() {
     this._isPlaying = true;
-    this._matchesPool.forEach(match => {
-      match.removeBody();
-    });
+    this._disableInput = false;
+    this._matchesPool.forEach(match => this._removeMatch(match));
     this._matchesPool = [];
     this._matchesWrapper.removeAllChildren();
     this._createStartMatch();
@@ -74,6 +73,7 @@ export default class Map extends DisplayObject {
 
     this._currentMatch = this._createMatch(this._startPointer);
     this._checkDotsHelper();
+    this.deactivatePhysics();
   }
 
   onPointerMove() {
@@ -100,6 +100,15 @@ export default class Map extends DisplayObject {
 
     this._setMatch();
     this._resetDotsHelper();
+    this.activatePhysics();
+  }
+
+  activatePhysics() {
+    this._matchesPool.forEach(match => match.setActive(true));
+  }
+
+  deactivatePhysics() {
+    this._matchesPool.forEach(match => match.setActive(false));
   }
 
   _createJoints(jointPoints) {
@@ -377,7 +386,7 @@ export default class Map extends DisplayObject {
 
   _createStartMatch() {
     const bounds = Black.stage.bounds;
-    const x = bounds.center().x - this._levelSize * 0.1;
+    const x = bounds.center().x - this._levelSize * 0.05;
     const match = this._createMatch(new Vector(x, this._getGroundY()));
     match.setRotation(Math.PI * 0.5);
     this._setMatch(match, true);
@@ -420,7 +429,7 @@ export default class Map extends DisplayObject {
 
   _finish() {
     this._rocket.launch();
-    this._matchesPool.forEach(match => match.burnTest());
+    // this._matchesPool.forEach(match => match.burnTest());
   }
 
   _calcDistance(pos1, pos2) {

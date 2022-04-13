@@ -47,6 +47,12 @@ export default class Match extends DisplayObject {
     // this._body.setActive(true);
   }
 
+  setActive(value) {
+    if(this._body) {
+      this._body.setActive(value);
+    }
+  }
+
   removeBody() {
     if (this._body) {
       this._physics.world.destroyBody(this._body);
@@ -54,10 +60,10 @@ export default class Match extends DisplayObject {
   }
 
   burnTest() {
-    this._view.texture = Black.assets.getTexture('matches/match_burned00');
-    this._shadowL.visible = false;
-    this._shadowR.visible = false;
-    Black._soundManager.playFx('match_end_2', 0.5);
+    // this._view.texture = Black.assets.getTexture('matches/match_burned00');
+    // this._shadowL.visible = false;
+    // this._shadowR.visible = false;
+    // Black._soundManager.playFx('match_end_2', 0.5);
   }
 
   addNode(pos) {
@@ -282,7 +288,6 @@ export default class Match extends DisplayObject {
     const body = this._body = this._physics.world.createDynamicBody(planck.Vec2(0, 0));
     body.createFixture(planck.Box(width * 0.5 * 0.75 / s, height * 0.5 * 0.95 / s), {
       friction: 100,
-      // restitution: 0.2,
       density: 0.001,
       // filterCategoryBits: BodiesTypes.match,
       // filterMaskBits: BodiesTypes.ground,

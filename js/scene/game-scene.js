@@ -95,14 +95,10 @@ export default class GameScene extends GameObject {
     this._debugger.update();
   }
 
-  onResize() {
-    const bounds = Black.stage.bounds;
+  onResize() {    
+    this.y = Utils.LP(-this._levelSize * 1, -this._levelSize * 0.83);
+    this.x = Utils.LP(-this._levelSize * 0.35, -this._levelSize * 0.3);
     
-    this.y = -bounds.width * Utils.LP(0.65, 0.8);
-    this.x = Utils.LP(bounds.left, -this._levelSize * 0.2); //- Utils.LP(0, bounds.height * 0.3);
-    
-    const scaleL = 1.25 * bounds.width/this._levelSize;
-    this.scale = Utils.LP(scaleL, 1.6);
-    this._bg.onResize();
+    this.scale = Utils.LP(2.1, 1.8);
   }
 }

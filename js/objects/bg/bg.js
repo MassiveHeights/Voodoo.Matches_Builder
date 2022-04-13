@@ -1,5 +1,6 @@
 import { Black, DisplayObject, Sprite, TilingInfo } from "black-engine";
 import { Polygon, Vec2 } from "planck-js";
+import Utils from "../../helpers/utils";
 import BodiesTypes from "../../physics/bodies-types";
 import PhysicsOption from "../../physics/physics-options";
 
@@ -11,6 +12,12 @@ export default class Background extends DisplayObject {
     this._physics = physics;
 
     this._s = PhysicsOption.worldScale;
+
+    this._groundData = {
+      width: this._levelSize * 0.8,
+      x: this._levelSize * 0.03,
+      y: this._levelSize * 0.4,
+    }
 
     this._platformData = {
       scale: 0.8,
@@ -29,8 +36,9 @@ export default class Background extends DisplayObject {
     this._initGroundBody();
     this._initPlatformBody();
 
-    // Black.stage.on('resize', () => this.onResize());
-    // this.onResize();
+    Black.stage.on('resize', () => this.onResize());
+    this.onResize();
+    this._setPositions();
   }
 
   _initSky() {
@@ -66,32 +74,32 @@ export default class Background extends DisplayObject {
   _initGroundBody() {
     const groundPoints1 = [
       Vec2(-0.5, 0.1),
-      Vec2(-0.5, -0.135),
-      Vec2(-0.35, -0.13),
-      Vec2(-0.145, -0.1),
-      Vec2(-0.13, -0.025),
-      Vec2(-0.13, 0.1),
+      Vec2(-0.5, -0.123),
+      Vec2(-0.35, -0.115),
+      Vec2(-0.15, -0.09),
+      Vec2(-0.14, -0.025),
+      Vec2(-0.14, 0.1),
     ];
 
     const groundPoints2 = [
-      Vec2(-0.13, 0.1),
-      Vec2(-0.13, -0.025),
-      Vec2(0.21, -0.027),
-      Vec2(0.21, 0.1),
+      Vec2(-0.14, 0.1),
+      Vec2(-0.14, -0.02),
+      Vec2(0.22, -0.022),
+      Vec2(0.22, 0.1),
     ];
 
     const groundPoints3 = [
-      Vec2(0.21, 0.1),
-      Vec2(0.21, -0.027),
-      Vec2(0.28, -0.09),
-      Vec2(0.34, -0.12),
-      Vec2(0.5, -0.134),
+      Vec2(0.22, 0.1),
+      Vec2(0.22, -0.022),
+      Vec2(0.28, -0.078),
+      Vec2(0.34, -0.11),
+      Vec2(0.5, -0.122),
       Vec2(0.5, 0.1),
     ];
 
     const bounds = Black.stage.bounds;
-    const groundX = bounds.center().x / this._s;
-    const groundY = (bounds.center().y + this._levelSize * 0.4) / this._s;
+    const groundX = (bounds.center().x + this._groundData.x) / this._s;
+    const groundY = (bounds.center().y + this._groundData.y) / this._s;
     const pos = Vec2(groundX, groundY);
 
     this._createGroundBody(groundPoints1, pos);
@@ -102,18 +110,11 @@ export default class Background extends DisplayObject {
   _createGroundBody(points, pos) {
     const ground = this._physics.world.createBody(Vec2(0, 0));
 
-    const ls = this._levelSize / this._s;
-    points.forEach(point => {
-      point.mul(ls * 1.05);
-      point.y += 0.3;
-    });
+    const ls = this._groundData.width / this._s;
+    points.forEach(point => point.mul(ls));
 
     ground.createFixture(Polygon(points), {
-      // filterCategoryBits: BodiesTypes.ground,
-      // filterMaskBits: BodiesTypes.match,
-      // density: 100,
       friction: 100,
-      // restitution: 0.2,
     });
 
     ground.setPosition(pos);
@@ -154,29 +155,36 @@ export default class Background extends DisplayObject {
   }
 
   onResize() {
-    const { _sky: sky, _ground: ground, _platform: platform, _groundTileBottom: groundTileBottom } = this;
-
+    const sky = this._sky;
     const bounds = Black.stage.bounds;
     const center = bounds.center();
-    const levelSize = this._levelSize;
 
     sky.x = center.x;
     sky.y = center.y;
 
     sky.width = Math.max(bounds.width, bounds.height);
     sky.scaleY = sky.scaleX;
+  }
 
-    ground.x = center.x;
-    ground.y = center.y + levelSize * 0.4;
+  _setPositions() {
+    const { _ground: ground, _platform: platform, _groundTileBottom: groundTileBottom } = this;
+    const { _groundData: groundData, _platformData: platformData } = this;
 
-    ground.width = levelSize;
+    const bounds = Black.stage.bounds;
+    const center = bounds.center();
+
+    ground.x = center.x + groundData.x;
+    ground.y = center.y + groundData.y;
+
+    ground.width = groundData.width;
     ground.scaleY = ground.scaleX;
 
-    groundTileBottom.x = center.x;
-    groundTileBottom.y = ground.y;
-    
-    platform.x = center.x + this._platformData.x;
-    platform.y = center.y + this._platformData.y;
-    platform.scale = ground.scaleY * this._platformData.scale;
+    groundTileBottom.x = ground.x;
+    groundTileBottom.y = ground.y - 1;
+    groundTileBottom.width = ground.width;
+
+    platform.x = center.x + platformData.x;
+    platform.y = center.y + platformData.y;
+    platform.scale = platformData.scale;
   }
 }
