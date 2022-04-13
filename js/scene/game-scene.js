@@ -5,6 +5,8 @@ import Map from "../objects/map";
 import Background from "../objects/bg/bg";
 import Overlay from "../ui/overlay";
 import Utils from "../helpers/utils";
+import GAME_CONFIG from "../states/game-config";
+import Hint from "../ui/hint";
 
 export default class GameScene extends GameObject {
   constructor() {
@@ -18,7 +20,7 @@ export default class GameScene extends GameObject {
     this._bg = null;
     this._map = null;
 
-    this._levelSize = 1000;
+    this._levelSize = GAME_CONFIG.levelSize;
 
     this._init();
     this.start();
@@ -27,6 +29,7 @@ export default class GameScene extends GameObject {
   start() {
     this.touchable = true;
     this._map.start();
+    this.showHint();
   }
 
   pause() {
@@ -37,12 +40,24 @@ export default class GameScene extends GameObject {
     this._isPaused = false;
   }
 
+  showHint() {
+    const pos = this._map.getHintPos();
+    const rotation = Math.PI * 0.2;
+
+    this._hint.show(pos, rotation)
+  }
+
+  stopHint() {
+    this._hint.stop();
+  }
+
   _init() {
     this._initPhysics();
     
     this._initBg();
     this._initMap();
     this._initOverlay();
+    this._initHint();
 
     this.add(this._debugger);
 
@@ -53,13 +68,18 @@ export default class GameScene extends GameObject {
     this.events.on('tap', () =>  this._onTap());
   }
 
+  _initHint() {
+    const hint = this._hint = new Hint();
+    this.add(hint);
+  }
+
   _initBg() {
-    const bg = this._bg = new Background(this._physics, this._levelSize);
+    const bg = this._bg = new Background(this._physics);
     this.add(bg);
   }
 
   _initMap() {
-    const map = this._map = new Map(this._physics, this._levelSize);
+    const map = this._map = new Map(this._physics);
     this.add(map);
 
     map.events.on('addedMatch', () => this.events.post('addedMatch'));
@@ -95,9 +115,11 @@ export default class GameScene extends GameObject {
     this._debugger.update();
   }
 
-  onResize() {    
-    this.y = Utils.LP(-this._levelSize * 1, -this._levelSize * 0.83);
-    this.x = Utils.LP(-this._levelSize * 0.35, -this._levelSize * 0.3);
+  onResize() {
+    const levelSize = this._levelSize;
+
+    this.y = Utils.LP(-levelSize * 1, -levelSize * 0.83);
+    this.x = Utils.LP(-levelSize * 0.35, -levelSize * 0.3);
     
     this.scale = Utils.LP(2.1, 1.8);
   }

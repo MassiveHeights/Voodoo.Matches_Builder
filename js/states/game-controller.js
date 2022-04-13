@@ -14,6 +14,7 @@ export default class GameController {
 
     this._scene.events.once('addedMatch', () => {
       this._ui.hideTutorial();
+      this._scene.stopHint();
     });
 
     this._ui.events.on('retryClick', () => {

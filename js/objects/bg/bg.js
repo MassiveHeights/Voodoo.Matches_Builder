@@ -3,12 +3,13 @@ import { Polygon, Vec2 } from "planck-js";
 import Utils from "../../helpers/utils";
 import BodiesTypes from "../../physics/bodies-types";
 import PhysicsOption from "../../physics/physics-options";
+import GAME_CONFIG from "../../states/game-config";
 
 export default class Background extends DisplayObject {
-  constructor(physics, levelSize) {
+  constructor(physics) {
     super();
 
-    this._levelSize = levelSize;
+    this._levelSize = GAME_CONFIG.levelSize;
     this._physics = physics;
 
     this._s = PhysicsOption.worldScale;
@@ -57,11 +58,19 @@ export default class Background extends DisplayObject {
 
   _initGroundTile() {
     const groundTileBottom = this._groundTileBottom = new Sprite('bg/level_4_01_tile');
-    groundTileBottom.tiling = new TilingInfo(this._levelSize, 1000);
-
+    groundTileBottom.tiling = new TilingInfo(4000, 1000);
     groundTileBottom.alignAnchor(0.5, 0);
-
     this.add(groundTileBottom);
+
+    const groundTileLeft = this._groundTileLeft = new Sprite('bg/level_4_04');
+    groundTileLeft.tiling = new TilingInfo(2000, groundTileLeft.height);
+    groundTileLeft.alignAnchor(1, 1);
+    this.add(groundTileLeft);
+
+    const groundTileRight = this._groundTileRight = new Sprite('bg/level_4_04');
+    groundTileRight.tiling = new TilingInfo(2000, groundTileLeft.height);
+    groundTileRight.alignAnchor(0, 1);
+    this.add(groundTileRight);
   }
 
   _initPlatform() {
@@ -73,9 +82,10 @@ export default class Background extends DisplayObject {
 
   _initGroundBody() {
     const groundPoints1 = [
-      Vec2(-0.5, 0.1),
-      Vec2(-0.5, -0.123),
-      Vec2(-0.35, -0.115),
+      Vec2(-2, 0.1),
+      Vec2(-2, -0.13),
+      Vec2(-0.5, -0.13),
+      Vec2(-0.35, -0.12),
       Vec2(-0.15, -0.09),
       Vec2(-0.14, -0.025),
       Vec2(-0.14, 0.1),
@@ -93,8 +103,9 @@ export default class Background extends DisplayObject {
       Vec2(0.22, -0.022),
       Vec2(0.28, -0.078),
       Vec2(0.34, -0.11),
-      Vec2(0.5, -0.122),
-      Vec2(0.5, 0.1),
+      Vec2(0.5, -0.126),
+      Vec2(2, -0.126),
+      Vec2(2, 0.1),
     ];
 
     const bounds = Black.stage.bounds;
@@ -167,7 +178,7 @@ export default class Background extends DisplayObject {
   }
 
   _setPositions() {
-    const { _ground: ground, _platform: platform, _groundTileBottom: groundTileBottom } = this;
+    const { _ground: ground, _platform: platform, _groundTileBottom: groundTileBottom, _groundTileLeft: groundTileLeft, _groundTileRight: groundTileRight } = this;
     const { _groundData: groundData, _platformData: platformData } = this;
 
     const bounds = Black.stage.bounds;
@@ -181,7 +192,12 @@ export default class Background extends DisplayObject {
 
     groundTileBottom.x = ground.x;
     groundTileBottom.y = ground.y - 1;
-    groundTileBottom.width = ground.width;
+    groundTileBottom.scale = ground.scale;
+
+    groundTileLeft.x = ground.x - ground.width * 0.5 + 1;
+    groundTileRight.x = ground.x + ground.width * 0.5 - 1;
+    groundTileLeft.y = groundTileRight.y = ground.y;
+    groundTileLeft.scale = groundTileRight.scale = ground.scale;
 
     platform.x = center.x + platformData.x;
     platform.y = center.y + platformData.y;

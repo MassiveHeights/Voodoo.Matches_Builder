@@ -1,5 +1,6 @@
 import { Black, DisplayObject, MessageDispatcher, Sprite } from "black-engine";
 import Delayed from "../kernel/delayed-call";
+import GAME_CONFIG from "../states/game-config";
 import Announcer from "./announcer";
 import ProgressBar from "./progress-bar/progress-bar";
 import Tutorial from "./tutorial";
@@ -15,6 +16,8 @@ export default class UI extends DisplayObject {
 
     this._progressBar = null;
     this._announcer = null;
+
+    this._levelSize = GAME_CONFIG.levelSize;
 
     this.touchable = true;
   }

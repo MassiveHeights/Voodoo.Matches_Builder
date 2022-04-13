@@ -2,18 +2,19 @@ import {Black, DisplayObject, MessageDispatcher, Sprite, Vector} from "black-eng
 import {Vec2, WeldJoint} from "planck-js";
 import Delayed from "../kernel/delayed-call";
 import PhysicsOption from "../physics/physics-options";
+import GAME_CONFIG from "../states/game-config";
 import Bonfire from "./map-items/bonfire";
 import Rocket from "./map-items/rocket";
 import DotsHelper from "./matches/dots-helper";
 import Match from "./matches/match";
 
 export default class Map extends DisplayObject {
-  constructor(physics, levelSize) {
+  constructor(physics) {
     super();
 
     this.events = new MessageDispatcher(false);
     this._physics = physics;
-    this._levelSize = levelSize;
+    this._levelSize = GAME_CONFIG.levelSize;
     this._s = PhysicsOption.worldScale;
 
     this._matchesPool = [];
@@ -43,20 +44,8 @@ export default class Map extends DisplayObject {
     this._createStartMatch();
   }
 
-  _init() {
-    this._matchesWrapper = new DisplayObject();
-    this._fireLayer = new DisplayObject();
-    this._bonFireLayer = new DisplayObject();
-
-    this._initDotsHelper();
-    this._initBonfire();
-    this._initRocket();
-    this._createDebugLevel();
-    this._checkCollisions();
-
-    this.add(this._matchesWrapper);
-    this.add(this._fireLayer);
-    this.add(this._bonFireLayer);
+  getHintPos() {
+    return this._getStartMatchPos();
   }
 
   onPointerDown() {
@@ -109,6 +98,22 @@ export default class Map extends DisplayObject {
 
   deactivatePhysics() {
     this._matchesPool.forEach(match => match.setActive(false));
+  }
+
+  _init() {
+    this._matchesWrapper = new DisplayObject();
+    this._fireLayer = new DisplayObject();
+    this._bonFireLayer = new DisplayObject();
+
+    this._initDotsHelper();
+    this._initBonfire();
+    this._initRocket();
+    this._createDebugLevel();
+    this._checkCollisions();
+
+    this.add(this._matchesWrapper);
+    this.add(this._fireLayer);
+    this.add(this._bonFireLayer);
   }
 
   _createJoints(jointPoints) {
@@ -385,11 +390,14 @@ export default class Map extends DisplayObject {
   }
 
   _createStartMatch() {
-    const bounds = Black.stage.bounds;
-    const x = bounds.center().x - this._levelSize * 0.05;
-    const match = this._createMatch(new Vector(x, this._getGroundY()));
+    const match = this._createMatch(this._getStartMatchPos());
     match.setRotation(Math.PI * 0.5);
     this._setMatch(match, true);
+  }
+
+  _getStartMatchPos() {
+    const x = Black.stage.bounds.center().x - this._levelSize * 0.05;
+    return new Vector(x, this._getGroundY());;
   }
 
   _getGroundY() {
@@ -429,7 +437,6 @@ export default class Map extends DisplayObject {
 
   _finish() {
     this._rocket.launch();
-    // this._matchesPool.forEach(match => match.burnTest());
   }
 
   _calcDistance(pos1, pos2) {

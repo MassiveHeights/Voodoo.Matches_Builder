@@ -5,6 +5,7 @@ import BodiesTypes from "../../physics/bodies-types";
 import PhysicsOption from "../../physics/physics-options";
 import Node from "./node";
 import FireEffect from "./fire-effect";
+import GAME_CONFIG from "../../states/game-config";
 
 const PI = Math.PI;
 
@@ -16,7 +17,7 @@ export default class Match extends DisplayObject {
     this._fireLayer = fireLayer;
     this._physics = physics;
     this._mass = 0.2;
-    this._scale = 0.26;
+    this._scale = GAME_CONFIG.matchScale;
 
     this._view = null;
     this._body = null;
@@ -57,13 +58,6 @@ export default class Match extends DisplayObject {
     if (this._body) {
       this._physics.world.destroyBody(this._body);
     }
-  }
-
-  burnTest() {
-    // this._view.texture = Black.assets.getTexture('matches/match_burned00');
-    // this._shadowL.visible = false;
-    // this._shadowR.visible = false;
-    // Black._soundManager.playFx('match_end_2', 0.5);
   }
 
   addNode(pos) {
@@ -147,6 +141,7 @@ export default class Match extends DisplayObject {
     if (this._burning) return;
 
     this._burning = true;
+    this._burnedView.visible = true;
 
     const s = PhysicsOption.worldScale;
 
@@ -254,6 +249,7 @@ export default class Match extends DisplayObject {
     this.add(burnedView);
     burnedView.alignPivotOffset(0.5, 1);
     burnedView.rotation = this._rot = Math.PI * 0.5;
+    burnedView.visible = false;
   }
 
   _initView() {
