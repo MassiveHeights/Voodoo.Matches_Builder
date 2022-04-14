@@ -15,6 +15,8 @@ export default class Map extends DisplayObject {
     super();
 
     this.events = new MessageDispatcher(false);
+    this.touchable = true;
+
     this._physics = physics;
     this._levelSize = GAME_CONFIG.levelSize;
     this._s = PhysicsOption.worldScale;
@@ -30,8 +32,6 @@ export default class Map extends DisplayObject {
     this._fireLayer = null;
     this._bonFireLayer = null;
 
-    this.touchable = true;
-    this._isPlaying = false;
     this._launchingRocket = false;
 
     this._burnMatches = 0;
@@ -45,8 +45,8 @@ export default class Map extends DisplayObject {
 
   start() {
     this._launchingRocket = false;
-    this._isPlaying = true;
     this._disableInput = false;
+
     this._matchesPool.forEach(match => this._removeMatch(match));
     this._matchesPool = [];
     this._matchesLayer.removeAllChildren();
@@ -69,11 +69,11 @@ export default class Map extends DisplayObject {
 
   onPointerDown() {
     if (this._disableInput) return;
-
+    
     this._startPointer = this.globalToLocal(Black.input.pointerPosition);
-    this._enableMatch = this._startPointer.y < this._getGroundY() + 10;
+    this._enableMatch = this._startPointer.y < this._getGroundY() + 40;
 
-    if (!this._isPlaying || !this._enableMatch) return;
+    if (!this._enableMatch) return;
 
     if (this._currentMatch) {
       this.onPointerUp();
@@ -86,7 +86,7 @@ export default class Map extends DisplayObject {
 
   onPointerMove() {
     if (this._disableInput) return;
-    if (!this._isPlaying || !this._enableMatch) return;
+    if (!this._enableMatch) return;
 
     this._calcRotation();
     this._checkDotsHelper();
@@ -102,7 +102,7 @@ export default class Map extends DisplayObject {
       return;
     }
 
-    if (!this._isPlaying || !this._enableMatch) return;
+    if (!this._enableMatch) return;
 
     this._setMatch();
     this._resetDotsHelper();
@@ -349,33 +349,11 @@ export default class Map extends DisplayObject {
     }
 
     const length = Vec2.distance(p1, p2);
-    // const isNearGround = this._getGroundY() - p1.y < this._currentMatch.getHeight();
-
-    // if (isNearGround) {
-    //   rotation = this._fixAngle(rotation);
-    // }
 
     if (length > 10) {
       this._currentMatch.setRotation(rotation);
     }
   }
-
-  // _fixAngle(rotation) {
-  //   const isLeft = Math.sin(rotation) < 0;
-  //   const l = this._currentMatch.getHeight();
-  //   const p = this._startPointer;
-  //   const endY = p.y - l * Math.cos(rotation);
-  //   const groundY = this._getGroundY();
-
-  //   if (endY > groundY) {
-  //     rotation = Math.acos((p.y - groundY) / l);
-  //     if (isLeft) {
-  //       rotation = -rotation;
-  //     }
-  //   }
-
-  //   return rotation;
-  // }
 
   _createMatch(pointer) {
     const match = new Match(this._matchesLayer, this._physics, this._fireLayer);
@@ -435,10 +413,9 @@ export default class Map extends DisplayObject {
   }
 
   _win() {
-    if(!this._isPlaying) {
+    if(this._gameWin){
       return;
     }
-    this._isPlaying = false;
     this._gameWin = true;
 
     this._rocket.launch();
