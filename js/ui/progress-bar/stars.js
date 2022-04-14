@@ -57,7 +57,7 @@ export default class Stars extends DisplayObject {
 
     const star = new Sprite(Black.assets.getTexture(frame));
     star.alignPivotOffset();
-    star.scale = 0.15;
+    star.scale = 0.6;
 
     return star;
   }

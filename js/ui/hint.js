@@ -194,8 +194,8 @@ export default class Hint extends DisplayObject {
       30, 
       FontStyle.NORMAL,
       FontWeight.NORMAL,
-      // 3,
-      // 0x111111
+      2,
+      0x000000
     );
     note.autoSize = false;
     note.fieldWidth = 960;

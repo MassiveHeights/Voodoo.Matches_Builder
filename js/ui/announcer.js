@@ -74,6 +74,8 @@ export default class Announcer extends DisplayObject {
       26,
       FontStyle.NORMAL,
       FontWeight.NORMAL,
+      2,
+      0x000000
     );
 
     text.align = FontAlign.CENTER;

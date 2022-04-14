@@ -88,9 +88,9 @@
         <key>maxTextureSize</key>
         <QSize>
             <key>width</key>
-            <int>2048</int>
+            <int>4096</int>
             <key>height</key>
-            <int>2048</int>
+            <int>4096</int>
         </QSize>
         <key>fixedTextureSize</key>
         <QSize>
@@ -182,6 +182,8 @@
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
             <key type="filename">../atlas/bg/level_4_00.png</key>
+            <key type="filename">../atlas/bg/level_4_00_2.png</key>
+            <key type="filename">../atlas/bg/level_4_00_3.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -196,6 +198,8 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">../atlas/bg/level_4_01_2_tile.png</key>
+            <key type="filename">../atlas/bg/level_4_01_3_tile.png</key>
             <key type="filename">../atlas/bg/level_4_01_tile.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -212,6 +216,8 @@
                 <false/>
             </struct>
             <key type="filename">../atlas/bg/level_4_02.png</key>
+            <key type="filename">../atlas/bg/level_4_2_02.png</key>
+            <key type="filename">../atlas/bg/level_4_3_02.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -227,6 +233,8 @@
                 <false/>
             </struct>
             <key type="filename">../atlas/bg/level_4_04.png</key>
+            <key type="filename">../atlas/bg/level_4_1_04.png</key>
+            <key type="filename">../atlas/bg/level_4_2_04.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -242,6 +250,8 @@
                 <false/>
             </struct>
             <key type="filename">../atlas/bg/level_4_bg.jpg</key>
+            <key type="filename">../atlas/bg/level_4_bg_2.jpg</key>
+            <key type="filename">../atlas/bg/level_4_bg_3.jpg</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>

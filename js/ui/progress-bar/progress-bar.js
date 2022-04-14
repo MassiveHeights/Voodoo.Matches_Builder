@@ -138,6 +138,8 @@ export default class ProgressBar extends DisplayObject {
       20,
       FontStyle.NORMAL,
       FontWeight.NORMAL,
+      2,
+      0x000000
     );
 
     levelText.align = FontAlign.CENTER;

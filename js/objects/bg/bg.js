@@ -3,6 +3,7 @@ import { Polygon, Vec2 } from "planck-js";
 import BodiesTypes from "../../physics/bodies-types";
 import PhysicsOption from "../../physics/physics-options";
 import GAME_CONFIG from "../../states/game-config";
+import { BG_CONFIG, BG_TYPES } from "./bg-config";
 
 export default class Background extends DisplayObject {
   constructor(physics) {
@@ -11,6 +12,8 @@ export default class Background extends DisplayObject {
     this._levelSize = GAME_CONFIG.levelSize;
     this._physics = physics;
 
+    this._type = BG_TYPES.ground;
+    this._config = BG_CONFIG[this._type];
     this._s = PhysicsOption.worldScale;
 
     this._groundData = {
