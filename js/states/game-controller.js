@@ -13,15 +13,17 @@ export default class GameController {
 
     scene.events.on('addedMatch', () => this._onAddedMatch());
     scene.events.on('onLose', () => this._onLose());
-    scene.events.once('onWin', () => this._onWin());
+    scene.events.on('onWin', () => this._onWin());
     scene.events.once('addedMatch', () => this._onFirstMatchAdded());
   }
 
   _onFirstMatchAdded() {
+    const ui = this._ui;
+
     this._scene.stopHint();
-    this._ui.enableRetryBtn();
-    this._ui.hideTutorial();
-    this._ui.events.on('retryClick', () => this._onRetryClick());
+    ui.enableRetryBtn();
+    ui.hideTutorial();
+    ui.events.on('retryClick', () => this._onRetryClick());
   }
 
   _onAddedMatch() {
@@ -42,6 +44,7 @@ export default class GameController {
 
   _onRetryClick() {
     if(this._scene.canRetry()){
+      this._ui.animateRetryClick();
       this._game.retry();
     }
   }

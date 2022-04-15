@@ -285,7 +285,7 @@ export default class Map extends DisplayObject {
   }
 
   _burnMatch(match, contactData = null) {
-    Black._soundManager.playFx('walking_fire_loop', 0.5, false);
+    Black._soundManager.playFx('walking_fire_loop', 0.7, false);
 
     this._disableInput = true;
     this.onPointerUp();
@@ -479,8 +479,7 @@ export default class Map extends DisplayObject {
       this._launchingRocket = true;
       setTimeout(() => {
         this.events.post('onWin')
-      }, 3000);
-      // Delayed.call(3, () => this.events.post('onWin'));
+      }, 4000);
     });
 
     this.parent.addComponent(tween);

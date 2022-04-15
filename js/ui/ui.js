@@ -73,6 +73,25 @@ export default class UI extends DisplayObject {
     retryBtn.addComponent(tween);
   }
 
+  animateRetryClick() {
+    console.log('animateRetryClick')
+    const retryBtn = this._retryButton;
+    retryBtn.removeComponent(this._retryClickTween);
+
+    retryBtn.width = 65;
+    retryBtn.scaleY = retryBtn.scaleX;
+
+    const startScale = retryBtn.scale;
+    const tween = this._retryClickTween = new Tween({ scale: startScale * 1.2 }, 0.15, {
+      ease: Ease.sinusoidalOut,
+    });
+
+    tween.yoyo = true;
+    tween.repeats = 1;
+
+    retryBtn.addComponent(tween);
+  }
+
   _init() {
     this._initProgressBar();
     this._initAnnouncer();
@@ -113,21 +132,6 @@ export default class UI extends DisplayObject {
   }
 
   _onRetryButtonClick() {
-    const retryBtn = this._retryButton;
-    retryBtn.removeComponent(this._retryClickTween);
-
-    retryBtn.width = 65;
-    retryBtn.scaleY = retryBtn.scaleX;
-
-    const startScale = retryBtn.scale;
-    const tween = this._retryClickTween = new Tween({ scale: startScale * 1.2 }, 0.15, {
-      ease: Ease.sinusoidalOut,
-    });
-
-    tween.yoyo = true;
-    tween.repeats = 1;
-
-    retryBtn.addComponent(tween);
     this.events.post('retryClick');
   }
 

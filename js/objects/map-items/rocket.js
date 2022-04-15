@@ -48,8 +48,6 @@ export default class Rocket extends DisplayObject {
     const rocket = this._rocket;
     rocket.play('animation', false);
 
-    // Delayed.call(3.33, () => {
-    // });
     setTimeout(() => {
       this._launchFirework();
     }, 3330);
@@ -68,21 +66,9 @@ export default class Rocket extends DisplayObject {
     firework.visible = true;
     firework.play('animation', false);
 
-    setTimeout(() => {
-      Black._soundManager.playFx('firework_1', 1, false)
-    }, this._getRandomDelay());
-
-    setTimeout(() => {
-      Black._soundManager.playFx('firework_2', 1, false)
-    }, this._getRandomDelay());
-
-    setTimeout(() => {
-      Black._soundManager.playFx('firework_3', 1, false)
-    }, this._getRandomDelay());
-
-    // Delayed.call(this._getRandomDelay(), () => Black._soundManager.playFx('firework_1', 1, false));
-    // Delayed.call(this._getRandomDelay(), () => Black._soundManager.playFx('firework_2', 1, false));
-    // Delayed.call(this._getRandomDelay(), () => Black._soundManager.playFx('firework_3', 1, false));
+    Black._soundManager.playFx('firework_1', 1, false)
+    Black._soundManager.playFx('firework_2', 1, false)
+    Black._soundManager.playFx('firework_3', 1, false)
 
     this._firework.once('animationComplete', () => {
       this._firework.rotation = Math.random() * 2 * Math.PI;
@@ -90,14 +76,9 @@ export default class Rocket extends DisplayObject {
     });
   }
 
-  _getRandomDelay() {
-    return (Math.random() * 0.3 + 0.1) * 1000;
-  }
-
   _init() {
     this._initRocket();
     this._initFirework();
-
   }
 
   initBody() {

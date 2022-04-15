@@ -8,8 +8,6 @@ import {CreativeWrapper} from "../libs/wrapper/creative-wrapper";
 import GameScene from '../scene/game-scene';
 import UI from '../ui/ui';
 import GameController from './game-controller';
-import GAME_CONFIG from './game-config';
-import Utils from '../helpers/utils';
 
 export default class Game extends BaseGame {
   constructor() {
@@ -93,6 +91,10 @@ export default class Game extends BaseGame {
   }
 
   _initSoundManger() {
+    if(this._soundManager){
+      return;
+    }
+    
     if (creativeWrapper.getParam('sounds') === true) {
       if (this._soundManager == null) {
         Black._soundManager = this._soundManager = new SoundManager();
@@ -102,7 +104,7 @@ export default class Game extends BaseGame {
 
       let soundButton = new SoundButton();
       Black.stage.addChild(soundButton);
-
+      soundButton.show();
       this._soundManager.registerSoundButton(soundButton);
     }
   }
