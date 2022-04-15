@@ -54,6 +54,10 @@ export default class Rocket extends DisplayObject {
   }
 
   _launchFirework() {
+    if(!this._isLaunched){
+      return;
+    }
+
     const firework = this._firework;
 
     firework.x = this.getRocketPos().x;
@@ -67,10 +71,8 @@ export default class Rocket extends DisplayObject {
     Delayed.call(this._getRandomDelay(), () => Black._soundManager.playFx('firework_3', 1, false));
 
     this._firework.once('animationComplete', () => {
-      if(this._isLaunched){
-        this._firework.rotation = Math.random() * 2 * Math.PI;
-        this._launchFirework();
-      }
+      this._firework.rotation = Math.random() * 2 * Math.PI;
+      this._launchFirework();
     });
   }
 

@@ -41,6 +41,8 @@ export default class Map extends DisplayObject {
     this._gameWin = false;
     this._gameLose = false;
 
+    this._moveCameraTween = null;
+
     this._init();
   }
 
@@ -59,12 +61,16 @@ export default class Map extends DisplayObject {
     this._matchesLayer.removeAllChildren();
     this._createStartMatch();
 
+    this.parent.removeComponent(this._moveCameraTween);
     this.parent.onResize();
     this._rocket.reset();
   }
 
   getHintPos() {
-    return this._getStartMatchPos();
+    const pos = this._getStartMatchPos();
+    pos.x += 5;
+    pos.y += 6;
+    return pos;
   }
 
   onUpdate() {
@@ -419,7 +425,6 @@ export default class Map extends DisplayObject {
   }
 
   _checkLose() {
-    console.log(this._totalMatches, GAME_CONFIG.startMatchesValue + 1)
     if((this._totalMatches >= GAME_CONFIG.startMatchesValue + 1) && this._burnMatches === 0){
       this._lose();
     }
@@ -457,7 +462,7 @@ export default class Map extends DisplayObject {
     this._rocket.launch();
     const topY = this.parent.y + this._levelSize * Utils.LP(0.6, 0.3);
 
-    const tween = new Tween({y: topY}, 2, {
+    const tween = this._moveCameraTween = new Tween({y: topY}, 2, {
       ease: Ease.sinusoidalIn,
     });
 

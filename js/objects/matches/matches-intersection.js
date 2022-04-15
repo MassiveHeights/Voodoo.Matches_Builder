@@ -10,9 +10,9 @@ function INTERSECT(p1, p2, p3, p4) {
 
   const denominator = ((y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1));
 
-  if (denominator === 0) {
-    return false;
-  }
+  // if (denominator === 0) {
+  //   return false;
+  // }
 
   let ua = ((x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3)) / denominator;
   let ub = ((x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3)) / denominator;

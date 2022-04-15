@@ -1,7 +1,7 @@
 module.exports.config = {
-  projectName: 'Tape Thrower',
-  appStoreUrl: 'https://apps.apple.com/app/tape-thrower/id1574082485',
-  googlePlayStoreUrl: 'https://play.google.com/store/apps/details?id=com.borna.tapethrower',
+  projectName: 'Match builder',
+  appStoreUrl: 'https://apps.apple.com/app/id1607678114',
+  googlePlayStoreUrl: 'https://play.google.com/store',
   creative: {
     sounds: {
       value: true, type: 'select', options: [
