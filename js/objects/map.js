@@ -424,6 +424,8 @@ export default class Map extends DisplayObject {
 
   _removeMatch(match) {
     match.removeBody();
+    match.removeView();
+
     this._matchesLayer.removeChild(match);
   }
 

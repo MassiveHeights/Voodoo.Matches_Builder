@@ -70,6 +70,18 @@ export default class Match extends DisplayObject {
     }
   }
 
+  removeView(){
+    this.events.off('stopFire');
+    this._additionalFires.forEach(fire => {
+      fire.object.removeView();
+    });
+
+    this._fires.forEach(fire => {
+      fire.removeView();
+    });
+
+  }
+
   addNode(pos) {
     const node = this._createNode();
     const view = this._view;

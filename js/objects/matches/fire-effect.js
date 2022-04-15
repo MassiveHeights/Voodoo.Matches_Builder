@@ -110,7 +110,7 @@ export default class FireEffect extends DisplayObject {
     this._body.setActive(true);
   }
 
-  _showAdditionalFireAnimation(animName){
+  _showAdditionalFireAnimation(animName) {
     this._fireView.scale = this._additionalFireScale;
     this._fireAnimation.play(animName, false);
 
@@ -131,6 +131,10 @@ export default class FireEffect extends DisplayObject {
 
   showFireSplash2() {
     this._showAdditionalFireAnimation('match_end_2');
+  }
+
+  removeView() {
+    this._fireView.removeFromParent();
   }
 
   stopFire() {
