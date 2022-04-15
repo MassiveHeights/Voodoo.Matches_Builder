@@ -93,10 +93,17 @@ export default class Game extends BaseGame {
   }
 
   _initSoundManger() {
-    if (this._soundManager == null) {
-      Black._soundManager= this._soundManager = new SoundManager();
+    if (creativeWrapper.getParam('sounds') === true) {
+      if (this._soundManager == null) {
+        Black._soundManager = this._soundManager = new SoundManager();
 
-      this._soundManager.playBackgroundMusic();
+        this._soundManager.playBackgroundMusic();
+      }
+
+      let soundButton = new SoundButton();
+      Black.stage.addChild(soundButton);
+
+      this._soundManager.registerSoundButton(soundButton);
     }
   }
 
@@ -128,12 +135,6 @@ export default class Game extends BaseGame {
     //   this._tutorial = new Tutorial();
     //   Black.stage.add(this._tutorial);
     // }
-
-    if (creativeWrapper.getParam('sounds')) {
-      let soundButton = new SoundButton();
-      Black.stage.addChild(soundButton);
-      this._soundManager.registerSoundButton(soundButton);
-    }
   }
 
   _initController() {

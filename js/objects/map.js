@@ -399,7 +399,9 @@ export default class Map extends DisplayObject {
     match.setPos(pos);
     this._matchesLayer.add(match);
 
-    Black._soundManager.playFx('new_match');
+    if(Black._soundManager) {
+      Black._soundManager.playFx('new_match');
+    }
 
     return match;
   }
