@@ -56,48 +56,47 @@ export default class UI extends DisplayObject {
     }
   }
 
-  enableRetryBtn() {
-    this._retryButton.touchable = true;
-  }
+  // enableRetryBtn() {
+  //   this._retryButton.touchable = true;
+  // }
 
-  hideRetryBtn() {
-    const retryBtn = this._retryButton;
-    const tween = new Tween({ scale: 0 }, 0.3, {
-      ease: Ease.backIn,
-    });
+  // hideRetryBtn() {
+  //   const retryBtn = this._retryButton;
+  //   const tween = new Tween({ scale: 0 }, 0.3, {
+  //     ease: Ease.backIn,
+  //   });
 
-    tween.on('complete', () => {
-      retryBtn.visible = false;
-    });
+  //   tween.on('complete', () => {
+  //     retryBtn.visible = false;
+  //   });
 
-    retryBtn.addComponent(tween);
-  }
+  //   retryBtn.addComponent(tween);
+  // }
 
-  animateRetryClick() {
-    console.log('animateRetryClick')
-    const retryBtn = this._retryButton;
-    retryBtn.removeComponent(this._retryClickTween);
+  // animateRetryClick() {
+  //   const retryBtn = this._retryButton;
+  //   retryBtn.removeComponent(this._retryClickTween);
 
-    retryBtn.width = 65;
-    retryBtn.scaleY = retryBtn.scaleX;
+  //   retryBtn.width = 65;
+  //   retryBtn.scaleY = retryBtn.scaleX;
 
-    const startScale = retryBtn.scale;
-    const tween = this._retryClickTween = new Tween({ scale: startScale * 1.2 }, 0.15, {
-      ease: Ease.sinusoidalOut,
-    });
+  //   const startScale = retryBtn.scale;
+  //   const tween = this._retryClickTween = new Tween({ scale: startScale * 1.2 }, 0.15, {
+  //     ease: Ease.sinusoidalOut,
+  //   });
 
-    tween.yoyo = true;
-    tween.repeats = 1;
+  //   tween.yoyo = true;
+  //   tween.repeats = 1;
 
-    retryBtn.addComponent(tween);
-  }
+  //   retryBtn.addComponent(tween);
+  // }
 
   _init() {
     this._initProgressBar();
     this._initAnnouncer();
-    if(creativeWrapper.getParam('retryButton')){
-      this._initRetryButton();
-    }
+    // if(creativeWrapper.getParam('retryButton')){
+    //   this._initRetryButton();
+    // }
     if(creativeWrapper.getParam('tutorial')){
       this._initTutorial();
     }
@@ -118,22 +117,22 @@ export default class UI extends DisplayObject {
     this.add(announcer);
   }
 
-  _initRetryButton() {
-    const frame = 'ui/button_RETRY_small';
+  // _initRetryButton() {
+  //   const frame = 'ui/button_RETRY_small';
 
-    const retryButton = this._retryButton = new Sprite(Black.assets.getTexture(frame));
-    retryButton.alignPivotOffset();
-    // retryButton.touchable = true;
-    retryButton.width = 65;
-    retryButton.scaleY = retryButton.scaleX;
+  //   const retryButton = this._retryButton = new Sprite(Black.assets.getTexture(frame));
+  //   retryButton.alignPivotOffset();
+  //   // retryButton.touchable = true;
+  //   retryButton.width = 65;
+  //   retryButton.scaleY = retryButton.scaleX;
 
-    this.add(retryButton);
-    retryButton.on('pointerDown', () => this._onRetryButtonClick());
-  }
+  //   this.add(retryButton);
+  //   retryButton.on('pointerDown', () => this._onRetryButtonClick());
+  // }
 
-  _onRetryButtonClick() {
-    this.events.post('retryClick');
-  }
+  // _onRetryButtonClick() {
+  //   this.events.post('retryClick');
+  // }
 
   onResize() {
     const { _retryButton } = this;

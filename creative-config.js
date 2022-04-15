@@ -15,19 +15,19 @@ module.exports.config = {
         {"name": "No", "value": false}
       ], name: 'Toggle tutorial visible.'
     },
-    autoRetry: {
-      value: true, type: 'select', options: [
-        {"name": "Yes", "value": true},
-        {"name": "No", "value": false}
-      ], name: 'Toggle auto retry after defeat.'
-    },
-    retryButton: {
-      value: true, type: 'select', options: [
-        {"name": "Yes", "value": true},
-        {"name": "No", "value": false}
-      ], name: 'Toggle retry button visible.'
-    },
-    retryTimes: {value: 2, type: 'range', min: 1, max: 5, name: 'Retry times'},
+    // autoRetry: {
+    //   value: true, type: 'select', options: [
+    //     {"name": "Yes", "value": true},
+    //     {"name": "No", "value": false}
+    //   ], name: 'Toggle auto retry after defeat.'
+    // },
+    // retryButton: {
+    //   value: true, type: 'select', options: [
+    //     {"name": "Yes", "value": true},
+    //     {"name": "No", "value": false}
+    //   ], name: 'Toggle retry button visible.'
+    // },
+    // retryTimes: {value: 2, type: 'range', min: 1, max: 5, name: 'Retry times'},
     ground: {
       value: 'TYPE_1', type: 'select', options: [
         {"name": "Type 1", "value": 'TYPE_1'},
@@ -59,19 +59,19 @@ module.exports.config = {
         {"name": "No", "value": false}
       ], name: 'Toggle tutorial visible.'
     },
-    autoRetry: {
-      value: true, type: 'select', options: [
-        {"name": "Yes", "value": true},
-        {"name": "No", "value": false}
-      ], name: 'Toggle auto retry after defeat.'
-    },
-    retryButton: {
-      value: true, type: 'select', options: [
-        {"name": "Yes", "value": true},
-        {"name": "No", "value": false}
-      ], name: 'Toggle retry button visible.'
-    },
-    retryTimes: {value: 2, type: 'range', min: 1, max: 5, name: 'Retry times'},
+    // autoRetry: {
+    //   value: true, type: 'select', options: [
+    //     {"name": "Yes", "value": true},
+    //     {"name": "No", "value": false}
+    //   ], name: 'Toggle auto retry after defeat.'
+    // },
+    // retryButton: {
+    //   value: true, type: 'select', options: [
+    //     {"name": "Yes", "value": true},
+    //     {"name": "No", "value": false}
+    //   ], name: 'Toggle retry button visible.'
+    // },
+    // retryTimes: {value: 2, type: 'range', min: 1, max: 5, name: 'Retry times'},
     ground: {
       value: 'TYPE_2', type: 'select', options: [
         {"name": "Type 1", "value": 'TYPE_1'},
