@@ -27,10 +27,6 @@ export default class Game extends BaseGame {
     this._retryTimes = 0;
 
     this._initEvents();
-
-    // setTimeout(() => {
-    //   this.victory();
-    // }, 1000);
   }
 
   retry() {
@@ -69,9 +65,9 @@ export default class Game extends BaseGame {
   }
 
   _onInited() {
-    if (this._soundManager == null) {
-      Black._soundManager = this._soundManager = new SoundManager();
-    }
+    // if (this._soundManager == null) {
+    //   Black._soundManager = this._soundManager = new SoundManager();
+    // }
 
     this._initScene();
     this._initUI();
@@ -83,7 +79,7 @@ export default class Game extends BaseGame {
     });
 
     Black.stage.on("resize", () => this._onResize());
-    this._onResize()
+    this._onResize();
   }
 
   // Calls from ICE API or first click
