@@ -19,14 +19,17 @@ export default class UI extends DisplayObject {
 
     this._levelSize = GAME_CONFIG.levelSize;
 
+    this._tutorialHidden = false;
+
     this.touchable = true;
   }
 
   start(isRetry = false) {
     this._progressBar.restore();
     if(!isRetry && creativeWrapper.getParam('tutorial')) {
-      this._tutorial.show()
-      .once('complete', () => this.events.post('tutorialShown'));
+      if(!this._tutorialHidden) {
+        this._tutorial.show();
+      }
     }
   }
 
@@ -49,6 +52,7 @@ export default class UI extends DisplayObject {
   hideTutorial() {
     if(creativeWrapper.getParam('tutorial')){
       this._tutorial.hide();
+      this._tutorialHidden = true;
     }
   }
 

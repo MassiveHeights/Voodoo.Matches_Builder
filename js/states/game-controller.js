@@ -14,16 +14,13 @@ export default class GameController {
     scene.events.on('addedMatch', () => this._onAddedMatch());
     scene.events.on('onLose', () => this._onLose());
     scene.events.once('onWin', () => this._onWin());
-    
-    ui.events.on('tutorialShown', () => {
-      scene.events.once('addedMatch', () => this._ui.hideTutorial());
-    });
     scene.events.once('addedMatch', () => this._onFirstMatchAdded());
   }
 
   _onFirstMatchAdded() {
     this._scene.stopHint();
     this._ui.enableRetryBtn();
+    this._ui.hideTutorial();
     this._ui.events.on('retryClick', () => this._onRetryClick());
   }
 
