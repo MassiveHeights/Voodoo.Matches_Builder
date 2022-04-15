@@ -133,7 +133,11 @@ export default class Hint extends DisplayObject {
       ease: Ease.sinusoidalOut,
     });
 
-    tween.on('complete', () => Delayed.call(this._duration - duration, () => this._hideObj(match)));
+    tween.on('complete', () => 
+    setTimeout(() => {
+      this._hideObj(match)
+    }, (this._duration - duration) * 1000));
+    // Delayed.call(this._duration - duration, () => this._hideObj(match)));
     match.addComponent(tween);
   }
 
@@ -151,7 +155,11 @@ export default class Hint extends DisplayObject {
       delay: delay,
       ease: Ease.sinusoidalOut,
     });
-    textTween.on('complete', () => Delayed.call(this._duration - duration - delay, () => this._hideObj(note)));
+    textTween.on('complete', () => 
+    setTimeout(() => {
+      this._hideObj(note)
+    }, (this._duration - duration - delay) * 1000));
+    // Delayed.call(this._duration - duration - delay, () => this._hideObj(note)));
 
     note.addComponent(textTween);
   }

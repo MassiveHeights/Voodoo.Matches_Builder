@@ -59,6 +59,7 @@ export default class Map extends DisplayObject {
     this._matchesPool.forEach(match => this._removeMatch(match));
     this._matchesPool = [];
     this._matchesLayer.removeAllChildren();
+
     this._createStartMatch();
 
     this.parent.removeComponent(this._moveCameraTween);
@@ -184,7 +185,10 @@ export default class Map extends DisplayObject {
       body2.setActive(true);
 
       const match = this._currentMatch;
-      Delayed.call(0.06 * index, () => this._createNode(match, anchor));
+      setTimeout(() => {
+        this._createNode(match, anchor)
+      }, 60 * index);
+      // Delayed.call(0.06 * index, () => this._createNode(match, anchor));
     });
   }
 
@@ -390,14 +394,12 @@ export default class Map extends DisplayObject {
 
   _createMatch(pointer) {
     const match = new Match(this._matchesLayer, this._physics, this._fireLayer);
-    match.visible = false;
 
     const pos = Vec2(pointer.x, pointer.y);
     match.setPos(pos);
     this._matchesLayer.add(match);
 
     Black._soundManager.playFx('new_match');
-    Delayed.call(0.01, () => match.visible = true);
 
     return match;
   }
@@ -469,7 +471,10 @@ export default class Map extends DisplayObject {
     tween.on('complete', () => {
       this.parentPos = new Vector(this.parent.x, this.parent.y);
       this._launchingRocket = true;
-      Delayed.call(3, () => this.events.post('onWin'));
+      setTimeout(() => {
+        this.events.post('onWin')
+      }, 3000);
+      // Delayed.call(3, () => this.events.post('onWin'));
     });
 
     this.parent.addComponent(tween);

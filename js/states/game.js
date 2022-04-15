@@ -28,16 +28,16 @@ export default class Game extends BaseGame {
 
     this._initEvents();
 
-    // setTimeout(() => {
-    //   this.victory();
-    // }, 1000);
+    setTimeout(() => {
+      this.victory();
+    }, 1000);
   }
 
   retry() {
     if(creativeWrapper.getParam('retryTimes') === this._retryTimes + 1) {
       this._ui.hideRetryBtn();
     }
-    
+
     if(creativeWrapper.getParam('retryTimes') < this._retryTimes + 1) {
       window._gameplayEvents.lose();
       return;
@@ -110,6 +110,7 @@ export default class Game extends BaseGame {
 
     super._restartGame();
     this._totalTaps = 0;
+    // this.retry();
     this._inputEnabled = true;
     this._gameScene.events.off(['victory', 'preFinish', 'inputLock']);
   }
