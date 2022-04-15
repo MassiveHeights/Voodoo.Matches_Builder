@@ -17,17 +17,13 @@ export default class GameController {
     
     ui.events.on('retryClick', () => this._onRetryClick());
     ui.events.on('tutorialShown', () => {
-      scene.events.once('addedMatch', () => this._onFirstInteraction());
+      scene.events.once('addedMatch', () => this._ui.hideTutorial());
     });
+    scene.events.once('addedMatch', () => this._scene.stopHint());
   }
 
   _onAddedMatch() {
     this._ui.decreaseProgressBar();
-  }
-
-  _onFirstInteraction() {
-    this._ui.hideTutorial();
-    this._scene.stopHint();
   }
 
   _onWin() {

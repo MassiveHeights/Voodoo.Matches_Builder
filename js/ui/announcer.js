@@ -71,7 +71,7 @@ export default class Announcer extends DisplayObject {
       '',
       "Baloo",
       0xffffff,
-      50,
+      46,
       FontStyle.NORMAL,
       FontWeight.NORMAL,
       4,
