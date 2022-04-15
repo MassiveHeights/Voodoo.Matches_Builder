@@ -48,7 +48,7 @@ export default class BaseGame {
 
   _restartGame() {
     //Black.audio.stopAll();
-    this._destroySceneChildren();
+   // this._destroySceneChildren();
     this._destroyBlackStage();
     this._onInited();
   }
@@ -67,11 +67,11 @@ export default class BaseGame {
   }
 
   _destroySceneChildren() {
-    for (let i = this._scene.mChildren.length - 1; i > 0; i--) {
-      if (this._notDestroyableContainer !== this._scene.mChildren[i]) {
-        this._scene.removeChild(this._scene.mChildren[i]);
-      }
-    }
+    // for (let i = this._scene.mChildren.length - 1; i > 0; i--) {
+    //   if (this._notDestroyableContainer !== this._scene.mChildren[i]) {
+    //     this._scene.removeChild(this._scene.mChildren[i]);
+    //   }
+    // }
   }
 
   _onResize() {
@@ -94,7 +94,7 @@ export default class BaseGame {
 
   _onRender() {
 
-    this._renderer.render(this._scene, this._camera);
+   // this._renderer.render(this._scene, this._camera);
   }
 
   _onPause() {

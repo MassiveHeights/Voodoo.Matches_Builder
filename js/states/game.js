@@ -27,6 +27,10 @@ export default class Game extends BaseGame {
     this._retryTimes = 0;
 
     this._initEvents();
+
+    // setTimeout(() => {
+    //   this.victory();
+    // }, 1000);
   }
 
   retry() {

@@ -112,12 +112,15 @@ export default class GameScene extends GameObject {
   }
 
   _onWin() {
-    if (window._voodooExit) {
-      window._voodooExit("click");
-    }
-    else {
-      console.warn('window._voodooExit not found');
-    }
+    // if (window._voodooExit) {
+    //   window._voodooExit("click");
+    // }
+    // else {
+    //   console.warn('window._voodooExit not found');
+    // }
+
+    this.events.post('onWin');
+
   }
 
   _onLose() {
