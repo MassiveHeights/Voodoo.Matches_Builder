@@ -67,6 +67,10 @@ export default class Map extends DisplayObject {
     this._rocket.reset();
   }
 
+  isLaunchingRocket() {
+    return this._launchingRocket;
+  }
+
   getHintPos() {
     const pos = this._getStartMatchPos();
     pos.x += 5;

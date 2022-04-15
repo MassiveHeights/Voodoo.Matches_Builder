@@ -124,7 +124,7 @@ export default class Match extends DisplayObject {
     const p2 = new Vec2();
 
     const rot = this._view.rotation;
-    const height = this._height + 8;
+    const height = this._height;
 
     const d1 = height * this._pivotOffsetY;
     const d2 = height * (1 - this._pivotOffsetY);

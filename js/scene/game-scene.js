@@ -53,6 +53,10 @@ export default class GameScene extends GameObject {
     this._hint.stop();
   }
 
+  canRetry() {
+    return !this._map.isLaunchingRocket();
+  }
+
   _init() {
     this._initPhysics();
     

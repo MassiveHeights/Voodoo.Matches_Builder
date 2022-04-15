@@ -41,6 +41,8 @@ export default class GameController {
   }
 
   _onRetryClick() {
-    this._game.retry();
+    if(this._scene.canRetry()){
+      this._game.retry();
+    }
   }
 }
