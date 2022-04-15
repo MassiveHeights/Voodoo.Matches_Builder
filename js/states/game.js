@@ -91,10 +91,10 @@ export default class Game extends BaseGame {
   }
 
   _initSoundManger() {
-    if(this._soundManager){
+    if(Black.stage.mChildren.indexOf(this._soundButton) !== -1){
       return;
     }
-    
+
     if (creativeWrapper.getParam('sounds') === true) {
       if (this._soundManager == null) {
         Black._soundManager = this._soundManager = new SoundManager();
@@ -102,7 +102,7 @@ export default class Game extends BaseGame {
         this._soundManager.playBackgroundMusic();
       }
 
-      let soundButton = new SoundButton();
+      let soundButton = this._soundButton = new SoundButton();
       Black.stage.addChild(soundButton);
       soundButton.show();
       this._soundManager.registerSoundButton(soundButton);
