@@ -48,13 +48,16 @@ export default class Map extends DisplayObject {
     this._launchingRocket = false;
     this._disableInput = false;
 
+    this._gameWin = false;
+    this._gameLose = false;
+
+    this._burnMatches = 0;
+    this._totalMatches = 0;
+
     this._matchesPool.forEach(match => this._removeMatch(match));
     this._matchesPool = [];
     this._matchesLayer.removeAllChildren();
     this._createStartMatch();
-
-    this._gameWin = false;
-    this._gameLose = false;
 
     this.parent.onResize();
     this._rocket.reset();
@@ -388,9 +391,7 @@ export default class Map extends DisplayObject {
     this._matchesLayer.add(match);
 
     Black._soundManager.playFx('new_match');
-
     Delayed.call(0.01, () => match.visible = true);
-    this._totalMatches++;
 
     return match;
   }
@@ -403,6 +404,7 @@ export default class Map extends DisplayObject {
 
     if (isIntersection || isAutoSet) {
       this._matchesPool.push(currentMatch);
+      this._totalMatches++;
       if (!isAutoSet) {
         Black._soundManager.playFx('match_fixed_2');
         this._createJoints(jointPoints);
@@ -417,6 +419,7 @@ export default class Map extends DisplayObject {
   }
 
   _checkLose() {
+    console.log(this._totalMatches, GAME_CONFIG.startMatchesValue + 1)
     if((this._totalMatches >= GAME_CONFIG.startMatchesValue + 1) && this._burnMatches === 0){
       this._lose();
     }
