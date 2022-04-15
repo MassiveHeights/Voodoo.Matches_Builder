@@ -9,6 +9,7 @@ import {
 } from "black-engine";
 import { Ease, Tween } from "black-engine";
 import Delayed from "../kernel/delayed-call";
+import localization from "../localization";
 import Match from "../objects/matches/match";
 export default class Hint extends DisplayObject {
   constructor() {
@@ -188,7 +189,7 @@ export default class Hint extends DisplayObject {
 
   _initNotification() {
     const note = this._note = new TextField(
-      'swipe!',
+      localization.get('HINT_TEXT'),
       'Baloo',
       0xffffff,
       60, 

@@ -1,6 +1,7 @@
 import { Black, DisplayObject, TextField, FontAlign, FontStyle, FontWeight, Tween, Ease } from "black-engine";
 import Utils from "../helpers/utils";
 import Delayed from "../kernel/delayed-call";
+import localization from "../localization";
 
 export default class Announcer extends DisplayObject {
   constructor() {
@@ -21,7 +22,7 @@ export default class Announcer extends DisplayObject {
   }
 
   show(value) {
-    const string = value + ' matches left';
+    const string = value + ' ' + localization.get('MATCHES_LEFT');
     this._setText(string);
 
     this.visible = true;

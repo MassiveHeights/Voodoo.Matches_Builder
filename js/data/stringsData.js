@@ -11,6 +11,12 @@ export const stringsDataStr = `
   },
   "TUTORIAL_TEXT": {
     "en": "Connect bonfire with\\nrocket to launch it!"
+  },
+  "HINT_TEXT": {
+    "en": "Swipe!"
+  },
+  "MATCHES_LEFT": {
+    "en": "matches left"
   }
 }
 `;
