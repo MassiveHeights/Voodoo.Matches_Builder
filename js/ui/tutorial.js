@@ -21,6 +21,7 @@ export default class Tutorial extends DisplayObject {
     this._txt = null;
 
     this.visible = false;
+    this._isHidden = false;
 
     this._init();
   }
@@ -33,6 +34,10 @@ export default class Tutorial extends DisplayObject {
   }
 
   show() {
+    if(this._isHidden) {
+      return;
+    }
+    
     this.removeAllComponents();
     this.visible = true;
     this.scale = 0;
@@ -43,11 +48,13 @@ export default class Tutorial extends DisplayObject {
       ease: Ease.backOut
     });
 
-    // tween.once('complete', () => Delayed.call(4, this.hide, this));
     this.addComponent(tween);
+
+    return tween;
   }
 
   hide() {
+    this.removeAllComponents();
     const tween = new Tween({scale: 0}, 0.3, {
       playOnAdded: true,
       ease: Ease.backIn
@@ -56,8 +63,9 @@ export default class Tutorial extends DisplayObject {
     tween.once('complete', () => {
       this.visible = false;
     });
-
+    
     this.addComponent(tween);
+    this._isHidden = false;
   }
 
   _init() {

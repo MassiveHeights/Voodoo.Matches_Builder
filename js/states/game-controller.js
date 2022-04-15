@@ -10,14 +10,15 @@ export default class GameController {
   _initSignals() {
     const scene = this._scene;
     const ui = this._ui;
-    const game = this._game;
 
     scene.events.on('addedMatch', () => this._onAddedMatch());
-    scene.events.once('addedMatch', () => this._onFirstInteraction());
     scene.events.on('onLose', () => this._onLose());
     scene.events.once('onWin', () => this._onWin());
-
+    
     ui.events.on('retryClick', () => this._onRetryClick());
+    ui.events.on('tutorialShown', () => {
+      scene.events.once('addedMatch', () => this._onFirstInteraction());
+    });
   }
 
   _onAddedMatch() {

@@ -24,8 +24,9 @@ export default class UI extends DisplayObject {
 
   start(isRetry = false) {
     this._progressBar.restore();
-    if(!isRetry) {
-      this._tutorial.show();
+    if(!isRetry && creativeWrapper.getParam('tutorial')) {
+      this._tutorial.show()
+      .once('complete', () => this.events.post('tutorialShown'));
     }
   }
 
@@ -46,7 +47,9 @@ export default class UI extends DisplayObject {
   }
 
   hideTutorial() {
-    this._tutorial.hide();
+    if(creativeWrapper.getParam('tutorial')){
+      this._tutorial.hide();
+    }
   }
 
   _init() {
@@ -55,7 +58,9 @@ export default class UI extends DisplayObject {
     if(creativeWrapper.getParam('retryButton')){
       this._initRetryButton();
     }
-    this._initTutorial();
+    if(creativeWrapper.getParam('tutorial')){
+      this._initTutorial();
+    }
   }
 
   _initProgressBar() {

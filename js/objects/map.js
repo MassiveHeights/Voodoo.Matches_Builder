@@ -1,5 +1,6 @@
 import {Black, DisplayObject, Ease, MessageDispatcher, Sprite, Tween, Vector} from "black-engine";
 import {Vec2, WeldJoint} from "planck-js";
+import * as planck from 'planck-js';
 import Utils from "../helpers/utils";
 import Delayed from "../kernel/delayed-call";
 import PhysicsOption from "../physics/physics-options";
@@ -128,11 +129,36 @@ export default class Map extends DisplayObject {
     this._initDotsHelper();
     this._initBonfire();
     this._initRocket();
+    this._initHoldingBodies();
+
     this._checkCollisions();
 
     this.add(this._matchesLayer);
     this.add(this._fireLayer);
     this.add(this._bonFireLayer);
+  }
+
+  _initHoldingBodies() {
+    const s = this._s;
+    const pos1 = this._getStartMatchPos();
+    pos1.x = (pos1.x - 15)/s;
+    pos1.y = (pos1.y + 2)/s;
+    const body = this._physics.world.createBody(pos1);
+    body.createFixture(planck.Box(0.5, 0.04), {
+      friction: 100,
+      density: 0.001,
+    });
+
+    const pos2 = this._getStartMatchPos();
+
+    pos2.x = (pos2.x + 100)/s;
+    pos2.y = (pos2.y + 2)/s;
+    
+    const body2 = this._physics.world.createBody(pos2);
+    body2.createFixture(planck.Box(0.5, 0.04), {
+      friction: 100,
+      density: 0.001,
+    });
   }
 
   _createJoints(jointPoints) {
