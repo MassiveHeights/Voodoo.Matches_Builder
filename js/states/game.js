@@ -27,10 +27,6 @@ export default class Game extends BaseGame {
     this._retryTimes = 0;
 
     this._initEvents();
-
-    // setTimeout(() => {
-    //   this.victory();
-    // }, 1000);
   }
 
   retry() {
@@ -69,9 +65,9 @@ export default class Game extends BaseGame {
   }
 
   _onInited() {
-    if (this._soundManager == null) {
-      Black._soundManager = this._soundManager = new SoundManager();
-    }
+    // if (this._soundManager == null) {
+    //   Black._soundManager = this._soundManager = new SoundManager();
+    // }
 
     this._initScene();
     this._initUI();
@@ -83,7 +79,7 @@ export default class Game extends BaseGame {
     });
 
     Black.stage.on("resize", () => this._onResize());
-    this._onResize()
+    this._onResize();
   }
 
   // Calls from ICE API or first click
@@ -97,10 +93,17 @@ export default class Game extends BaseGame {
   }
 
   _initSoundManger() {
-    if (this._soundManager == null) {
-      Black._soundManager= this._soundManager = new SoundManager();
+    if (creativeWrapper.getParam('sounds') === true) {
+      if (this._soundManager == null) {
+        Black._soundManager = this._soundManager = new SoundManager();
 
-      this._soundManager.playBackgroundMusic();
+        this._soundManager.playBackgroundMusic();
+      }
+
+      let soundButton = new SoundButton();
+      Black.stage.addChild(soundButton);
+
+      this._soundManager.registerSoundButton(soundButton);
     }
   }
 
@@ -132,12 +135,6 @@ export default class Game extends BaseGame {
     //   this._tutorial = new Tutorial();
     //   Black.stage.add(this._tutorial);
     // }
-
-    if (creativeWrapper.getParam('sounds')) {
-      let soundButton = new SoundButton();
-      Black.stage.addChild(soundButton);
-      this._soundManager.registerSoundButton(soundButton);
-    }
   }
 
   _initController() {

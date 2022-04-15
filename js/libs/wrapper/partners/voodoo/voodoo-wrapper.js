@@ -11,14 +11,11 @@ export class VoodooWrapper extends Partner {
   getParam(paramKey) {
     let result = window._gameplay.creative[paramKey.toString()];
 
-    if (!isNaN(result))
-      return Number(result);
-    else {
-      if (result === 'true') result = true;
-      if (result === 'false') result = false;
+    if (result === 'true') result = true;
+    if (result === 'false') result = false;
 
-      return result;
-    }
+    return result;
+
   }
 
   getParams() {
@@ -66,12 +63,12 @@ export class VoodooWrapper extends Partner {
   _startGame() {
     this.state = CreativeWrapper.STATE.started;
 
-   // this.__resetCTAIdleTime();
+    // this.__resetCTAIdleTime();
     window._gameplayEvents.startTimer();
   }
 
   _restart() {
-   // this.__resetCTAIdleTime();
+    // this.__resetCTAIdleTime();
     this.events.post(Partner.EVENT_TYPES.RESTART);
   }
 

@@ -18,7 +18,7 @@ export class IceTemplateDev {
 
     window._gameplay = {
       timerEndScreen: 2,
-      nbRetry: 2,
+      nbRetry: 0,
       isEnd: false,
       timerLock: false,
       isInit: false,
