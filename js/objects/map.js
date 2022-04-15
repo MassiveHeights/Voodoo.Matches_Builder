@@ -413,8 +413,9 @@ export default class Map extends DisplayObject {
 
     const jointPoints = this._getJointPoints(currentMatch);
     const isIntersection = jointPoints.length !== 0;
+    const isFinished = this._gameLose || this._gameWin;
 
-    if (isIntersection || isAutoSet) {
+    if ((isIntersection || isAutoSet) && !isFinished) {
       this._matchesPool.push(currentMatch);
       this._totalMatches++;
       if (!isAutoSet) {
@@ -464,6 +465,7 @@ export default class Map extends DisplayObject {
       return;
     }
     this._gameWin = true;
+    this._disableInput = true;
 
     this._rocket.launch();
     const topY = this.parent.y + this._levelSize * Utils.LP(0.6, 0.3);
@@ -486,6 +488,7 @@ export default class Map extends DisplayObject {
   _lose() {
     if (this._gameLose) return;
     this._gameLose = true;
+    this._disableInput = true;
 
     this.events.post('onLose');
   }
