@@ -27,7 +27,7 @@ export class IceTemplateDev {
       started: false,
       redirectionAfterClick: 7,
       restartAfterStore: true,
-      autoStart: false,
+      autoStart: true,
       autoStartDelay: 1,
       endLevelDefaults: {
         available: true,
