@@ -44,7 +44,10 @@ export default class Announcer extends DisplayObject {
     text.addComponent(alphaTween);
 
     alphaTween.once('complete', () => {
-      Delayed.call(0.25, () => this.hide());
+      setTimeout(() => {
+        this.hide()
+      }, 250);
+      // Delayed.call(0.25, () => this.hide());
     });
   }
 
