@@ -22,7 +22,7 @@ module.exports.config = {
       ], name: 'Toggle auto retry after defeat.'
     },
     retryButton: {
-      value: false, type: 'select', options: [
+      value: true, type: 'select', options: [
         {"name": "Yes", "value": true},
         {"name": "No", "value": false}
       ], name: 'Toggle retry button visible.'

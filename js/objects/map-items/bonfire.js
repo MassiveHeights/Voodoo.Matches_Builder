@@ -31,8 +31,6 @@ export default class Bonfire extends DisplayObject {
 
     view.scale = this._scale;
     anim.play('fire_start', true);
-
-    Black._soundManager.playFx('walking_fire_loop', 1, true);
   }
 
   initBody() {

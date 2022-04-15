@@ -268,6 +268,8 @@ export default class Map extends DisplayObject {
   }
 
   _burnMatch(match, contactData = null) {
+    Black._soundManager.playFx('walking_fire_loop', 0.5, false);
+
     this._disableInput = true;
     this.onPointerUp();
 

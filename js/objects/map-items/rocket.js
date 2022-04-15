@@ -5,6 +5,7 @@ import {Polygon, Vec2} from "planck-js";
 import * as planck from "planck-js";
 import BodiesTypes from "../../physics/bodies-types";
 import {DisplayObject, Sprite, Vector} from "black-engine";
+import Delayed from '../../kernel/delayed-call';
 
 export default class Rocket extends DisplayObject {
   constructor(physics) {
@@ -45,9 +46,9 @@ export default class Rocket extends DisplayObject {
     Black._soundManager.playFx('rocketS');
 
     const rocket = this._rocket;
-
     rocket.play('animation', false);
-    rocket.once('animationComplete', () => {
+
+    Delayed.call(3.33, () => {
       this._launchFirework();
     });
   }

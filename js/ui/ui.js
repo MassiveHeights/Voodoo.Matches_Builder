@@ -1,4 +1,4 @@
-import { Black, DisplayObject, MessageDispatcher, Sprite } from "black-engine";
+import { Black, DisplayObject, Ease, MessageDispatcher, Sprite, Tween } from "black-engine";
 import Delayed from "../kernel/delayed-call";
 import GAME_CONFIG from "../states/game-config";
 import Announcer from "./announcer";
@@ -52,6 +52,23 @@ export default class UI extends DisplayObject {
     }
   }
 
+  enableRetryBtn() {
+    this._retryButton.touchable = true;
+  }
+
+  hideRetryBtn() {
+    const retryBtn = this._retryButton;
+    const tween = new Tween({ scale: 0 }, 0.3, {
+      ease: Ease.backIn,
+    });
+
+    tween.on('complete', () => {
+      retryBtn.visible = false;
+    });
+
+    retryBtn.addComponent(tween);
+  }
+
   _init() {
     this._initProgressBar();
     this._initAnnouncer();
@@ -83,7 +100,7 @@ export default class UI extends DisplayObject {
 
     const retryButton = this._retryButton = new Sprite(Black.assets.getTexture(frame));
     retryButton.alignPivotOffset();
-    retryButton.touchable = true;
+    // retryButton.touchable = true;
     retryButton.width = 65;
     retryButton.scaleY = retryButton.scaleX;
 
@@ -92,6 +109,21 @@ export default class UI extends DisplayObject {
   }
 
   _onRetryButtonClick() {
+    const retryBtn = this._retryButton;
+    retryBtn.removeComponent(this._retryClickTween);
+
+    retryBtn.width = 65;
+    retryBtn.scaleY = retryBtn.scaleX;
+
+    const startScale = retryBtn.scale;
+    const tween = this._retryClickTween = new Tween({ scale: startScale * 1.2 }, 0.15, {
+      ease: Ease.sinusoidalOut,
+    });
+
+    tween.yoyo = true;
+    tween.repeats = 1;
+
+    retryBtn.addComponent(tween);
     this.events.post('retryClick');
   }
 

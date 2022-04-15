@@ -30,6 +30,10 @@ export default class Game extends BaseGame {
   }
 
   retry() {
+    if(creativeWrapper.getParam('retryTimes') === this._retryTimes + 1) {
+      this._ui.hideRetryBtn();
+    }
+    
     if(creativeWrapper.getParam('retryTimes') < this._retryTimes + 1) {
       window._gameplayEvents.lose();
       return;
