@@ -189,16 +189,14 @@ export default class Map extends DisplayObject {
       body2.setActive(true);
 
       const match = this._currentMatch;
-      setTimeout(() => {
-        this._createNode(match, anchor)
-      }, 60 * index);
-      // Delayed.call(0.06 * index, () => this._createNode(match, anchor));
+      this._createNode(match, anchor, index)
     });
   }
 
-  _createNode(match, anchor) {
+  _createNode(match, anchor, index) {
+    const delay = index * 60;
     anchor.mul(this._s);
-    match.addNode(anchor);
+    match.addNode(anchor, delay);
   }
 
   _getJointPoints(currentMatch) {

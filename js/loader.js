@@ -7,8 +7,10 @@ import {CreativeWrapper} from "./libs/wrapper/creative-wrapper";
 import JsonObjAsset from './kernel/json-inline-loader-object-asset';
 
 //Black atlas
-import atlas from './../assets/atlas.png';
-import atlasData from '../assets/atlas.json';
+import atlas0 from './../assets/atlas-0.png';
+import atlas1 from './../assets/atlas-1.png';
+import atlas0Data from '../assets/atlas-0.json';
+import atlas1Data from '../assets/atlas-1.json';
 import rocket from './../assets/rocket.png';
 import rocketData from '../assets/rocket.json';
 import firework from './../assets/firework.png';
@@ -50,7 +52,8 @@ export class Loader extends GameObject {
     this._assetsLoaded = false;
 
     //Black/UI
-    assets.enqueueAtlasObj('assets', atlas, atlasData);
+    assets.enqueueAtlasObj('assets0', atlas0, atlas0Data);
+    assets.enqueueAtlasObj('assets1', atlas1, atlas1Data);
     assets.enqueueAtlasObj('firework', firework, fireworkData);
     assets.enqueueAtlasObj('rocket', rocket, rocketData);
 

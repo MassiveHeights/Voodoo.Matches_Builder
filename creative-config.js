@@ -44,7 +44,7 @@ module.exports.config = {
     },
     hintDelay: {value: 5, type: 'range', min: 1, max: 60, name: 'Delay before showing the tutorial (sec).'},
     tapsToWin: {value: 5, type: 'range', min: 1, max: 50, name: 'Taps to win'},
-    levelText: {value: 'Level 1', type: 'string', name: 'Level text on progress bar'}
+    levelText: {value: 'Level 1', type: 'text', name: 'Level text on progress bar'}
   },
   endLevel: {
     sounds: {
@@ -88,6 +88,6 @@ module.exports.config = {
     },
     hintDelay: {value: 5, type: 'range', min: 1, max: 60, name: 'Delay before showing the tutorial (sec).'},
     tapsToWin: {value: 5, type: 'range', min: 1, max: 50, name: 'Taps to win'},
-    levelText: {value: 'Level 2', type: 'string', name: 'Level text on progress bar'}
+    levelText: {value: 'Level 2', type: 'text', name: 'Level text on progress bar'}
   }
 };

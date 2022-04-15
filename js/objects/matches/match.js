@@ -82,7 +82,7 @@ export default class Match extends DisplayObject {
 
   }
 
-  addNode(pos) {
+  addNode(pos, delay) {
     const node = this._createNode();
     const view = this._view;
     const viewPos = Vec2(view.x, view.y);
@@ -101,7 +101,9 @@ export default class Match extends DisplayObject {
       distance: distance * direction,
     });
 
-    node.animate();
+    setTimeout(() => {
+      node.animate();
+    }, delay);
   }
 
   getBody() {
