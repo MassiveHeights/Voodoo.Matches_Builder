@@ -433,7 +433,11 @@ export default class Map extends DisplayObject {
 
   _checkLose() {
     if((this._totalMatches >= GAME_CONFIG.startMatchesValue + 1) && this._burnMatches === 0){
-      this._lose();
+      setTimeout(() => {
+        if(this._burnMatches === 0){
+          this._lose();
+        }
+      }, 200);
     }
   }
 
@@ -486,6 +490,7 @@ export default class Map extends DisplayObject {
   }
 
   _lose() {
+    console.log('lose', this._burnMatches)
     if (this._gameLose) return;
     this._gameLose = true;
     this._disableInput = true;
