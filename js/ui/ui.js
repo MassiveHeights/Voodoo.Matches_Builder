@@ -52,9 +52,10 @@ export default class UI extends DisplayObject {
   _init() {
     this._initProgressBar();
     this._initAnnouncer();
-    this._initRetryButton();
+    if(creativeWrapper.getParam('retryButton')){
+      this._initRetryButton();
+    }
     this._initTutorial();
-    this._listenButtons();
   }
 
   _initProgressBar() {
@@ -82,10 +83,7 @@ export default class UI extends DisplayObject {
     retryButton.scaleY = retryButton.scaleX;
 
     this.add(retryButton);
-  }
-
-  _listenButtons() {
-    this._retryButton.on('pointerDown', () => this._onRetryButtonClick());
+    retryButton.on('pointerDown', () => this._onRetryButtonClick());
   }
 
   _onRetryButtonClick() {
@@ -97,7 +95,9 @@ export default class UI extends DisplayObject {
 
     const bounds = Black.stage.bounds;
 
-    _retryButton.x = bounds.topRight.x - 70;
-    _retryButton.y = bounds.topRight.y + 70;
+    if(_retryButton){
+      _retryButton.x = bounds.topRight.x - 70;
+      _retryButton.y = bounds.topRight.y + 70;
+    }
   }
 }

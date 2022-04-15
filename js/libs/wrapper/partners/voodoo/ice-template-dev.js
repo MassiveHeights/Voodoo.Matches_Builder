@@ -46,7 +46,6 @@ export class IceTemplateDev {
     window._gameplayEndLevel = {};
 
     window._gameplayEndLevel.tapsToWin = 5;
-    window._gameplayEndLevel.skyColor = '#eab83b';
 
     for (let param in creativeConfig.config.endLevel) {
       window._gameplayEndLevel[`${param}`] = creativeConfig.config.endLevel[param].value;

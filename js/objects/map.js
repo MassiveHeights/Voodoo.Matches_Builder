@@ -52,6 +52,9 @@ export default class Map extends DisplayObject {
     this._matchesLayer.removeAllChildren();
     this._createStartMatch();
 
+    this._gameWin = false;
+    this._gameLose = false;
+
     this.parent.onResize();
     this._rocket.reset();
   }
@@ -281,13 +284,6 @@ export default class Map extends DisplayObject {
     });
   }
 
-  _lose() {
-    if (this._gameLose) return;
-    this._gameLose = true;
-
-    console.log('Lose game');
-  }
-
   _initDotsHelper() {
     this._dotsHelper = new DotsHelper();
     this.add(this._dotsHelper);
@@ -428,9 +424,17 @@ export default class Map extends DisplayObject {
     tween.on('complete', () => {
       this.parentPos = new Vector(this.parent.x, this.parent.y);
       this._launchingRocket = true;
+      Delayed.call(3, () => this.events.post('onWin'));
     });
 
     this.parent.addComponent(tween);
+  }
+
+  _lose() {
+    if (this._gameLose) return;
+    this._gameLose = true;
+
+    this.events.post('onLose');
   }
 
   _calcDistance(pos1, pos2) {

@@ -135,10 +135,10 @@ export default class ProgressBar extends DisplayObject {
       string,
       "Baloo",
       0xffffff,
-      20,
+      40,
       FontStyle.NORMAL,
       FontWeight.NORMAL,
-      2,
+      4,
       0x000000
     );
 
@@ -147,6 +147,7 @@ export default class ProgressBar extends DisplayObject {
     levelText.x = _bar.x - _bar.width * 0.5 + levelText.width * 0.5;
     levelText.y = _stars.y;
     this.add(levelText);
+    levelText.scale = 0.5;
   }
 
   _updateProgress() {

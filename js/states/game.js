@@ -24,12 +24,21 @@ export default class Game extends BaseGame {
     this._inputEnabled = true;
     this._gameStarted = false;
 
+    this._retryTimes = 0;
+
     this._initEvents();
   }
 
   retry() {
+    if(creativeWrapper.getParam('retryTimes') < this._retryTimes + 1) {
+      window._gameplayEvents.lose();
+      return;
+    }
+    
     this._ui.start(true);
     this._gameScene.start(true);
+
+    this._retryTimes++;
   }
 
   victory() {

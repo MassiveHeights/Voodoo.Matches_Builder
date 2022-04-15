@@ -71,10 +71,10 @@ export default class Announcer extends DisplayObject {
       '',
       "Baloo",
       0xffffff,
-      26,
+      50,
       FontStyle.NORMAL,
       FontWeight.NORMAL,
-      2,
+      4,
       0x000000
     );
 
@@ -82,6 +82,7 @@ export default class Announcer extends DisplayObject {
     text.alignAnchor();
 
     this.add(text);
+    text.scale = 0.5;
   }
 
   _setText(string) {

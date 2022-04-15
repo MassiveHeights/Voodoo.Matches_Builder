@@ -191,10 +191,10 @@ export default class Hint extends DisplayObject {
       'swipe!',
       'Baloo',
       0xffffff,
-      30, 
+      60, 
       FontStyle.NORMAL,
       FontWeight.NORMAL,
-      2,
+      4,
       0x000000
     );
     note.autoSize = false;
@@ -204,6 +204,7 @@ export default class Hint extends DisplayObject {
     note.visible = false;
 
     this.add(note);
+    note.scale = 0.5;
   }
 
   _initTimer() {

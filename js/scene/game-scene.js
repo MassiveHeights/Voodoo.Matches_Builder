@@ -85,6 +85,8 @@ export default class GameScene extends GameObject {
     this.add(map);
 
     map.events.on('addedMatch', () => this.events.post('addedMatch'));
+    map.events.once('onWin', () => this._onWin());
+    map.events.on('onLose', () => this._onLose());
   }
 
   _initPhysics() {
@@ -107,6 +109,19 @@ export default class GameScene extends GameObject {
 
   _onTap() {
     // console.log('tap')
+  }
+
+  _onWin() {
+    if (window._voodooExit) {
+      window._voodooExit("click");
+    }
+    else {
+      console.warn('window._voodooExit not found');
+    }
+  }
+
+  _onLose() {
+    this.events.post('onLose');
   }
 
   update(dt) {

@@ -3,7 +3,7 @@ import { Polygon, Vec2 } from "planck-js";
 import BodiesTypes from "../../physics/bodies-types";
 import PhysicsOption from "../../physics/physics-options";
 import GAME_CONFIG from "../../states/game-config";
-import { BG_CONFIG, BG_TYPES } from "./bg-config";
+import { GROUND_CONFIG, SKY_CONFIG } from "./bg-config";
 
 export default class Background extends DisplayObject {
   constructor(physics) {
@@ -12,8 +12,7 @@ export default class Background extends DisplayObject {
     this._levelSize = GAME_CONFIG.levelSize;
     this._physics = physics;
 
-    this._type = BG_TYPES.ground;
-    this._config = BG_CONFIG[this._type];
+    this._groundConfig = GROUND_CONFIG[creativeWrapper.getParam('ground')];
     this._s = PhysicsOption.worldScale;
 
     this._groundData = {
@@ -45,38 +44,39 @@ export default class Background extends DisplayObject {
   }
 
   _initSky() {
-    const sky = this._sky = new Sprite('bg/level_4_bg');
+    const frameName = SKY_CONFIG[creativeWrapper.getParam('skyColor')];
+    const sky = this._sky = new Sprite(frameName);
 
     this.add(sky)
     sky.alignAnchor(0.5);
   }
 
   _initGround() {
-    const ground = this._ground = new Sprite('bg/level_4_00');
+    const ground = this._ground = new Sprite(this._groundConfig.ground);
 
     this.add(ground)
     ground.alignAnchor(0.5, 1);
   }
 
   _initGroundTile() {
-    const groundTileBottom = this._groundTileBottom = new Sprite('bg/level_4_01_tile');
+    const groundTileBottom = this._groundTileBottom = new Sprite(this._groundConfig.tileBottom);
     groundTileBottom.tiling = new TilingInfo(4000, 1000);
     groundTileBottom.alignAnchor(0.5, 0);
     this.add(groundTileBottom);
 
-    const groundTileLeft = this._groundTileLeft = new Sprite('bg/level_4_04');
+    const groundTileLeft = this._groundTileLeft = new Sprite(this._groundConfig.tileSide);
     groundTileLeft.tiling = new TilingInfo(2000, groundTileLeft.height);
     groundTileLeft.alignAnchor(1, 1);
     this.add(groundTileLeft);
 
-    const groundTileRight = this._groundTileRight = new Sprite('bg/level_4_04');
+    const groundTileRight = this._groundTileRight = new Sprite(this._groundConfig.tileSide);
     groundTileRight.tiling = new TilingInfo(2000, groundTileLeft.height);
     groundTileRight.alignAnchor(0, 1);
     this.add(groundTileRight);
   }
 
   _initPlatform() {
-    const platform = this._platform = new Sprite('bg/level_4_02');
+    const platform = this._platform = new Sprite(this._groundConfig.platform);
 
     this.add(platform)
     platform.alignAnchor(0.5);
