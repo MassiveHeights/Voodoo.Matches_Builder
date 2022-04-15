@@ -405,12 +405,19 @@ export default class Map extends DisplayObject {
         Black._soundManager.playFx('match_fixed_2');
         this._createJoints(jointPoints);
         this.events.post('addedMatch');
+        this._checkLose();
       }
     } else {
       this._removeMatch(this._currentMatch);
     }
 
     this._currentMatch = null;
+  }
+
+  _checkLose() {
+    if((this._totalMatches >= GAME_CONFIG.startMatchesValue + 1) && this._burnMatches === 0){
+      this._lose();
+    }
   }
 
   _removeMatch(match) {
