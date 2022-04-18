@@ -15,7 +15,6 @@ export default class SoundManager {
   }
 
   _init() {
-    this.playBackgroundMusic();
     this._initEvents();
   }
 
@@ -62,9 +61,8 @@ export default class SoundManager {
 
     if (this._backSound == null) {
       this._backSound = Black.assets.getSound('bg_music');
+      this._backSound.play('master', 0.5, true);
     }
-
-    this._backSound.play('master', 0.5, true);
   }
 
   playFx(name, volume = 1, loop = false) {

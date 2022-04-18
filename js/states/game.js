@@ -62,8 +62,16 @@ export default class Game extends BaseGame {
   }
 
   _onInited() {
-    if(!this._soundManager){
+    if(this._soundManager && creativeWrapper.getParam('sounds') === false) {
+      Black.audio.stopAll();
+    }
+
+    if(!this._soundManager) { // && creativeWrapper.getParam('sounds') === true
       Black._soundManager = this._soundManager = new SoundManager();
+    }
+    
+    if(creativeWrapper.getParam('sounds') === true) {
+      this._soundManager.playBackgroundMusic();
     }
 
     this._initScene();
