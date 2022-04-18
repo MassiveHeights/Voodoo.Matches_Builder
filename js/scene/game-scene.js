@@ -178,7 +178,7 @@ export default class GameScene extends GameObject {
 
     return {
       x: Utils.LP(-levelSize * 0.55, -levelSize * 0.3),
-      y: Utils.LP(-levelSize * 1.32, -levelSize * 0.83) + offsetY,
+      y: Utils.LP(-levelSize * 1.32, -levelSize * 0.73) + offsetY,
     }
   }
 
