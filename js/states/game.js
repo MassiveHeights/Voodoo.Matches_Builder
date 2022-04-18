@@ -1,6 +1,5 @@
 import BaseGame from '../kernel/base-game';
-import {Black, GameObject} from 'black-engine';
-import Tutorial from "js/ui/tutorial";
+import {Black} from 'black-engine';
 import Confetti from "js/ui/confetti";
 import SoundButton from "../ui/sound-button";
 import SoundManager from "../objects/soundManager";

@@ -148,6 +148,7 @@ export default class Map extends DisplayObject {
       friction: 100,
       density: 0.001,
     });
+    body.setGravityScale(100);
 
     const pos2 = this._getStartMatchPos();
 
@@ -159,6 +160,7 @@ export default class Map extends DisplayObject {
       friction: 100,
       density: 0.001,
     });
+    body2.setGravityScale(100);
   }
 
   _createJoints(jointPoints) {

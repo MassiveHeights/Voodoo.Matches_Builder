@@ -33,7 +33,7 @@ export default class GameScene extends GameObject {
   start(isRetry = false) {
     this.touchable = true;
     this._map.start();
-    if(!isRetry) {
+    if(!isRetry && creativeWrapper.getParam('tutorial')) {
       this.showHint();
     }
 

@@ -9,7 +9,6 @@ export default class GameController {
 
   _initSignals() {
     const scene = this._scene;
-    const ui = this._ui;
 
     scene.events.on('addedMatch', () => this._onAddedMatch());
     scene.events.on('onLose', () => this._onLose());
@@ -21,9 +20,7 @@ export default class GameController {
     const ui = this._ui;
 
     this._scene.stopHint();
-    // ui.enableRetryBtn();
     ui.hideTutorial();
-    // ui.events.on('retryClick', () => this._onRetryClick());
   }
 
   _onAddedMatch() {
@@ -36,17 +33,5 @@ export default class GameController {
 
   _onLose() {
     this._game.defeat();
-    // if(creativeWrapper.getParam('autoRetry')){
-    //   this._game.retry();
-    // }else{
-    //   this._scene.defeat();
-    // }
   }
-
-  // _onRetryClick() {
-  //   if(this._scene.canRetry()){
-  //     this._ui.animateRetryClick();
-  //     this._game.retry();
-  //   }
-  // }
 }
