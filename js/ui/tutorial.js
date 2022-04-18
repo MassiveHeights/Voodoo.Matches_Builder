@@ -115,8 +115,10 @@ export default class Tutorial extends DisplayObject {
   _onResize() {
     this.scale = this._getScale();
 
-    this.x = this.stage.centerX;
-    this.y = this.stage.centerY - 100;
+    const bounds = Black.stage.bounds;
+
+    this.x = bounds.center().x;
+    this.y = bounds.center().y - 100;
 
     this._txt.width = this._bg.width * 0.8;
     this._txt.scaleY = this._txt.scaleX;

@@ -1,8 +1,6 @@
 import {Black, DisplayObject, Ease, MessageDispatcher, Sprite, Tween, Vector} from "black-engine";
 import {Vec2, WeldJoint} from "planck-js";
 import * as planck from 'planck-js';
-import Utils from "../helpers/utils";
-import Delayed from "../kernel/delayed-call";
 import PhysicsOption from "../physics/physics-options";
 import GAME_CONFIG from "../states/game-config";
 import Bonfire from "./map-items/bonfire";
@@ -33,8 +31,6 @@ export default class Map extends DisplayObject {
     this._fireLayer = null;
     this._bonFireLayer = null;
 
-    this._launchingRocket = false;
-
     this._burnMatches = 0;
     this._totalMatches = 0;
 
@@ -44,10 +40,13 @@ export default class Map extends DisplayObject {
     this._moveCameraTween = null;
 
     this._init();
+
+    setTimeout(() => {
+      this._win()
+    }, 3000);
   }
 
   start() {
-    this._launchingRocket = false;
     this._disableInput = false;
 
     this._gameWin = false;
@@ -62,13 +61,7 @@ export default class Map extends DisplayObject {
 
     this._createStartMatch();
 
-    this.parent.removeComponent(this._moveCameraTween);
-    this.parent.onResize();
     this._rocket.reset();
-  }
-
-  isLaunchingRocket() {
-    return this._launchingRocket;
   }
 
   getHintPos() {
@@ -78,11 +71,8 @@ export default class Map extends DisplayObject {
     return pos;
   }
 
-  onUpdate() {
-    if (this._launchingRocket) {
-      this.parent.x = this.parentPos.x - this._rocket.getRocketPos().x;
-      this.parent.y = this.parentPos.y + this._rocket.getRocketPos().y;
-    }
+  getRocketPos() {
+    return this._rocket.getRocketPos();
   }
 
   onPointerDown() {
@@ -472,25 +462,10 @@ export default class Map extends DisplayObject {
     this._disableInput = true;
 
     this._rocket.launch();
-    const topY = this.parent.y + this._levelSize * Utils.LP(0.6, 0.3);
-
-    const tween = this._moveCameraTween = new Tween({y: topY}, 2, {
-      ease: Ease.sinusoidalIn,
-    });
-
-    tween.on('complete', () => {
-      this.parentPos = new Vector(this.parent.x, this.parent.y);
-      this._launchingRocket = true;
-      setTimeout(() => {
-        this.events.post('onWin')
-      }, 4000);
-    });
-
-    this.parent.addComponent(tween);
+    this.events.post('burnedRocket');
   }
 
   _lose() {
-    console.log('lose', this._burnMatches)
     if (this._gameLose) return;
     this._gameLose = true;
     this._disableInput = true;

@@ -1,4 +1,4 @@
-import {Black, DisplayObject, FontAlign, FontStyle, FontWeight, GameObject, Graphics, MessageDispatcher, TextField} from "black-engine";
+import {Black, Ease, GameObject, MessageDispatcher, Tween} from "black-engine";
 import Debugger from "../physics/debugger";
 import Physics from '../physics/physics';
 import Map from "../objects/map";
@@ -22,6 +22,10 @@ export default class GameScene extends GameObject {
 
     this._levelSize = GAME_CONFIG.levelSize;
 
+    this._launchingRocket = false;
+    this._moveCameraTween = null;
+    this._cameraMoveProgress = 0;
+
     this._init();
     this.start();
   }
@@ -32,6 +36,10 @@ export default class GameScene extends GameObject {
     if(!isRetry) {
       this.showHint();
     }
+
+    this._launchingRocket = false;
+    this.removeComponent(this._moveCameraTween);
+    this._cameraMoveProgress = 0;
   }
 
   pause() {
@@ -54,7 +62,7 @@ export default class GameScene extends GameObject {
   }
 
   canRetry() {
-    return !this._map.isLaunchingRocket();
+    return !this._launchingRocket;
   }
 
   _init() {
@@ -89,7 +97,7 @@ export default class GameScene extends GameObject {
     this.add(map);
 
     map.events.on('addedMatch', () => this.events.post('addedMatch'));
-    map.events.once('onWin', () => this._onWin());
+    map.events.on('burnedRocket', () => this._onBurnedRocket());
     map.events.on('onLose', () => this._onLose());
   }
 
@@ -111,6 +119,25 @@ export default class GameScene extends GameObject {
     this._overlay.on('onPointerUp', (msg, pointer) => map.onPointerUp(pointer));
   }
 
+  _onBurnedRocket() {
+    this._moveCamera();
+  }
+
+  _moveCamera() {
+    this._cameraMoveProgress = 0;
+    this._launchingRocket = true;
+
+    const tween = this._moveCameraTween = new Tween({_cameraMoveProgress: 1}, 2, {
+      ease: Ease.sinusoidalIn,
+    });
+
+    tween.on('complete', () => {
+      setTimeout(() => this._onWin(), 4000);
+    });
+
+    this.addComponent(tween);
+  }
+
   _onTap() {
     // console.log('tap')
   }
@@ -129,14 +156,38 @@ export default class GameScene extends GameObject {
 
     this._physics.update();
     this._debugger.update();
+
+    if (this._launchingRocket) {
+      this.onResize();
+    }
   }
 
   onResize() {
-    const levelSize = this._levelSize;
+    const basicPos = this._getBasicPos();
+    const rocketPos = this._getRocketPos();
 
-    this.y = Utils.LP(-levelSize * 1.32, -levelSize * 0.83);
-    this.x = Utils.LP(-levelSize * 0.55, -levelSize * 0.3);
-    
+    this.x = basicPos.x + rocketPos.x;
+    this.y = basicPos.y + rocketPos.y;
+
     this.scale = Utils.LP(2.5, 1.8);
+  }
+
+  _getBasicPos() {
+    const levelSize = this._levelSize;
+    const offsetY = this._cameraMoveProgress * this._levelSize * Utils.LP(0.6, 0.3);
+
+    return {
+      x: Utils.LP(-levelSize * 0.55, -levelSize * 0.3),
+      y: Utils.LP(-levelSize * 1.32, -levelSize * 0.83) + offsetY,
+    }
+  }
+
+  _getRocketPos() {
+    const rocketPos = this._map.getRocketPos();
+
+    return {
+      x: -rocketPos.x,
+      y: rocketPos.y
+    };
   }
 }
