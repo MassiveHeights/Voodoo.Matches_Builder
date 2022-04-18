@@ -63,9 +63,9 @@ export default class Game extends BaseGame {
   }
 
   _onInited() {
-    // if (this._soundManager == null) {
-    //   Black._soundManager = this._soundManager = new SoundManager();
-    // }
+    if(!this._soundManager){
+      Black._soundManager = this._soundManager = new SoundManager();
+    }
 
     this._initScene();
     this._initUI();
@@ -84,29 +84,9 @@ export default class Game extends BaseGame {
   // Here game logic should start
   _startGame() {
     console.log("start game: launch game");
-    this._initSoundManger();
     this._ui.start();
 
     this._gameStarted = true;
-  }
-
-  _initSoundManger() {
-    if(Black.stage.mChildren.indexOf(this._soundButton) !== -1){
-      return;
-    }
-
-    if (creativeWrapper.getParam('sounds') === true) {
-      if (this._soundManager == null) {
-        Black._soundManager = this._soundManager = new SoundManager();
-
-        this._soundManager.playBackgroundMusic();
-      }
-
-      let soundButton = this._soundButton = new SoundButton();
-      Black.stage.addChild(soundButton);
-      soundButton.show();
-      this._soundManager.registerSoundButton(soundButton);
-    }
   }
 
   // Calls from ICE API after level completed
@@ -133,10 +113,11 @@ export default class Game extends BaseGame {
     const ui = this._ui = new UI();
     Black.stage.addChild(ui);
 
-    // if (creativeWrapper.getParam('tutorial') === true) {
-    //   this._tutorial = new Tutorial();
-    //   Black.stage.add(this._tutorial);
-    // }
+    if (creativeWrapper.getParam('sounds') === true) {
+      let soundButton = this._soundButton = new SoundButton();
+      Black.stage.addChild(soundButton);
+      this._soundManager.registerSoundButton(soundButton);
+    }
   }
 
   _initController() {
@@ -152,7 +133,6 @@ export default class Game extends BaseGame {
   _onPlayerInteraction(m, p) {
     if (this._gameStarted) {
       if (!this._inputEnabled) return;
-      this._initSoundManger();
 
       this._onPointerDown(p);
 

@@ -47,8 +47,8 @@ export default class BaseGame {
   }
 
   _restartGame() {
-    //Black.audio.stopAll();
-   // this._destroySceneChildren();
+    // Black.audio.stopAll();
+    // this._destroySceneChildren();
     this._destroyBlackStage();
     this._onInited();
   }

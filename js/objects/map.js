@@ -40,10 +40,6 @@ export default class Map extends DisplayObject {
     this._moveCameraTween = null;
 
     this._init();
-
-    setTimeout(() => {
-      this._win()
-    }, 3000);
   }
 
   start() {
@@ -384,15 +380,15 @@ export default class Map extends DisplayObject {
     }
   }
 
-  _createMatch(pointer) {
+  _createMatch(pointer, isAutoSet) {
     const match = new Match(this._matchesLayer, this._physics, this._fireLayer);
 
     const pos = Vec2(pointer.x, pointer.y);
     match.setPos(pos);
     this._matchesLayer.add(match);
 
-    if(Black._soundManager) {
-      Black._soundManager.playFx('new_match');
+    if(!isAutoSet){
+      Black._soundManager?.playFx('new_match');
     }
 
     return match;
@@ -439,7 +435,7 @@ export default class Map extends DisplayObject {
   }
 
   _createStartMatch() {
-    const match = this._createMatch(this._getStartMatchPos());
+    const match = this._createMatch(this._getStartMatchPos(), true);
     match.setRotation(Math.PI * 0.5);
     this._setMatch(match, true);
   }

@@ -19,8 +19,8 @@ export default class SoundButton extends DisplayObject {
 
     this._sprite.on('pointerDown', (msg, p) => this._onClick());
 
-    this._visible = false;
-    this._isShown = false;
+    this.touchable = true;
+    this._sprite.touchable = true;
   }
 
   _onClick() {
@@ -29,27 +29,6 @@ export default class SoundButton extends DisplayObject {
 
   setState(muteState) {
     this._sprite.texture = muteState ? this._textureOff : this._textureOn;
-  }
-
-  show() {
-    if(this._isShown){
-      return;
-    }
-    this._isShown = true;
-    this.visible = true;
-
-    this.scale = 0;
-
-    const tween = new Tween({scale: 1}, 0.3, {
-      ease: Ease.backOut,
-    });
-
-    tween.on('complete', () => {
-      this.touchable = true;
-      this._sprite.touchable = true;
-    });
-
-    this.addComponent(tween);
   }
 
   onAdded() {
