@@ -37,6 +37,7 @@ export default class Match extends DisplayObject {
     this._burning = false;
     this._fires = [];
     this._additionalFires = [];
+    this._bmdScale = 6;
 
     this._destoroyedFires = 0;
 
@@ -70,7 +71,7 @@ export default class Match extends DisplayObject {
     }
   }
 
-  removeView(){
+  removeView() {
     this.events.off('stopFire');
     this._additionalFires.forEach(fire => {
       fire.object.removeView();
@@ -243,7 +244,7 @@ export default class Match extends DisplayObject {
         }
       }
 
-      this._sourceTextureContext.clearRect(0, this._height * fire.movePercent, this._width / this._scale, this._height * 0.05);
+      this._sourceTextureContext.clearRect(0, this._height * fire.movePercent * this._bmdScale, this._width / this._scale * this._bmdScale, this._height * 0.05 * this._bmdScale);
 
       this._nodesPool.forEach(node => {
         let dist = Vec2.distance(new Vec2(node.view.x, node.view.y), new Vec2(fire.x, fire.y));
@@ -321,6 +322,8 @@ export default class Match extends DisplayObject {
     this._initBurnedView();
     this._initView();
     this._initShadows();
+
+    // this._createMatchBitmap();
   }
 
   _initBurnedView() {
@@ -370,7 +373,6 @@ export default class Match extends DisplayObject {
       // filterCategoryBits: BodiesTypes.match,
       filterMaskBits: BodiesTypes.campfire | BodiesTypes.fire,
     });
-
 
     this._view.userData = {
       object: this,
@@ -432,8 +434,7 @@ export default class Match extends DisplayObject {
 
   _createMatchBitmap() {
     // this._updateShadows();
-
-    const matchTexture = new CanvasRenderTexture(this._width, this._height, Black.driver.renderScaleFactor);
+    const matchTexture = new CanvasRenderTexture(this._width, this._height, this._bmdScale * Black.driver.renderScaleFactor);
 
     const context = this._sourceTextureContext = matchTexture.renderTarget.context;
 
@@ -442,17 +443,21 @@ export default class Match extends DisplayObject {
     let shadowLRegion = this._shadowL.texture.region;
     let shadowRRegion = this._shadowR.texture.region;
 
-    context.drawImage(this._view.texture.native, viewRegion.x, viewRegion.y, viewRegion.width, viewRegion.height, 0, 0, this._width, this._height);
+    // context.globalCompositeOperation = "source-over";
 
-    context.globalAlpha = this._shadowL.alpha / 2;
-    context.drawImage(this._shadowL.texture.native, shadowLRegion.x, shadowLRegion.y, shadowLRegion.width, shadowLRegion.height, 0, 0, this._width, this._height);
+    context.globalAlpha = this._view.alpha.toFixed(2);
+    context.drawImage(this._view.texture.native, viewRegion.x, viewRegion.y, viewRegion.width, viewRegion.height, 0, 0, this._width * this._bmdScale, this._height * this._bmdScale);
 
-    context.globalAlpha = this._shadowR.alpha;
-    context.drawImage(this._shadowR.texture.native, shadowRRegion.x, shadowRRegion.y, shadowRRegion.width, shadowRRegion.height, 0, 0, this._width, this._height);
+    context.globalAlpha = this._shadowL.alpha.toFixed(2)/2;
+    context.drawImage(this._shadowL.texture.native, shadowLRegion.x, shadowLRegion.y, shadowLRegion.width, shadowLRegion.height, 0, 0, this._shadowL.localWidth * this._scale * this._bmdScale * 1, this._shadowL.localHeight * this._scale * this._bmdScale);
 
+    context.globalAlpha = this._shadowR.alpha.toFixed(2);
+    context.drawImage(this._shadowR.texture.native, shadowRRegion.x, shadowRRegion.y, shadowRRegion.width, shadowRRegion.height, 0, 0, this._shadowR.localWidth * this._scale * this._bmdScale * 1, this._shadowR.localHeight * this._scale * this._bmdScale);
+
+    // console.log(context.globalAlpha)
+    // console.log('\n')
     const source = this._bmdMatchCopy = new Sprite(matchTexture);
     this.add(source);
-
 
     let tween1 = new Tween({alpha: 0}, 0.2, {ease: Ease.sinusoidalOut});
     let tween2 = new Tween({alpha: 0}, 0.2, {ease: Ease.sinusoidalOut});
@@ -465,6 +470,11 @@ export default class Match extends DisplayObject {
     // this._view.visible = false;
     // this._shadowL.visible = false;
     // this._shadowR.visible = false;
+
+    // this._shadowL.y -= 50;
+    // this._shadowR.y -= 50;
+    // this._view.y-=50;
+
     //this._burnedView.visible = false;
   }
 }
