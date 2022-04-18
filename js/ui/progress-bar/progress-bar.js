@@ -9,6 +9,7 @@ import {
   FontWeight,
   FontAlign,
 } from "black-engine";
+import Utils from "../../helpers/utils";
 import GAME_CONFIG from "../../states/game-config";
 import Stars from "./stars";
 
@@ -90,6 +91,7 @@ export default class ProgressBar extends DisplayObject {
     const markerView = new Sprite(Black.assets.getTexture(frame));
     markerView.alignPivotOffset();
     marker.add(markerView);
+    markerView.height = 29;
 
     const markerText = new TextField(
       value.toString(),
@@ -168,12 +170,13 @@ export default class ProgressBar extends DisplayObject {
   onResize() {
     const bounds = Black.stage.bounds;
 
-    this.x = bounds.center().x;
-    this.y = bounds.top + 67;
+    const width = Math.min(bounds.width * 0.6, 420);
+
+    this.x = Utils.LP(bounds.x + width * 0.5 + 30, bounds.center().x);
+    this.y = bounds.top + 75;
 
     this._setMarkersPosition();
 
-    const width = Math.min(bounds.width * 0.5, 430);
     this.scale = width/this._startWidth;
   }
 

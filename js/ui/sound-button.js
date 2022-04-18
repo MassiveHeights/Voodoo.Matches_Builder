@@ -1,4 +1,5 @@
 import {Black, DisplayObject, Ease, MessageDispatcher, Sprite, Tween} from "black-engine";
+import Utils from "../helpers/utils";
 
 export default class SoundButton extends DisplayObject {
   constructor() {
@@ -43,7 +44,7 @@ export default class SoundButton extends DisplayObject {
   }
 
   __onResize() {
-    this.x = this.stage.bounds.x + 70;
-    this.y = this.stage.bounds.top + 70;
+    this.x = this.stage.bounds.x + this.stage.bounds.width - 60;
+    this.y = this.stage.bounds.top + Utils.LP(70, 200);
   }
 }
