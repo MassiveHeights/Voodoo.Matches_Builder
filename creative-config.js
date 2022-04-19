@@ -62,8 +62,6 @@ module.exports.config = {
         {"name": "Red", "value": 'red'}
       ], name: 'Define sky type.'
     },
-    customSkyImage: {value: "", type: "media", name: "Sky image"},
-    customBgMusic: {value: "", type: "media", name: "Background music"},
     hintDelay: {value: 5, type: 'range', min: 1, max: 60, name: 'Delay before showing the tutorial (sec).'},
     tapsToWin: {value: 5, type: 'range', min: 1, max: 50, name: 'Taps to win'},
     levelText: {value: 'Level 2', type: 'text', name: 'Level text on progress bar'}

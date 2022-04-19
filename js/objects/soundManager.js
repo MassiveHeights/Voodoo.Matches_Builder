@@ -66,7 +66,7 @@ export default class SoundManager {
   }
 
   _getBgMusicName() {
-    const hasCustom = !!creativeWrapper.getParam('customBgMusic');
+    const hasCustom = !!Black.assets.getSound('custom_bg_music');
     return hasCustom? 'custom_bg_music' : 'bg_music';
   }
 

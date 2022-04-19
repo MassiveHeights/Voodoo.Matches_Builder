@@ -175,7 +175,7 @@ export default class Background extends DisplayObject {
     sky.x = center.x;
     sky.y = center.y;
 
-    sky.width = Math.max(bounds.width, bounds.height);
+    sky.width = Math.max(bounds.width, bounds.height) * 1.2;
     sky.scaleY = sky.scaleX;
   }
 
@@ -207,7 +207,7 @@ export default class Background extends DisplayObject {
   }
 
   _getSkyImage() {
-    const hasCustom = !!creativeWrapper.getParam('customSkyImage');
+    const hasCustom = !!Black.assets.getTexture('custom_sky_image')
     return hasCustom ? 'custom_sky_image' : SKY_CONFIG[creativeWrapper.getParam('skyColor')];
   }
 }

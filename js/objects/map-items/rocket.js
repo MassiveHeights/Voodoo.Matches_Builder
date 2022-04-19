@@ -71,7 +71,8 @@ export default class Rocket extends DisplayObject {
     Black._soundManager.playFx('firework_3', 1, false)
 
     this._firework.once('animationComplete', () => {
-      this._firework.rotation = Math.random() * 2 * Math.PI;
+      this._firework.rotation = (Math.random() * 0.3 - 0.15) * Math.PI;
+      this._firework.scale = this._scale * (Math.random() * 0.2 + 0.9);
       this._launchFirework();
     });
   }
