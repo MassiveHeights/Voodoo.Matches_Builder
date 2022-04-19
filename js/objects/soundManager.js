@@ -60,9 +60,14 @@ export default class SoundManager {
     if (!this.canPlaySound) return;
 
     if (this._backSound == null) {
-      this._backSound = Black.assets.getSound('bg_music');
+      this._backSound = Black.assets.getSound(this._getBgMusicName());
       this._backSound.play('master', 0.5, true);
     }
+  }
+
+  _getBgMusicName() {
+    const hasCustom = !!creativeWrapper.getParam('customBgMusic');
+    return hasCustom? 'custom_bg_music' : 'bg_music';
   }
 
   playFx(name, volume = 1, loop = false) {

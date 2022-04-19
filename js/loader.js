@@ -73,6 +73,10 @@ export class Loader extends GameObject {
     assets.enqueueSound('new_match', new_match);
     assets.enqueueSound('rocketS', rocketS);
     assets.enqueueSound('walking_fire_loop', walking_fire_loop);
+    
+    if(creativeWrapper.getParam('customBgMusic')){
+      assets.enqueueSound('custom_bg_music', creativeWrapper.getParam('customBgMusic'));
+    }
 
     // spines
     assets.enqueueJsonObj('rocket', rocketSpine);
@@ -80,6 +84,11 @@ export class Loader extends GameObject {
 
     // fonts
     assets.enqueueFont('Baloo', fontBaloo);
+
+    // images
+    if(creativeWrapper.getParam('customSkyImage')){
+      assets.enqueueImage('custom_sky_image', creativeWrapper.getParam('customSkyImage'));
+    }
 
     assets.on('progress', this.onAssetsProgress, this);
     assets.on('complete', this.onAssetsLoadded, this);

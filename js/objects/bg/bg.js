@@ -11,7 +11,6 @@ export default class Background extends DisplayObject {
 
     this._levelSize = GAME_CONFIG.levelSize;
     this._physics = physics;
-
     this._groundConfig = GROUND_CONFIG[creativeWrapper.getParam('ground')];
     this._s = PhysicsOption.worldScale;
 
@@ -44,7 +43,7 @@ export default class Background extends DisplayObject {
   }
 
   _initSky() {
-    const frameName = SKY_CONFIG[creativeWrapper.getParam('skyColor')];
+    const frameName = this._getSkyImage();
     const sky = this._sky = new Sprite(frameName);
 
     this.add(sky)
@@ -205,5 +204,10 @@ export default class Background extends DisplayObject {
     platform.x = center.x + platformData.x;
     platform.y = center.y + platformData.y;
     platform.scale = platformData.scale;
+  }
+
+  _getSkyImage() {
+    const hasCustom = !!creativeWrapper.getParam('customSkyImage');
+    return hasCustom ? 'custom_sky_image' : SKY_CONFIG[creativeWrapper.getParam('skyColor')];
   }
 }
