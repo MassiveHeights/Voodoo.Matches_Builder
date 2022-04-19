@@ -8,8 +8,8 @@ export default class SoundButton extends DisplayObject {
 
     this.events = new MessageDispatcher();
 
-    this._textureOn = Black.assets.getTexture('ui/button_SOUND_on');
-    this._textureOff = Black.assets.getTexture('ui/button_SOUND_off');
+    this._textureOn = Black.assets.getTexture('ui/button_sound_on');
+    this._textureOff = Black.assets.getTexture('ui/button_sound_off');
 
     this._sprite = new Sprite(this._textureOn);
     this._sprite.alignPivotOffset();

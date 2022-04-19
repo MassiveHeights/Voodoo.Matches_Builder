@@ -174,10 +174,11 @@ export default class GameScene extends GameObject {
 
   _getBasicPos() {
     const levelSize = this._levelSize;
-    const offsetY = this._cameraMoveProgress * this._levelSize * Utils.LP(0.6, 0.3);
+    const offsetY = this._cameraMoveProgress * this._levelSize * Utils.LP(0.9, 0.4);
+    const offsetX = this._cameraMoveProgress * this._levelSize * Utils.LP(0.35, 0.2);
 
     return {
-      x: Utils.LP(-levelSize * 0.55, -levelSize * 0.3),
+      x: Utils.LP(-levelSize * 0.55, -levelSize * 0.3) + offsetX,
       y: Utils.LP(-levelSize * 1.32, -levelSize * 0.73) + offsetY,
     }
   }

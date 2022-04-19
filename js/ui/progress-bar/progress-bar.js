@@ -97,16 +97,17 @@ export default class ProgressBar extends DisplayObject {
       value.toString(),
       "Baloo",
       0xffffff,
-      20,
+      35,
       FontStyle.NORMAL,
       FontWeight.NORMAL,
-      2,
+      value < 10 ? 4.3 : 4,
       0x000000
     );
 
     markerText.align = FontAlign.CENTER;
     markerText.alignAnchor();
-    markerText.y = markerView.y - markerView.height * 0.5 - 10;
+    markerText.scale = 0.5;
+    markerText.y = markerView.y - markerView.height * 0.5 - 12;
     marker.add(markerText);
 
     return marker;

@@ -648,8 +648,8 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">../atlas/ui/button_SOUND_off.png</key>
-            <key type="filename">../atlas/ui/button_SOUND_on.png</key>
+            <key type="filename">../atlas/ui/button_sound_off.png</key>
+            <key type="filename">../atlas/ui/button_sound_on.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -658,9 +658,9 @@
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>42,41,84,82</rect>
+                <rect>25,27,49,55</rect>
                 <key>scale9Paddings</key>
-                <rect>42,41,84,82</rect>
+                <rect>25,27,49,55</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
